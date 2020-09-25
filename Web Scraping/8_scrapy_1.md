@@ -43,20 +43,17 @@ $ response.css("<selector>::attr(<attrib>)").get()
 # response.css("#main-container::attr(href)").get() 舉例
 ```
 
-取標籤文字(xpath))
+取標籤文字(xpath)
 ```shell
-$ response.xpath("<selector>/text()").get()     # 加 /text()
+$ response.xpath("<xpath>/text()").get()     # 加 /text()
 ```
-取標籤屬性(xpath))
+取標籤屬性(xpath)
 ```shell
-$ response.xpath("<selector>/@<attrib>").get()  # 加 /@<attrib>
-```
-
-## 在scrapy 使用正規表達式
-```shell
-
+$ response.xpath("<xpath>/@<attrib>").get()  # 加 /@<attrib>
 ```
 
-
-
+取標籤屬性(re)
+```shell
+$ response.re("Name:<re_string>")              # 只有Name:後的文字內容
+```
 
