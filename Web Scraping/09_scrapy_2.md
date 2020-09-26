@@ -53,7 +53,7 @@ class PttnbaSpider(scrapy.Spider):
             scraped_info={
                 "titles":item[0],
                 "votes":item[1],
-                "authers":item[2]
+                "authors":item[2]
             }
             yield scraped_info
 ```
@@ -99,7 +99,7 @@ class QuotesSpider(scrapy.Spider):
         for quote in response.css("div.quote"):
             yield{
                 "text":quote.css("span.text::text").extract_first(),
-                "quther":quote.css("small.auther::text").extract_first(),
+                "author":quote.css("small.author::text").extract_first(),
                 "tag":quote.css("div.tags a.tag::text").extract()
             }
         next_page=response.css("li.next a::attr(href)").extract_first()
@@ -108,3 +108,50 @@ class QuotesSpider(scrapy.Spider):
             yield scrapy.Request(next_page,callback=self.parse)
             
 ```
+
+### 6.抓取下一頁資訊
+```python
+response.follow()       # 支援相對url，相較scrapy.Request更簡潔
+```
+更改程式碼
+```python
+import scrapy
+
+class QuotesSpider(scrapy.Spider):
+    name="quotes2"
+    allowed_domains=["quotes.toscrape.com"]
+    start_urls=["https://quotes.toscrape.com/"]
+    def parse(self,response):
+        for quote in response.css("div.quote"):
+            scraped_quote={
+                "text":quote.css("span.text::text").extract_first(),
+                "author":quote.css("small.author::text").extract_first(),
+                "tag":quote.css("div.tags a.tag::text").extract(),
+                "birthday":None
+            }
+            authorHref=quote.css(".author+a::attr(href)").extract_first()
+            author_page=response.urljoin(authorHref)
+            yield scrapy.Request(author_page,meta={"item":scraped_quote},callback=self.parse_author)
+        
+        # 下一頁
+        next_page=response.css("li.next a::attr(href)").extract_first()
+        if next_page is not None:
+            yield response.follow(next_page,callback=self.parse)
+    
+    def parse_author(self,response):
+        item=response.meta["item"]
+        b=response.css(".author-born-date::text").extract_first().strip()
+        item["birthday"]=b
+        return item
+
+
+```
+
+
+
+
+
+
+
+
+
