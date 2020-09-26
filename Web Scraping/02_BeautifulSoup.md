@@ -24,7 +24,7 @@ soup.<tag>.string           # 取標籤字串 子標籤取不到
 soup.<tag>.text             # 取標籤及子標籤所有合併字串
 soup.<tag>.get_text('-')    # 取標籤及子標籤所有合併字串 並用 - 分隔
 
-soup.<tag>.[<attribute>]    # 取tag屬性 也可以用get取
+soup.<tag>[<attribute>]    # 取tag屬性 也可以用get取
 soup.<tag>.attrs            # 取得所有屬性值 回傳值格式為dict
 ```
 向下定位

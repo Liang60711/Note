@@ -61,6 +61,26 @@ $               # 比對字串結尾
 
 搜尋e-mail
 ```python
-'\w+@\w+\.\w+'  # .為萬用字元，需改成\.
+'\w+@\w+\.\w+[\.\w]*'   # .為萬用字元，需改成\.
+                        # com結尾或是com.tw結尾
 ```
 
+圖片網址
+```python
+'.+\.[jpg,png,gif]+'
+```
+網址
+```python
+[a-zA-z]+://[^\s]*
+```
+
+中文字
+```python
+[\u4e00-\u9fa5]         # 中文編碼
+```
+
+台灣手機
+```python
+phone=phone.replace('-','')      # 先把所有-取除
+re.findall('[+886,0]+\d+',phone)
+```
