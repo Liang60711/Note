@@ -29,14 +29,27 @@ $ response.css("<selector>")    # 使用css selector
 $ response.xpath("<xpath>")     # 使用xpath
 ```
 
-取標籤文字(css)
+**取標籤文字(css)**
+
+用get()找不到回傳None，但用extract_first()找不到會報錯  
+舉例: scrapy.selector.unified.SelectorList 為對象
 ```shell
-$ response.css("<selector>::text")                  # 回傳類list，含有標籤文字內容
+$ response.css("<selector>::text")                  # 回傳scrapy.selector.unified.SelectorList
 $ response.css("<selector>::text").get()            # 回傳str，取第一個
+$ response.css("<selector>::text").extract_first()  # 回傳str，取第一個
 $ response.css("<selector>::text").getall()         # 回傳list，取全部
-$ response.css("<selector>::text").extract()        # 回傳str，取第一個
-$ response.css("<selector>::text").extract_first()  # 回傳list，取全部
+$ response.css("<selector>::text").extract()        # 回傳list，取全部
+
 ```
+若以 scrapy.selector.unified.Selector 為對象 (只有一個)
+```shell
+$ response.css("<selector>::text")                  # 回傳scrapy.selector.unified.Selector
+$ response.css("<selector>::text").get()            # 回傳str
+$ response.css("<selector>::text").extract()        # 回傳str
+$ response.css("<selector>::text").getall()         # 回傳str
+$ response.css("<selector>::text").extract_first()  # 會報錯
+```
+
 取標籤屬性(css)
 ```shell
 $ response.css("<selector>::attr(<attrib>)").get()

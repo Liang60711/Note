@@ -67,3 +67,11 @@ ITEM_PIPELINES = {
 ```python
 FEED_EXPORT_ENCODING="utf-8"
 ```
+
+# 設定輸出
+開啟setting.py，可輸出json, csv, xml，完成後即不需打-o pttnba.json
+```python
+FEED_FORMAT = "JSON"
+FEED_URI = "pttnba.json"
+FEED_EXPORT_ENCODING = "utf-8"
+```
