@@ -62,3 +62,59 @@ LIKE '__'           # 任何兩個字節的資料 (一個 _ 代表一個字母)
 LIKE '%\%%'         # 含有 % 字元的資料
 LIKE '%\_%'         # 含有 _ 字元的資料
 ```
+
+# AND , && , OR , ||
+通常搭配 WHERE 一同使用
+```sql
+SELECT * FROM <table_name>
+WHERE <condition> AND <condition>;
+```
+```sql
+SELECT * FROM <table_name>
+WHERE <condition> OR <condition>;
+```
+
+# BETWEEN
+尋找範圍，資料型態 數字型態 或 DATETIME 皆可
+```SQL
+SELECT * FROM <table_name>
+WHERE <col> BETWEEN <range1> AND <range2>;
+```
+若要測試DATETIME，可將str 轉成 datetime
+```SQL
+CAST("<datetime>" AS DATETIME);
+```
+
+# IN , NOT IN
+搜尋是否存在於column中
+```SQL
+SELECT * FROM <table_name>
+WHERE <col> IN (<str1>, <str2>, <str3>);
+```
+檢查多個選項，比 AND、OR 簡潔，舉例
+```sql
+SELECT * FROM books
+WHERE SUBSTR(title, 1, 1) IN ('C', 'S')     # title為C或S開頭的資料
+```
+
+# CASE
+條件式 WHEN, THEN, ELSE, END
+```sql
+SELECT 
+    CASE
+        WHEN <condition1> THEN <result1>
+        WHEN <condition2> THEN <result2>
+        ELSE <result3>
+    END AS <col_name>
+FROM <table_name>;
+```
+舉例
+```sql
+SELECT title, author,
+    CASE
+        WHEN COUNT(*) = 1 THEN '1 book'
+        ELSE CONCAT(COUNT(*), ' books')
+    END AS 'count'
+FROM book
+GROUP BY author;
+```
