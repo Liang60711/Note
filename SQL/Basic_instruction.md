@@ -21,6 +21,19 @@ $ USE <database_name>;
 $ SELECT database();        # 若刪除或尚未use 顯示null
 ```
 
-
-
-
+# Table
+### 查看 table
+```sql
+$ SHOW TABLES;
+```
+### 查看 table 的 columns ，兩種皆可
+```sql
+$ SHOW COLUMNS FROM <table_name>;
+```
+```sql
+$ DESC <table_name>;
+```
+### 刪除 table
+```sql
+$ DROP TABLE <table_name>;
+```

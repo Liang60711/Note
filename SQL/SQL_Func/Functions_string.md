@@ -39,7 +39,7 @@ SUBSTR(title, -3);           # 輸出789
 ```
 
 # REPLACE()
-將字串中的old_str取代成new_str
+將字串中的 old_str 取代成 new_str
 ```sql
 REPLACE(<text>, <old_str>, <new_str>);
 ```
