@@ -1,14 +1,3 @@
-# GROUP BY
-依照 columns 進行分類，可以使用聚合函數
-```SQL
-SELECT <col1>, <col2>, aggregate_func(<col3>)
-FROM <table_name> GROUP BY <col1>;
-```
-若 GROUP BY 多個 column 時，則會先合併 column，確認是否為同一筆資料
-```sql
-SELECT <col1>, <col2>, aggregate_func(<col3>)
-FROM <table_name> GROUP BY <col1>, <col2>;
-```
 
 # COUNT()
 計算總資料數
