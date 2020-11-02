@@ -57,7 +57,10 @@ db.collection.find({contribs:"red"})
 # 若list內有符合的string就OK，不用寫出所有string
 ```
 
-
+篩選Array of embedded documents
+```md
+db.collection.find({"awards.year": {$gt 30}})
+```
 
 
 

@@ -1,7 +1,7 @@
 # 資料定義
 ## customers
 |customer_id|first_name|last_name|email|
-|--|--|--|--|--|
+|--|--|--|--|
 |1|Boy|Apple|Apple@gmail.com|
 |2|George|Orange|Orange@gmail.com|
 |3|David|Melon|Melon@gmail.com|
@@ -21,7 +21,7 @@ $ CREATE TABLE customers
 
 ## orders
 |order_id|order_date|amount|customer_id|
-|--|--|--|--|--|
+|--|--|--|--|
 |1|'2016/02/10'	|99.99|1|
 |2|'2017/11/11'	|35.50|1|
 |3|'2014/12/12'	|800.67|2|

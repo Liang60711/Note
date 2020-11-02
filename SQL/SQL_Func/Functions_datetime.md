@@ -80,7 +80,7 @@ CREATE TABLE comment(
 
 # 從DATETIME取資料的函數
 |函數|說明|
-|--|--|--|
+|--|--|
 |DAY()|從DATETIME取幾號|
 |DAYNAME()|從DATETIME取星期幾 (字母)|
 |DAYOFWEEK()|從DATETIME取星期幾 (數字)|
