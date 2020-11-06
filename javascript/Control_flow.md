@@ -35,9 +35,27 @@ for (<initialExp>;<condition>;<incrementExp>){
 // <incrementExp> 更新條件
 ```
 舉例
-```java
+```javascript
 for (var i = 0; i < 5; i++){
     console.log(i)
 }
 // 回傳 01234
 ```
+for...in 和 for...of，對象為array  
+for...in 輸出屬性名稱(key)，for...of 輸出值(value)
+```javascript
+var alpha = ['A','B','C']
+
+for (i in alpha){
+    console.log(i)
+}
+// 輸出 0 1 2
+
+
+for (j of alpha){
+    console.log(j)
+}
+// 輸出 A B C
+```
+
+
