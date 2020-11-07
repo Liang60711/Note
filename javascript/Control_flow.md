@@ -57,5 +57,13 @@ for (j of alpha){
 }
 // 輸出 A B C
 ```
+舉例，對象為 object
+```javascript
+var myO = {a:'334455', b:'7788', c:'6699'}
 
+for (k in myO){
+    console.log(k)
+}
 
+// 輸出key: a b c
+```

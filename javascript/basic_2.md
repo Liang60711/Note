@@ -118,3 +118,43 @@ function Good(x){
 company.forEach(Good)
 // Apple good! Alphabet good! MicroSoft good!
 ```
+
+# object
+* 物件結構 {key1: value1, key2: value2...} 
+* key 為 string 型態；value 可為任何資料型態 (function也可)  
+
+宣告物件
+```javascript
+var object = {key1: value1, key2: value2...}
+```
+查看物件結構
+```javascript
+console.dir(object)
+
+// 可以看到function
+```
+
+取值
+```javascript
+// way1
+object[key]
+
+// way2
+object.key
+```
+新增、修改
+```javascript
+object[key] = value
+```
+this
+```javascript
+var obj = {
+    name: "apple",
+    myFunc: function(){
+        console.log("Hello " + this.name)
+    }
+}
+
+obj.myFunc()
+// 輸出 Hello apple
+```
