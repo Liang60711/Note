@@ -114,8 +114,21 @@ b = book('Python', 'Alex', 100)
 print(len(b))   # 100
 ```
 
+# locals(), globals()
+* 會以字典型式回傳目前變數
+* locals() 回傳 該 function 中的區域變數
+* globals() 回傳 所有全域變數
 
+```python
+s = 'global variable'
 
+def func():
+    mylocal = 10
+    print(locals())     # {'mylocal': 10}
+    print(globals())    # 回傳全域變數，但不會回傳區域變數 'mylocal'
+
+print(globals())        # 同上
+```
 
 
 
