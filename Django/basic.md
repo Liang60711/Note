@@ -80,7 +80,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'first_app'     # 新增App名稱
+    '<app_name>'     # 新增App名稱
 ]
 ```
 
@@ -95,9 +95,9 @@ INSTALLED_APPS = [
 
 * **migration**: 用來存放 migrations 當修改數據模型時，此文件會自動升級資料庫
 
-## 建立Views 和 App網址
+## 編輯Views 和 設定App網址
 1. 在App資料夾中的 views.py編輯程式
-2. 在urls.py新增網址  
+2. 在project.urls.py新增網址  
 
 view.py編輯程式
 ```python
@@ -140,3 +140,43 @@ path('index/<int:0>', views.index, name = 'index')
 
 # path，任何非空字符串、/
 ```
+
+## url管理
+如果把所有的url放在 project.url.py裡面，顯得不好管理，所以在 my_app 目錄中會新建立一個 urls.py，非主目錄裡面的 project.url.py。
+
+1. project.url.py中的 urlpatterns list 使用 include() 函式
+2. my_app.urls.py建立。  
+
+project.url.py檔案
+```python
+from django.contrib import admin
+from django.urls import path, include   # include()函式
+from my_app import views
+
+urlpatterns = [
+    path('',views.index),       # 首頁
+    path('my_app/', include('my_app.urls')),     
+    path('admin/', admin.site.urls),
+]
+```
+建立my_app.url.py檔案
+```python
+from django.urls import path
+from my_app import views
+
+urlpatterns = [
+    path('', views.index, name ='index'),
+    path('index'), view.index2, name = 'index2',
+]
+
+# 第一個 url 為 ../my_app/
+# 第二個 url 為 ../my_app/index/
+```
+
+# 總結
+
+|指令|說明|
+|--|--|
+|$ django-admin startproject <project_name>|建立Django專案|
+|$ python manage.py startapp <app_name>|建立Django APP|
+|$ python manage.py runserver|啟動伺服器|
