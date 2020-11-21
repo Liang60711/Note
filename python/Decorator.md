@@ -111,7 +111,7 @@ print(func.__name__)
 ```
 可以用 python 內建的 functools  
 
-1. improt wraps
+1. import wraps
 2. 加上 @wraps(func)
 ```python
 #1
@@ -138,6 +138,7 @@ print(func.__name__)
 
 # 帶入參數
 * 使用 *args, **kargs  
+* 不定參數 * 代表以tuple方式引入， ** 代表以dict方式引入所以需要輸入key
 
 舉例
 ```python
@@ -147,7 +148,8 @@ def my_decorator(func):
     
     @wraps(func)
     def wrap(*args, **kargs):           # 加入*args, **kargs
-        print('1_before')
+        print('This is a decorator')
+        print('--------------')
         values = func(*args, **kargs)   # 存成物件
         return values                   # return 物件
     
@@ -155,10 +157,24 @@ def my_decorator(func):
 
 
 @my_decorator
-def func(a, b):     # 參數 a, b
+def func(*args, **kargs):              
     print('This is a function!')
-    print(a + b)
+    print(args, kargs)
 
-func(1,3)
-# 輸出 4
+if __name__ == '__main__':
+    func(1,2,b=3)
+
+# 輸出
+# This is a decorator
+# --------------
+# This is a function!
+# (1, 2) {'b': 3}
+```
+**kargs 可以用來製作 dict 
+```python
+def dictFunc(**kargs):
+    return kargs
+
+print(dictFunc(a=1, b=2, c=3))
+# {'a': '1', 'b': 2, 'c': 3}
 ```
