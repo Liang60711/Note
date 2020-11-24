@@ -48,11 +48,11 @@ STATICFILES_DIRS = [
 ```css
 /*css file*/
 
-.h1{
+h1{
     color:red;
 }
 
-.body{
+body{
     background:##fff8a8;
 }
 ```
