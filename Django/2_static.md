@@ -4,7 +4,7 @@
 
 1. 新增目錄: project主目錄 > static > images
 2. 修改 settings.py設定檔
-3. 修改需加入靜態文件的 html 檔案
+3. 修改需加入靜態文件的 html 檔案 
 
 修改 settings.py設定檔
 ```python
