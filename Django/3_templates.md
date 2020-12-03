@@ -101,3 +101,70 @@ def index(request):
   </body>
 </html>
 ```
+
+<br>
+
+# Templates Inheritance 模板繼承
+為了減少 html 重複性，可設立一個 base.html 製作相同的地方，再留自定義區域  
+1. 撰寫一個 base.html
+2. 再其他頁面導入模板，並撰寫其他內容
+
+舉例:
+```shell
+└─templates
+    └─basicApp
+            base.html
+            index.html
+            one.html
+            two.html
+```
+自定義語法:
+```html
+{% block <BLOCKNAME> %}
+{% endblock %}
+
+<!-- <BLOCKNAME> 不是保留字，可隨意定義 -->
+```
+導入語法:
+```html
+{% extends '<TEMPLATE_NAME>' %}
+
+<!--用上面 tree 舉例-->
+{% extends 'basicApp/base.html' %}
+```
+
+舉例，先寫 base.html 作為模板
+```html
+<!-- 以 Bootstrap 為例 -->
+
+  <body>
+    <nav class='navbar navbar-default navbar-static-top'>
+      <div class="container">
+        <ul class='nav navbar-nav'>
+          <li><a class='navbar-brand' href="{% url 'index' %}">Index</a></li>
+          <li><a class='navbar-link' href="{% url 'admin:index' %}">Admin</a></li>
+          <li><a class='navbar-link' href="{% url 'basicApp:one' %}">one</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <!-- 此為自定義的區塊 -->
+      {% block content %}
+      {% endblock %}
+    </div>
+
+  </body>
+```
+index.html 中導入模板，並編輯自定義區塊
+```html
+<!DOCTYPE html>
+<!-- 導入模板 -->
+{% extends 'basicApp/base.html' %}
+  
+  <!-- 以下為自定義區塊 -->
+  {% block content %}
+    <h1>this is index page</h1>
+  {% endblock %}
+```
+

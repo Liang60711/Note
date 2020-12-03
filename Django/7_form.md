@@ -255,3 +255,103 @@ if __name__=='__main__':
     # Here is child
 ```
 子類別透過 super() 方法執行父類別的 hello()方法後，接著執行子類別的後續實作。
+
+<br>
+
+# ModelForm
+利用已寫好的 Model資料庫，直接建立成表單，以快速開發表單  
+1. 建立 models.py資料庫，並且執行 makemigrations 和 migrate
+2. 設定 admin 將資料庫 class register
+3. 建立 forms.py<br>
+4. 寫 views.py<br>
+
+models.py<br>
+```python
+from django.db import models
+
+class User(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.email
+```
+建立 forms.py<br>
+```python
+# 只要加上 class Meta() 即可
+
+from django import forms
+from .models import User
+
+class NewUserForm(forms.ModelForm):     # 記得改繼承的class >> forms.ModelForm
+    # 其他加上的 form field
+    phone = forms.CharField(widget=forms.NumberInput)
+
+    class Meta():
+        model = User        
+        field = '__all__'   # 全部欄位
+        # 指定欄位
+        # field = ['first_name','last_name']
+
+        # 若想要改 label 或 中文
+        labels = {
+            'first_name': '名字',
+            'last_name': '姓氏',
+            'email': '電子郵件'
+        }
+
+        # 若想要改 CSS (套用 Bootstrap)
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class':'form-control'})
+        }
+```
+views.py<br>
+```python
+from django.shortcuts import render
+from .models import User
+from .forms import NewUserForm
+
+# index page
+def index(request):
+    return render(request, 'AppTwo/index.html',{})
+
+def user(request):
+    form = NewUserForm()
+
+    if request.method == 'POST':
+        form = NewUserForm(request.POST)
+
+        if form.is_valid():
+            form.save(commit = True)    # commit = True 直接存入資料庫
+            return index(request)       # 返回 index page
+        else:
+            print('ERROR')
+    
+    return render(request, 'App/user.html', {'form':form})
+```
+user.html (Bootstrap CDN)
+```html
+<body>
+
+<div class="container">
+    <h1>Please Sign Up Here!</h1>
+    <form  method="POST">
+    {{form.as_p}}
+    {% csrf_token %}
+    <input type="submit" class='btn btn-primary' value="Submit">
+    </form>
+</div>
+
+</body>
+```
+
+
+
+
+
+
+
+
