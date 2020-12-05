@@ -106,20 +106,15 @@ def index(request):
 
 # Templates Inheritance 模板繼承
 為了減少 html 重複性，可設立一個 base.html 製作相同的地方，再留自定義區域  
-1. 撰寫一個 base.html
-2. 再其他頁面導入模板，並撰寫其他內容
+1. 設定 app 中的 urls.py檔案
+2. 撰寫一個 base.html
+3. 再其他頁面導入模板，並撰寫其他內容
 
-舉例:
-```shell
-└─templates
-    └─basicApp
-            base.html
-            index.html
-            one.html
-            two.html
-```
+
 自定義語法:
 ```html
+<!-- html -->
+
 {% block <BLOCKNAME> %}
 {% endblock %}
 
@@ -133,19 +128,46 @@ def index(request):
 {% extends 'basicApp/base.html' %}
 ```
 
-舉例，先寫 base.html 作為模板
+舉例:
+```shell
+└─basicApp
+    urls.py
+
+└─templates
+    └─basicApp
+            base.html
+            index.html
+            one.html
+            two.html
+```
+1.設定 basicApp/urls.py
+```python
+from basicApp import views
+from django.urls import path
+
+app_name = 'basicApp'
+urlpatterns = [
+  path('one/', views.one , name = 'one'),
+  path('two/', views.one , name = 'two'),
+]
+```
+
+
+2.先寫 base.html 作為模板
 ```html
-<!-- 以 Bootstrap 為例 -->
+<!-- 以 Bootstrap v4.5 為例 -->
 
   <body>
-    <nav class='navbar navbar-default navbar-static-top'>
-      <div class="container">
-        <ul class='nav navbar-nav'>
-          <li><a class='navbar-brand' href="{% url 'index' %}">Index</a></li>
-          <li><a class='navbar-link' href="{% url 'admin:index' %}">Admin</a></li>
-          <li><a class='navbar-link' href="{% url 'basicApp:one' %}">one</a></li>
+    <nav class='navbar navbar-expand-lg navbar-light bg-light'>
+        <a class='navbar-brand' href="{% url 'index' %}">Index</a>
+        
+        <ul class='nav'>
+          <!-- href 帶入 -->
+          <li class='nav-item'><a class='nav-link' href="{% url 'basicApp:one'%}">user_list</a></li>
+          <li class='nav-item'><a class='nav-link' href="{% url 'basicApp:two'%}">user_add</a></li>
+          <li class='nav-item'><a class='nav-link' href="{% url 'admin:index'%}">admin</a></li>
         </ul>
-      </div>
+
     </nav>
 
     <div class="container">

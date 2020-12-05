@@ -33,7 +33,7 @@ app/urls.py
 from django.urls import path
 from app import views
 
-# build-in word 'app_name'
+# built-in word 'app_name'
 app_name = 'app'
 
 urlpatterns = [
