@@ -98,6 +98,8 @@ AUTH_PASSWORD_VALIDATORS = [
 1. models.py編輯 model
 2. admin.py中 register model
 3. forms.py產生表格
+4. views.py編輯
+5. 記得要 makemigrations, migrate
 
 ### 1.編輯 models
 ```python
@@ -116,7 +118,8 @@ class UserProfile(models.Model):
 
     # 自定義欄位
     portfolio = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='profile_pics')
+    # upload_to='profile_pics' 表示檔案位置儲存在 media/profile_pics/ 內
+    picture = models.ImageField(upload_to='profile_pics', blank=True)
 
     def __str__(self):
         # user 繼承 User object 的5個屬性
@@ -135,13 +138,82 @@ admin.site.register(UserProfile)
 
 ### 3.產生 form
 ```python
-from django import forms
-from app.models import UserProfile
+# forms.py
 
-class UserProfile_Form(forms.ModelForm):
+from django import forms
+from django.contrib.auth.models import User
+from basicApp.models import UserProfile
+
+
+class UserForm(forms.ModelForm):
+    # 將原有 User 的屬性覆蓋掉，User 內的 password 欄位字體沒有隱藏
+    password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta():
+        model = User
+        fields = ['username', 'email', 'password']
+        # 也可以用 exclude
+        # exclude = ['first_name', 'last_name']
+        
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'password': forms.PasswordInput(attrs={'class':'form-control'})
+        }
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta():
         model = UserProfile
-        # 欄位排除 user 後，剩下 portfolio, picture
-        exclude = ['user',]
+        fields = ['portfolio','picture']
+        widgets={
+            'portfolio':forms.URLInput(attrs={'class':'form-control'}),
+        }
+```
+### 4. 編輯 view
+```python
+# views.py
+
+from django.shortcuts import render
+from basicApp.forms import UserForm, UserProfileForm
+
+# 首頁
+def index(request):
+    return render(request, 'basicApp/index.html')
+
+# 註冊
+def register(request):
+    # 未註冊過 = False
+    registered = False
+
+    if request.method == 'POST':
+        userform = UserForm(request.POST)
+        userprofileform = UserProfileForm(request.POST)
+
+        if userform.is_valid() and userprofileform.is_valid():
+            # userform 部分
+            user = userform.save(commit=False)
+            # hash 密碼 
+            user.set_password(user.password)
+            user.save()
+
+
+            # userprofileform 部分
+            profile = userprofileform.save(commit=False)
+            # 設定 UserProfile_Form.user 和 UserForm.user 的一對一關係
+            profile.user = user
+            # 檢查有沒有圖
+            if 'picture' in request.FILES:
+                print('found pic')
+                profile.picture = request.FILES['picture']
+            profile.save()
+            registered = True
+        else:
+            print(userform.errors,userprofileform.errors)
+    else:
+        userform = UserForm()
+        userprofileform = UserProfileForm()
+    register_dict = {'registered':registered, 'userform':userform, 'userprofileform':userprofileform}
+    return render(request, 'basicApp/register.html',register_dict)
+
 ```
