@@ -15,7 +15,7 @@
 <br>
 
 
-# 密碼管理
+# 註冊會員
 1. 套件安裝
 2. 建立 media 目錄
 3. 設定 settings.py<br>
@@ -94,12 +94,15 @@ AUTH_PASSWORD_VALIDATORS = [
 4. first_name
 5. last_name  
 
-舉例，建立一個登入介面  
+<br>
+
+# 註冊
 1. models.py編輯 model
 2. admin.py中 register model
 3. forms.py產生表格
 4. views.py編輯
-5. 記得要 makemigrations, migrate
+5. html 編輯
+6. 記得要 makemigrations, migrate
 
 ### 1.編輯 models
 ```python
@@ -131,7 +134,7 @@ class UserProfile(models.Model):
 # admin.py
 
 from django.contrib import admin
-from app.models import UserProfile
+from basicApp.models import UserProfile
 
 admin.site.register(UserProfile)
 ```
@@ -215,5 +218,220 @@ def register(request):
         userprofileform = UserProfileForm()
     register_dict = {'registered':registered, 'userform':userform, 'userprofileform':userprofileform}
     return render(request, 'basicApp/register.html',register_dict)
+
+```
+### 5.html 編輯
+```html
+<!-- base.html -->
+
+<!DOCTYPE html>
+<body>
+<nav class='navbar navbar-light bg-light'>
+    <div class="container">
+    <ul class='nav'>
+        <li class='nav-brand'>
+        <a class='nav-link' href="{% url 'index'%}">Index</a>
+        </li>
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'basicApp:register'%}">Register</a>
+        </li>
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'admin:index'%}">Admin</a>
+        </li>
+    </ul>
+    </div>
+</nav>
+
+<div class="container">
+    {% block content%}
+    {% endblock %}
+</div>
+</body>
+```
+```html
+<!-- register.html -->
+
+{% extends 'basicApp.base.html'%}
+
+{% block content %}
+
+<div class="jumbotron">
+
+{% if registered %}
+  <h1>You are already registered</h1>
+{% else %}
+  <h1>Register Here!</h1>
+  <h3>Fill out the form:</h3>
+
+  <form enctype='multipart/form-data' method="post">
+    {% csrf_token %}
+    {{userform.as_p}}
+    {{userprofileform.as_p}}
+    <input class='btn btn-primary' type="submit" value="Register">
+  </form>
+  
+{% endif %}
+</div>
+
+{% endblock %}
+
+```
+
+
+# 登入 登出
+1. settings 設定登入後轉至的網址
+2. views 編輯登入登出函式
+3. urls 設定
+4. html 變數調整
+
+### 1.settings 設定
+```python
+# settings.py
+
+
+# LOGIN
+# 指定登入轉至的網址
+# LOGIN_URL = '/<app_name>/<url_name>'
+LOGIN_URL = '/basicApp/user_login'
+```
+### 2.登入、登出函式
+```python
+# views.py
+
+from django.shortcuts import render, reverse
+
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+# from django.urls import reverse
+
+
+
+# logout
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
+
+
+# login
+def user_login(request):
+    if request.method == 'POST':
+        # login.html 中 input 屬性 name='username'
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # authenticate 會確認參數是否匹配資料庫，並回傳匹配的 object (即 auth.models.User) ，否則回傳 None
+        user = authenticate(username=username, password=password)
+        
+        if user:
+            # is_active 是屬性
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('index'))
+
+            else:
+                return HttpResponse('ACCOUNT NOT ACTIVE')
+        else:
+            return HttpResponse('INVALID LOGIN')
+    else:
+        return render(request, 'basicApp/login.html')
+
+
+```
+
+### 3.urls 設定 (login logout 分開寫URL)
+```python
+# project/urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+from basicApp import views
+urlpatterns = [
+    path('', views.index, name='index'),
+    path('user/', include('basicApp.urls')),
+    path('admin/', admin.site.urls),
+    path('logout/', views.user_logout, name='user_logout' ),
+]
+```
+```python
+# basicApp/urls.py
+
+from django.urls import path
+from basicApp import views
+
+app_name = 'basicApp'
+urlpatterns = [
+    path('user_login/', views.user_login, name='user_login')
+]
+```
+
+
+### 4.html
+```html
+<!-- base.html -->
+
+
+<nav class='navbar navbar-light bg-light'>
+    <div class="container">
+    <ul class='nav'>
+        <a class='navbar-brand' href="{% url 'index' %}">Index</a>
+        
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'admin:index'%}">Admin</a>
+        </li>
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'basicApp:register'%}">Register</a>
+        </li>
+
+        <!-- 若登入 若登出 -->
+        {% if user.is_authenticated %}
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'user_logout'%}">Logout</a>
+        </li>
+        {% else %}
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'basicApp:user_login'%}">Login</a>
+        </li>
+        {% endif %}
+
+    </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+{% block content %}
+{% endblock %}
+</div>
+
+```
+
+
+```html
+<!-- login.html -->
+
+
+
+{% extends 'basicApp/base.html'%}
+{% block content%}
+
+<div class="jumbotron">
+  <h1>Please Login</h1>
+
+  <!-- 登入 -->
+  <!-- action = 登入的 url_name -->
+  <form action="{% url 'basicApp:user_login'%}" method="post">
+    
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" name="username" placeholder="Enter Username">
+    <label for="password">Password:</label>
+    <input type="password" name="password" >
+    <input type="submit" value="Login">
+
+  </form>
+</div>
+{% endblock %}
 
 ```
