@@ -147,10 +147,49 @@ from django import forms
 from django.contrib.auth.models import User
 from basicApp.models import UserProfile
 
-
 class UserForm(forms.ModelForm):
     # 將原有 User 的屬性覆蓋掉，User 內的 password 欄位字體沒有隱藏
+    # 也可以從 widgets 裡面調整(二擇一)
     password = forms.CharField(widget=forms.PasswordInput())
+    # password 確認欄位
+    password_re = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}), label='password confirm')
+
+    class Meta():
+        model = User
+        # fields = ['username', 'password', 'email']
+        fields = ['username', 'password', 'password_re', 'email']
+        widgets = {
+            'username':forms.TextInput(attrs={'class':'form-control'}),
+            'password':forms.PasswordInput(attrs={'class':'form-control'}),
+            'email':forms.EmailInput(attrs={'class':'form-control'}),
+        }
+    # 密碼重複確認
+    def clean(self):
+        cleaned_data = super().clean()
+        if cleaned_data['password'] != cleaned_data['password_re']:
+            raise forms.ValidationError('MAKE SURE EMAIL MATCH')
+
+class UserProfileForm(forms.ModelForm):
+    class Meta():
+        model = UserProfile
+        fields = ['link', 'picture']
+        widgets = {
+            'link':forms.URLInput(attrs={'class':'form-control'}),
+        }
+
+```
+
+
+```python
+# forms.py
+
+from django import forms
+from django.contrib.auth.models import User
+from basicApp.models import UserProfile
+
+
+class UserForm(forms.ModelForm):
+
 
     class Meta():
         model = User
