@@ -124,24 +124,17 @@ my_base
 ```
 
 # git
-1. git 初始化 + commit
-2. Heroku 登入
-3. 新增 Heroku App (手動也可)
-4. 指定 Heroku App
+1. Heroku 登入
+2. 新增 Heroku App (手動也可)
+3. 指定 Heroku App
+4. git 初始化 + commit
 5. 設定環境變數
 6. 上傳 push
 
 
-## 1.git 初始化 (與 .gitignore 同一層)
-```shell
-$ git init
-$ git add .
-$ git commit -m "first"
-```
-
 <br>
 
-## 2.Heroku 登入
+## 1.Heroku 登入
 輸入後會開啟網頁，點選 login
 ```shell
 $ heroku login
@@ -151,7 +144,7 @@ $ heroku login
 
 
 
-## 3.新增 Heroku App (手動也可)
+## 2.新增 Heroku App (手動也可)
 最好是手動，會顯示App名字是否可用
 ```shell
 $ heroku create django-mydemo
@@ -160,7 +153,7 @@ $ heroku create django-mydemo
 <br>
 
 
-## 4.指定 Heroku App
+## 3.指定 Heroku App
 ```
 $ heroku git:remote -a django-mydemo
 ```
@@ -168,6 +161,18 @@ $ heroku git:remote -a django-mydemo
 ```shell
 $ git remote -v
 ```
+
+<br>
+
+
+## 4.git 初始化 (與 .gitignore 同一層)
+```shell
+$ git init
+$ git add .
+$ git commit -m "first"
+```
+
+
 
 <br>
 
