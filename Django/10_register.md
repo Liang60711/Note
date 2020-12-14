@@ -290,7 +290,7 @@ def register(request):
 ```html
 <!-- register.html -->
 
-{% extends 'basicApp.base.html'%}
+{% extends 'basicApp/base.html'%}
 
 {% block content %}
 
@@ -426,7 +426,7 @@ urlpatterns = [
         <!-- 若登入 若登出 -->
         {% if user.is_authenticated %}
         <li class='nav-item'>
-        <a class='nav-link' href="{% url 'user_logout'%}">Logout</a>
+        <a class='nav-link' href="{% url 'basicApp:user_logout'%}">Logout</a>
         </li>
         {% else %}
         <li class='nav-item'>
