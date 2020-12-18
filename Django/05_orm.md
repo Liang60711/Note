@@ -110,3 +110,77 @@ t.save()
 ```python
 >>> Topic.objects.all().delete()
 ```
+
+# One to Many Relation
+* Django.db.models 中，沒有 OneToManyCharField() ，故使用 ForeignKey() 來處理一對多關係。
+* 資料參考 [Reference](https://carsonwah.github.io/15213187968523.html)
+
+<br>
+
+## 1.建立 One-To-Many Model
+```python
+# models.py
+# 每個 Restaurant 可以有多於一個 Food
+
+from django.db import models
+
+class Restaurant(models.Model):
+    name = CharField(max_length=256)
+
+class Food(models.Model):
+    restaurant = ForeignKey(Restaurant, 
+                            on_delete = models.CASCADE, 
+                            related_name = 'foods')
+    
+    name = CharField(max_length=256)
+```
+
+<br>
+
+## 2.取得一個 Parent 的所有 Child
+舉例來說就是，找一個 Restaurant 的所有 Food  
+
+### 方法1：Query
+```python
+# 取得一間restaurant
+restaurant = Restaurant.objects.get(id=1)
+
+# restaurant__id 為 restaurant 的 id column
+Food.objects.filter(restaurant__id=restaurant.id)
+# <QuerySet [<Food: 冷飯>, <Food: 涼麵>]>
+```
+
+### 方法2：Child Set
+語法: 先把 child 的物件 lowercase 再加上 _set
+
+```python
+# 取得一間restaurant
+restaurant = Restaurant.objects.get(id=1)
+
+restaurant.food_set.all()
+# <QuerySet [<Food: 冷飯>, <Food: 涼麵>]>
+```
+備註：關於Manager
+* Restaurant.objects　是一個　Manager，用來管理對　restaurant　的　query，官網文件[Manager Reference](https://docs.djangoproject.com/en/2.0/topics/db/managers/)。  
+* restaurant.food_set 也是一個 Manager，但它管理對「屬於這間 restaurant 的 food」的 query。
+
+<br>
+
+### 方法3：自訂 field name
+可以更直觀的選取物件，與 _set 的用法是相同的
+```python
+# models.py
+class Food(models.Model):
+    restaurant = ForeignKey(Restaurant, 
+                            on_delete = models.CASCADE, 
+                            related_name = 'foods')
+    
+    name = CharField(max_length=256)
+```
+```python
+restaurant = Restaurant.objects.get(id=1)
+
+# 可直接使用 related_name
+# 等價 restaurant.food_set.all()
+restaurant.foods.all()
+```

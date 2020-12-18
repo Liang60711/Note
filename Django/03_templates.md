@@ -45,8 +45,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # 設定TEMPLATES 的 'DIRS' 即可
 TEMPLATES = [
     {
+        # 模板引擎，也可以換成 django.template.backends.jinja2.Jinja2
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        # 設定模板位置
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        # 改成 True 會先從 App資料夾中找 templates 資料夾，沒找到才會找 project 資料夾下的 templates
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
