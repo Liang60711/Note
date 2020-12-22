@@ -209,4 +209,252 @@ urlpatterns = [
 ```html
 <!-- school_detail -->
 
+{% extends 'basicApp/basicApp_base.html'%}
+
+{% block content %}
+
+<div class="jumbotron">
+  <h1>school detail page</h1>
+  <h2>school details:</h2>
+  <p>Name: {{school_detail.name}}</p>
+  <p>Principal: {{school_detail.principal}}</p>
+  <p>Location: {{school_detail.location}}</p>
+  <h3>Students: </h3>
+  {% for s in school_detail.student.all %}
+
+  <p>{{s.name}} who is {{s.age}} years old.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}
+
+```
+# CRUD View
+* 透過 View 直接從 Model 直接新增(修改、刪除) Form，不必透過 ModelForm 來新增。
+* 在 template 中，都以 \<form\> 來傳遞資料。
+
+
+# CreateView
+1. model.py<br>
+2. views.py<br>
+3. url.py<br>
+4. html
+
+### 1.model.py編輯: 在資料進行驗證、成功並儲存了之後，必須要設定要轉到哪一個網址，所以在 model 必須定義 get_absolute_url(self)
+```python
+# models.py
+from django.db import models
+
+class School(models.Model):
+    name = models.CharField(max_length=256)
+    principal = models.CharField(max_length=256)
+    location = models.CharField(max_length=256)
+    def __str__(self):
+        return self.name
+    
+    # html 中 post form 之後，須轉往哪個網址
+    def get_absolute_url(self):
+        return reverse('basicApp:detail', kwargs={'pk':self.pk})
+```
+### 2. views 撰寫 CreateView
+```python
+# views.py
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
+
+
+# CreateView
+class SchoolCreateView(CreateView):
+  model = School
+  fields = ['name', 'principal', 'location']
+
+  # template 預設名稱為 小寫 model + _form，即 school_form.html，可改成別的
+  template_name = 'school_form.html'
+
+  # 若 model 沒定義 get_absolute_url(self)，可在這邊加寫
+  # reverse_lazy 會等程式都跑完，才會 redirect 到該頁面
+  success_url = reverse_lazy('basicApp:list')
+
+# UpdateView
+class SchoolUpdateView(UpdateView):
+    model = School
+    fields = ['name', 'principal']
+    template_name = 'school_form.html'
+
+# DeleteView
+class SchoolDeleteView(DeleteView):
+    model = School
+    success_url = reverse_lazy('basicApp:list')
+    # delete 確認頁
+    template_name = 'school_delete.html'
+
+# ListView
+class SchoolListView(ListView):
+    template_name = 'list.html'
+    model = School
+    context_object_name = 'school_list'
+
+# DetailView
+class SchoolDetailView(DetailView):
+    template_name = 'detail.html'
+    model = School
+    context_object_name = 'school_detail'
+```
+### 3. urls.py編輯網址
+```python
+# urls.py
+
+from django.urls import path
+from basicApp import views
+from basicApp.models import School
+
+app_name = 'basicApp'
+urlpatterns = [
+  path('list/', views.SchoolListView.as_view(), name='list'),
+  path('list/<pk>/', views.SchoolDetailView.as_view(), name='detail'),
+  path('create/', views.SchoolCreateView.as_view(), name='create'),
+  path('update/<pk>/', views.SchoolUpdateView.as_view(), name='update'),
+  path('delete/<pk>/', views.SchoolDeleteView.as_view(), name='delete'),
+]
+```
+
+### 4. hmtl
+```html
+<!-- basicApp_base.html -->
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <title></title>
+  </head>
+  <body>
+    <nav class='navbar navbar-light bg-light'>
+    <div class="container">
+    <ul class='nav'>
+        <a class='navbar-brand' href="{% url 'index' %}">Index</a>
+
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'admin:index'%}">Admin</a>
+        </li>
+
+        
+        {% if user.is_authenticated %}
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'basicApp:list'%}">List</a>
+        </li>
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'basicApp:user_logout'%}">Logout</a>
+        </li>
+        {% else %}
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'basicApp:register'%}">Register</a>
+        </li>
+        <li class='nav-item'>
+        <a class='nav-link' href="{% url 'basicApp:user_login'%}">Login</a>
+        </li>
+        {% endif %}
+
+    </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+{% block content %}
+{% endblock %}
+</div>
+  </body>
+</html>
+
+```
+```html
+<!-- list.html -->
+
+{%extends 'basicApp_base.html'%}
+{% block content %}
+
+<div class="jumbotron">
+<h1>welcome to a list of all the schools</h1>
+<ol>
+  {% for s in school_list %}
+  <h2><li><a href="{{s.id}}">{{s.name}}</a></li></h2>
+  {% endfor %}
+</ol>
+
+</div>
+<!-- 新增 Create 連結 -->
+<a class='btn btn-primary' href="{% url 'basicApp:create'%}">Create New School</a>
+
+{% endblock %}
+```
+```html
+<!-- detail.html -->
+
+{% extends 'basicApp_base.html' %}
+{% block content %}
+
+<div class="jumbotron">
+ <p>Name: {{school_detail.name}}</p>
+ <p>Pricipal: {{school_detail.principal}}</p>
+ <p>Location: {{school_detail.location}}</p>
+
+ {% for s in school_detail.student.all %}
+ <p>Name: {{s.name}}</p>
+ <p>Age: {{s.age}}</p>
+ {% endfor %}
+
+</div>
+
+<!-- 新增 Update 和 Delete 連結 -->
+<!-- 傳遞 pk 參數 -->
+<div>
+  <a class='btn btn-warning' href="{% url 'basicApp:update' pk=school_detail.pk %}">Update</a>
+  <a class='btn btn-danger' href="{% url 'basicApp:delete' pk=school_detail.pk %}">Delete</a>
+</div>
+
+{% endblock %}
+```
+
+```html
+<!-- school_form.html -->
+
+{% extends 'basicApp_base.html'%}
+{% block content %}
+<h1>
+  <!-- 如果 form(built-in) 的 primarykey 不存在  -->
+  {% if not form.instance.pk %}
+  Create School
+  {% else %}
+  Update School
+  {% endif %}
+
+</h1>
+
+<form method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+  <input class='btn btn-primary' type="submit" value="Submit">
+</form>
+
+
+{% endblock %}
+```
+```html
+<!-- school_delete.html(delete 確認頁) -->
+
+{% extends 'basicApp_base.html'%}
+{% block content %}
+<h1>Delete {{school.name}}?</h1>
+
+<form method="post">
+  {% csrf_token %}
+  <!-- Delete -->
+  <input class='btn btn-danger' type="submit" value="Delete">
+  <!-- Cancel -->
+  <a href="{% url 'basicApp:detail' pk=school.pk %}">Cancel</a>
+</form>
+
+{% endblock %}
 ```

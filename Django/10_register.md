@@ -158,6 +158,9 @@ class UserForm(forms.ModelForm):
         model = User
         # fields = ['username', 'password', 'email']
         fields = ['username', 'password', 'password_re', 'email']
+        # 也可以用 exclude
+        # exclude = ['first_name', 'last_name']
+        
         widgets = {
             'username':forms.TextInput(attrs={'class':'form-control'}),
             'password':forms.PasswordInput(attrs={'class':'form-control'}),
@@ -180,38 +183,7 @@ class UserProfileForm(forms.ModelForm):
 ```
 
 
-```python
-# forms.py
 
-from django import forms
-from django.contrib.auth.models import User
-from basicApp.models import UserProfile
-
-
-class UserForm(forms.ModelForm):
-
-
-    class Meta():
-        model = User
-        fields = ['username', 'email', 'password']
-        # 也可以用 exclude
-        # exclude = ['first_name', 'last_name']
-        
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'password': forms.PasswordInput(attrs={'class':'form-control'})
-        }
-
-
-class UserProfileForm(forms.ModelForm):
-    class Meta():
-        model = UserProfile
-        fields = ['portfolio','picture']
-        widgets={
-            'portfolio':forms.URLInput(attrs={'class':'form-control'}),
-        }
-```
 ### 4. 編輯 view
 ```python
 # views.py
