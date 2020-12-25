@@ -155,6 +155,9 @@ $ heroku create django-mydemo
 
 ## 3.指定 Heroku App
 ```
+$ git init
+```
+```
 $ heroku git:remote -a django-mydemo
 ```
 可以用 git remote -v 檢查
@@ -167,7 +170,6 @@ $ git remote -v
 
 ## 4.git 初始化 (與 .gitignore 同一層)
 ```shell
-$ git init
 $ git add .
 $ git commit -m "first"
 ```

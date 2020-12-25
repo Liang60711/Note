@@ -18,8 +18,10 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
 
 # url位置
-STATIC_URL = '/static/'    
+STATIC_URL = '/static/'
+
 # 新增靜態文件的路徑list
+# css, js, font, img, scss 資料夾都放在這
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
