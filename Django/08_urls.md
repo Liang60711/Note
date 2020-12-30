@@ -70,3 +70,45 @@ python manage.py migrate
 ```html
 <a href="{% url 'admin:index' %}">Link to admin</a>
 ```
+
+
+
+# app_name, name_space
+在許多 url 導到同一個 app 的情況下(減少重複原則)，在做 reverse() 的时候，就會混淆不知道要導回給誰。可以使用 namespace，在include函数中添加 namespace 即可。
+
+```python
+# project.urls.py
+
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('core1/', include('core.urls', namespace='core1')),
+    path('core2/', include('core.urls', namespace='core2')),
+]
+```
+```python
+# app.urls.py
+
+from django.urls import path
+from .views import HomeView, ListView
+
+
+app_name = 'core'
+urlpatterns = [
+    path('', HomeView, name='home'),
+    path('list/', ListView, name='list')
+]
+```
+
+```python
+# views.py
+# 這樣 reverse 就可以指定要給 core1:list 還是 core2:list
+
+def back_to_list(request):
+  return redirect(reverse('core1:list'))
+```
+
+
+
