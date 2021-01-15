@@ -1,25 +1,25 @@
 # 安裝vEnv
 * python 有許多第三方package，因此package更新時容易產生issue，故使用虛擬環境  
-
-建立新虛擬環境 -n, --name
+* 使用 virtualenv
+套件安裝
 ```python
-# 安裝最新版本django
-$ conda create --name <venv_name> django
-
-# 安裝python指定版本
-$ conda create --name <venv_name> python=3.8
-
-# 安裝其他套件
-$ conda create --name <venv_name> <package>
+$ pip install virtualenv
 ```
-列出已建立的虛擬環境 -e, --env
-```
-$ conda info -e
+
+建立新虛擬環境
+```python
+$ python3 -m venv env
+
+# env 為環境名稱
 ```
 
 進入虛擬環境
-```
-$ activate <venv_name>
+```python
+# windows
+$ ./env/Scripts/activate
+
+# mac/linux
+$ source ./env/bin/activate
 ```
 退出環境
 ```
@@ -27,16 +27,19 @@ $ deactivate
 ```
 利用 conda 安裝套件
 ```
-$ conda install <package>
+$ pip install <package>
 ```
-查看conda版本
+
+# 在不同裝置 使用環境
+在原裝置可以匯出套件清單
 ```
-$ conda -V
+$ pip freeze > requirements.txt
 ```
-查看目前環境已安裝套件
+新裝置中，建立新環境後，輸入
+```python
+$ pip install -r requirements.txt
 ```
-$ conda list
-```
+
 
 # 開始Project
 進入Env
