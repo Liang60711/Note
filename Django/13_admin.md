@@ -34,6 +34,14 @@ make_refund_accepted.short_description = 'Update orders to refund granted'
 
 # 定義一個狀態欄
 class OrderAdmin(admin.ModelAdmin):
+    # 更改 fields順序
+    fields = [
+        'ref_code',
+        'user', 
+        'refund_requested',
+        'refund_granted',
+    ]
+    
     # 狀態欄要顯示的 columns
     list_display = [
         'user', 
@@ -57,6 +65,11 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = [
         'user__username',
         'ref_code',
+    ]
+
+    # List View 可以直接手動更改
+    list_editable = [
+        'red_code',
     ]
 
     #3 將功能函式 加入到 model 中
