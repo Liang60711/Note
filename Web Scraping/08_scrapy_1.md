@@ -1,7 +1,12 @@
 ## 1. 套件安裝
-從channel conda-forge 安裝套件
-```shell
-conda install -c conda-forge scrapy
+要先安裝 lxml
+```
+$ pip install lxml
+```
+
+安裝 Twisted，或是其他庫也可，用完整檔案路徑，[Download link](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
+```
+$ pip install C:\Users\Liang\Desktop\Twisted-20.3.0-cp38-cp38-win_amd64.whl
 ```
 
 
