@@ -97,5 +97,6 @@ Facebook Login
 4. 設定 > 基本資料 >取得 應用程式編號、應用程式密鑰
 5. 進入 admin 後台 > Social applications
 6. 新增 > 填入 Provider, Name, Client id > 加入 Sites至Chosen sites
+7. facebook 因只能使用 https protocol ，故 App domains: heroku的網域名，redirect URI: https://<domain_name>/account/facebook/login/callback/
 
 
