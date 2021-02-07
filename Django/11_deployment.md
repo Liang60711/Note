@@ -130,3 +130,10 @@ $ git commit -m "deploy"
 ```shell
 $ git push heroku master
 ```
+
+<br>
+
+## 6.migrate
+```shell
+$ heroku run python manage.py migrate
+```
