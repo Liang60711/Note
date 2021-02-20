@@ -28,6 +28,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ```
 
 <br>
@@ -137,3 +138,12 @@ $ git push heroku master
 ```shell
 $ heroku run python manage.py migrate
 ```
+
+
+
+## 7.把debug模式關掉
+```shell
+$ heroku config:set DEBUG_COLLECTSTATIC=1
+```
+
+
