@@ -72,4 +72,30 @@ UDP: 同樣分為Head和Data，Head包含發出端口(Port)和接收端口，總
 |壅塞控制|有|無|
 |確認|有|只有檢查碼|
 |適用服務|要求可靠傳輸的服務，例如電子郵件、網頁瀏覽、檔案傳輸|即時服務，例如串流媒體、網路電話、網路遊戲|
-|Protocol Data Unit，PDU|Segment|Datagram|
+|Protocol Data Unit，PDU|Segment|Datagram|  
+
+
+<br>
+
+### 5. 應用層 Application Layer
+協定: 動態主機設定協定(Dynamic Host Configuration Protocol，DHCP)、網域名稱系統(Domain Name System，DNS)
+
+DHCP: 建立在UDP(User Datagram Protocol)之上，由於靜態IP不夠靈活，所以使用動態IP，所以有了DHCP，用於使用動態IP時，會被電信公司分配到一個IP地址。  
+
+DNS: 將網域名稱(www.amazon.com)轉譯為IP地址(192.0.2.44)。
+
+<br>
+
+若電腦1要傳給電腦2，則有以下兩個情況:
+|情況|封包地址|
+|--|--|
+|同一個子網路|對方的MAC地址、對方IP地址|
+|不同一個子網路|對方Gateway的MAC地址、對方的IP地址|  
+
+<br>
+
+### 連線到 google 步驟
+1. DNS 服務器將 www.google.com 轉譯成 IP地址(使用UDP)。
+2. 本地電腦需判斷是否此IP是否同在一個子網路，此時需要**子網路遮罩**。
+3. 若為不同的子網路，則須經過一個 gateway網關(route路由)，接收方的MAC地址是gateway網關的MAC地址，並需要接收方IP地址。
+4. 瀏覽網頁使用 HTTP 協定(使用TCP，非UDP)，若 HTTP 封包太長，則會分成好幾個封包依序發送。
