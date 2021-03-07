@@ -49,14 +49,16 @@ $ java -Xmx2048m -Xms256m helloworld
 1. JDK SE 15 會自動將執行檔加入環境變數。
 2. Ecplise IDE 目前免付費使用人數最多。
 
-
+<hr>
 
 ## Hello World
 ```java
 package test;
 
 public class HelloWorld {
+    // attribute
 
+    // method
 	public static void main(String[] args) {
 		System.out.println("Hello World");
 	}
@@ -85,9 +87,14 @@ public class HelloWorld {
     * abstract
     * synchronized
 
-* package 類似資料夾，檔案必須放在 package 名稱下才能執行程式
-    ```java
-    $ javac HelloWorld.java
+package 類似資料夾，檔案必須放在 package 名稱下才能執行程式
+```java
+$ javac HelloWorld.java
 
-    $ java HelloWorld
-    ```
+$ java HelloWorld
+```
+
+屬性 attribute  
+1. 可提供給方法使用
+2. 可以不用提供初始值
+3. 會有修飾子
