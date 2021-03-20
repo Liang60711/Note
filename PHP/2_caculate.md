@@ -204,3 +204,98 @@ switch($a){
         break;
 }
 ```
+
+
+### while, do while
+```php
+// 印出10個 HI
+$count = 0;
+$flag = true;
+
+while($flag){
+    echo "HI";
+    echo "<br>";
+
+    $count += 1;
+    $flag = ($count != 10);
+    /* 省略 if 的寫法
+        if($count == 10){
+        $flag = false;
+        };
+    */
+};
+
+
+
+// 簡化不用 flag
+$count = 0;
+while($count != 10){
+    echo "HI";
+    echo "<br>";
+    $count --;      // -- 為減1
+}
+
+
+// 簡化 將 -- 丟進 while 條件
+// ++ -- 會在加減到 0 時跳出
+$count = 10;
+while($count --){
+    echo "HI";
+    echo "<br>";    
+};
+
+
+// ++ -- 可放在變數前面
+++$count        // 先 +1 再回傳 $count
+$count++        // 先回傳 $count 再 +1
+```
+
+用 while 印出 array
+```php
+$array = ["A", "B", "C"];
+
+$count = count($array);         // count() 可回傳 $array 長度
+while($count--){
+    echo $array[$count];
+    echo "<br>";    
+};
+
+// 會印相反
+// C
+// B
+// A
+
+
+// 需要多加一個 變數 
+$array = ["A", "B", "C"];
+$count = count($array);
+
+$index = 0;
+
+while($count --){
+    echo $array[$index];        // 改成 index
+    echo "<br>";
+    $index += 1;
+}
+
+
+// 所以 while 迴圈比較擅長 倒著 印出
+// for 迴圈比較擅長 正著 印出
+```
+### do while
+確保會至少跑一次迴圈
+```php
+$array = ["A", "B", "C"];
+$count = count($array);
+
+$index = 0;
+
+do{
+    echo $array[$index];
+    echo "<br>";
+    $index += 1;
+}while(--$count)        // --放前面
+
+```
+
+
