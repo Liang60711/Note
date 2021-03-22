@@ -299,3 +299,39 @@ do{
 ```
 
 
+### for, foreach 迴圈
+* for 迴圈為 while 迴圈的語法糖
+* 通常會搭配 array 使用
+```php
+// while 寫法
+$array = ["A", "B", "C", "D", "E", "F", "G"];
+$count = count($array);
+$index = 0;
+
+while($index < $count){
+    echo $array[$index] . "<br>";
+    $index ++;
+}
+
+
+// for 寫法
+// for( $i=0 ;  ;  )   第一個區塊為變數宣告
+// for(  ; true ;  )   第二個區塊放條件判斷，如果為 true 則會無窮迴圈
+// for(  ; true ;  )   第三個區塊為每個迴圈都會做的事
+
+for($i=0; $i<count($array); $i++){
+    echo $array[$i] . "<br>";
+};
+
+
+// foreach 寫法
+foreach($array as $a){
+    echo $a . "<br>";
+};
+
+// foreach 寫法
+// $key $value
+foreach($array as $key => $value){
+    echo $key . "=>" . $value . "<br>";
+}
+```
