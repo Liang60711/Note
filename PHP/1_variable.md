@@ -144,8 +144,9 @@ echo $b;                    // false 不會有返回值
 <br>
 
 # $_GET, $_POST
-*  此兩者變數為 PHP built-in 預設變數
-* $_GET 以Query String格式，並用URL來傳遞參數
+* 為全域變數，在 function 內外都可以呼叫
+* 此兩者變數為 PHP built-in 預設變數
+* $_GET 以 Query String 格式，並用URL來傳遞參數
     
     ```php
     // 傳遞參數以 ?開頭，中間以 key=value 作為格式
@@ -169,6 +170,11 @@ echo $b;                    // false 不會有返回值
 
     ?>
     ```
+# $GLOBALS
+* 為 PHP 中 built in 變數
+* 資料型別為 array
+* 全域變數都會儲存在此 array
+
 
 <br>
 
