@@ -27,21 +27,7 @@ function secondToTime($totalSecond){
 list ($hour, $minute, $second) = secondToTime(32583);
 echo "$hour";
 ```
-### echo 用法
-```php
-$str = "aabbabc";
-// echo + '單引號' 會無法印出變數
-echo '$str';         // 輸出 $str 
 
-
-// echo + '雙引號'
-echo "$str";         // 輸出 aabbabc
-
-
-// 輸出多個變數，逗點隔開
-echo $str, $str;
-
-```
 ### function 預設值
 ```php
 function mathFunction($x, $y=1){        // $y 預設為 1

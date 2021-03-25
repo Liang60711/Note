@@ -1,4 +1,4 @@
-# PHP 8種資料型別
+# PHP 8種基本資料型別，3種偽型別
 ### 標量型別  
 
 1. 布林值(boolean)
@@ -13,6 +13,13 @@
 ### 特別型別
 7. 資源(resource)
 8. 空值(null))
+
+### 偽型別 (pseudo-types)
+1. 數值(number)
+2. 混合(mixed)
+3. 回撥函數(callback)
+
+
 
 <hr>
 <br>
@@ -35,6 +42,27 @@
     echo $_value;
 ?>
 ```
+### 雙引號 單引號
+* 單引號執行效率比較快
+* 單引號不解析 \，並把所有範圍內的當作字串
+```php
+// 宣告字串單雙都可以
+$str = "aabbabc";
+
+// 雙引號才能解析變數
+echo '$str';         // 輸出 $str 
+echo "$str";         // 輸出 aabbabc
+
+
+// 宣告跳脫字元只能用雙
+$name1 = "abc\nabc";
+$name2 = 'abc\nabc';
+echo $name1;         // abc abc
+echo $name2;         // abc\nabc
+```
+
+
+
 
 ## 命名法
 1. camelCase；字首單字小寫，第二字首大寫，js, php
@@ -75,6 +103,19 @@ echo "</ul>"
 $string = "abc";
 var_dump($string);      // 輸出 string(3) "abc"
 ```
+
+### & 符號 不同的名字訪問同一個記憶體位址
+```php
+$a = 10;
+
+// 將 $b 指向 $a 的記憶體
+// 更改 $b 時，$a 也會一起更動
+$b = &$a;
+
+// 可以將變數刪除
+unset($a);  // 只剩下 $b = 15;
+```
+
 
 <hr>
 <br>
