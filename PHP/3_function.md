@@ -4,7 +4,7 @@
 * 全域變數在 function 中需要宣告 global(和 js 差別)
 ```php
 function printHelloWorld(){
-    echo "Hello World<br>";
+    echo "Hello World<br/>";
     return;
 }
 
@@ -37,44 +37,7 @@ function mathFunction($x, $y=1){        // $y 預設為 1
 echo mathFunction(1);
 ```
 
-### const 宣告 常數(常數為全域變數)
-* 常數宣告後，不可再進行變動
-* 與全域變數差別是，全域變數可以更動值，但常數不行
-* 可以宣告為 int, float, string, array
-```php
-// 宣告常數 通常為大寫
-const ABC = "ABCABCABC<br>";
 
-// 常數無法放在字串中使用
-echo "{ABC}";       // {ABC}
-echo ABC;           // ABCABCABC
-```
-
-### define()
-* 參數1 要放字串，參數2 可以為 int, float, string, array
-```php
-// 宣告常數
-define("CONSTANT", "Hello world.");
-echo CONSTANT;      // Hello world.
-
-
-// 可以宣告為 array，只能用在 PHP 7 以上
-define('ANIMALS', array(
-    'dog',
-    'cat',
-    'bird'
-));
-
-echo ANIMALS[1];    // cat
-```
-
-### const 和 define()
-* PHP 兩者作用很類似，常界定模糊
-* const 用在 class 中設定常數
-* define 用在設定檔中
-
-
-<br>
 
 # 巢狀迴圈
 * 在維護巢狀迴圈時，標籤會很亂，解決方法為使用 function
@@ -154,4 +117,52 @@ function createTable($datas){
 
 // 執行
 createTable($students);
+```
+
+
+<br/>
+
+# 匿名函式 (Closure)
+function 沒有名稱，但仍可傳入參數
+```php
+// 沒有參數
+$str1 = function(){
+    echo 'Anonymous functions';
+};      // 這邊要分號
+$str1();
+
+// 有參數
+$str2 = function(String $para1){        // 參數可指定型別
+    echo 'Anonymous functions: ';
+    echo $para1;
+};
+$str2("parameter");
+```
+
+<br/>
+
+# 可變參數函式
+可以透過函式來檢查傳入的參數數量
+* func_num_args()
+* func_get_arg($index)
+* func_get_args()
+```php
+// 例如 username, password, address, phone_number，如果後兩個參數為選填時，一般參數寫法會出問題
+
+function text(){
+    echo func_num_args();           // 回傳參數數量
+    echo "<br/>";
+
+    echo func_get_arg(0);           // 輸入 index 可取參數數值(arg沒加s)
+    echo "<br/>";
+
+    print_r(func_get_args());       // 回傳參數陣列
+}
+
+
+
+text("username", "password", "taipei");
+// 3
+// username
+// Array ( [0] => username [1] => password [2] => taipei )
 ```

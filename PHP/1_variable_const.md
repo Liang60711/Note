@@ -19,12 +19,52 @@
 2. 混合(mixed)
 3. 回撥函數(callback)
 
+<br/>
+
+# 型別檢查
+* var_dump() 函式
+* is_XXX() 函式，回傳 1 或 0
+```php
+$a = 123;
+$b = "456";
+
+// way 1 
+var_dump($a);           // int(123)
+
+// way 2  與 var_dump() 一起用
+var_dump(is_int($b));   // bool(false)
+```
 
 
-<hr>
-<br>
+<br/>
+
+# 型別轉換
+* 自動轉換
+    * 不太嚴謹的作法，通常還是會將變數做勤至轉換。
+* 強制轉換
+    * 臨時轉換  
+        ```php
+        // 除了 source 型別，其他都可以轉換
+        $a = 123;
+        $a = (string)$a;
+        $a = (float)$a;
+        ```
+    * 使用函數臨時轉換
+        ```php
+        $a = 123;
+        $a = intval($a);
+        $a = string($a);
+        ```
+    * 永久轉換
+        ```php
+        $a = 123;
+        settype($a, 'string');
+        settype($a, 'array');
+        ```
 
 
+
+<br/>
 
 # 變數
 * 以 dollar sign 為開頭
@@ -70,14 +110,14 @@ echo $name2;         // abc\nabc
 3. Pascal；單字字首皆大寫，C#
 
 <hr>
-<br>
+<br/>
 
 
 # 字串
 * 英文字母為 1字元
 * 中文為 3字元
 
-<br>
+<br/>
 
 ### 串聯運算子
 . 可把字串或變數相加
@@ -117,8 +157,7 @@ unset($a);  // 只剩下 $b = 15;
 ```
 
 
-<hr>
-<br>
+<br/>
 
 # 數字
 ### 整數型態
@@ -182,7 +221,7 @@ $b = false;
 echo $b;                    // false 不會有返回值
 ```
 
-<br>
+<br/>
 
 # $_GET, $_POST
 * 為全域變數，在 function 內外都可以呼叫
@@ -217,7 +256,7 @@ echo $b;                    // false 不會有返回值
 * 全域變數都會儲存在此 array
 
 
-<br>
+<br/>
 
 # Array 
 ### 陣列宣告
@@ -310,4 +349,72 @@ array_splice($array1, 1, 0, );
 // array_values() 重新排序 index 
 // 需要回傳
 $array1 = array_values($array1);
+```
+
+<br/>
+
+# 常數 const
+* 以全大寫命名
+* 常數宣告後，不可再進行變動
+* 與全域變數差別是，全域變數可以更動值，但常數不行
+* 可以宣告為 int, float, string, array
+* 只能透過 class::const 來呼叫
+## const 宣告 常數(常數為全域變數)
+```php
+// 宣告常數 通常為大寫
+const ABC = "ABCABCABC<br/>";
+
+// 常數無法放在字串中使用
+echo "{ABC}";       // {ABC}
+echo ABC;           // ABCABCABC
+```
+
+## define()
+* 參數1 要放字串，參數2 型別可以為 int, float, string, array
+```php
+// 宣告常數
+define("CONSTANT", "Hello world.");
+echo CONSTANT;      // Hello world.
+
+
+// 可以宣告為 array，只能用在 PHP 7 以上
+define('ANIMALS', array(
+    'dog',
+    'cat',
+    'bird'
+));
+
+echo ANIMALS[1];    // cat
+```
+
+### const 和 define()
+* PHP 兩者作用很類似，常界定模糊
+* const 用在 class 中設定常數
+* define 用在設定檔中
+
+<br/>
+
+## 檢查常數是否被使用
+```php
+const A = "APPLE";
+
+var_dump(defined("A"));     // bool(true)
+```
+
+## 魔術常數 (magic constants)
+```php
+// 當前行數
+__LINE__
+
+// 文件完整路徑
+__FILE__
+
+// 當前目錄
+__DIR__
+
+// 當前函式
+__FUNCTION__
+
+// 當前類別
+__CLASS__
 ```

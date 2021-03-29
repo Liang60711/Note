@@ -7,10 +7,10 @@
     * 屬性必須加上可視性(visibility)；方法則不一定要加，預設為 public。
 
 2. 可視性(visibility)
-    * 分為3種 public protect private。
+    * 分為3種 public protected private。
     * 可視性用來決定有關成員(member)的存取權限。
-    * public 可以從物件外部被存取，但是 protect、private 兩者都不行。
-    * public 和 protect 的成員都會在繼承的時候繼承到子類別，而 private 則不會。
+    * public 可以從物件外部被存取，但是 protected、private 兩者都不行。
+    * public 和 protected 的成員都會在繼承的時候繼承到子類別，而 private 則不會。
 
 3. 靜態/非靜態(static/non-static)
     * 使用 static 關鍵字的為靜態，(除了const的成員以外)，其餘為非靜態。
@@ -97,6 +97,23 @@ Person::getName($s);                    // 安安
 * staitc 所佔用的記憶體會在程式結束後釋放。
 * 宣告 static 的 屬性、方法、變數都會共用記憶體。
 * 一對冒號 :: 稱為 Scope Resolution Operator 用於呼叫 class 的 static 和 const；或是類別間的呼叫。
+* 舉例，A、B、C三個網站都在賣同一場演唱會的票，因此票數需要統一個變數 (static) 讓各網站去扣，不能分開計算。
+
+```php
+class Person {
+    // 屬性
+    public static $age = 29;
+
+    // 方法
+    public static function getAge(){
+        return self::$age;
+    }
+}
+
+// static 呼叫 (可以不用建立實體)
+echo Person::$age; 
+echo Person::getAge();
+```
 
 <br/>
 
@@ -127,3 +144,91 @@ echo Demo::BR_TAG;
 * 好處是可以覆蓋舊方法，而不影響舊 class。
 
 <br/>
+
+
+## final
+* 使用在 class 或 class中的方法(method)。
+* 若使用在 class 中，該 class 無法被繼承。
+* 若使用在方法中，該方法無法被 Override。
+
+```php
+// 方法無法被 override
+
+class Base {
+   final public function testing() {
+       echo "Base";
+   }
+}
+
+class Child extends Base{
+   public function testing() {
+       echo "Child";
+   }
+}
+// 會報錯
+```
+```php
+// class 無法被繼承
+
+final class BaseClass {
+   public function test() {
+       echo "Base";
+   }
+}
+
+class ChildClass extends BaseClass {
+}
+// 會報錯
+```
+
+<br/>
+
+## 常見 class 函式
+### is_a() 檢查類別
+```php
+class A{
+
+}
+class B extends A{
+
+}
+$a = new A();
+$b = new B();
+
+// is_a($object, class)
+var_dump(is_a($b, "A"));        // bool(true)
+var_dump(is_a($b, "B"));        // bool(true)
+```
+
+### get_class() 返回類別名稱
+```php
+class A{
+
+}
+class B extends A{
+
+}
+$a = new A();
+$b = new B();
+
+
+// get_class($object)
+echo get_class($a);             // A
+```
+
+### get_parent_class() 返回父類別名稱
+```php
+class A{
+
+}
+class B extends A{
+
+}
+$a = new A();
+$b = new B();
+
+
+// get_parent_class($object)
+var_dump(get_parent_class($a));      // bool(false)
+echo get_parent_class($b);           // A
+```

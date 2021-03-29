@@ -1,4 +1,12 @@
 # 數值運算
+### 連接符
+```php
+$a = "hello ";
+$b = "world";
+
+echo $a . $b;           // hello world
+```
+
 ### 四則運算範例
 ```php
 // 秒 換算成 小時:分鐘:秒
@@ -18,7 +26,45 @@ echo $total_seconds . "秒" . " 等於 " . $hour. "小時" .$minute. "分" .$sec
 var_dump("1" + "2");        // int(3)
 ```
 
-<br>
+### 錯誤抑制符
+```php
+// @符號可以隱藏 error
+
+$var = 1;
+
+// error1
+@set_type($var, "123");     // 沒有123這個 type，隱藏報錯
+
+// error2
+@(3/0)                      // 隱藏括號內運算報錯
+```
+
+
+### 簡寫
+支援 加減乘除、取餘數、連接符
+```php
+$a = 1;
+
+echo $a .= 9;               // 19
+echo $a %= 9;               // 1
+```
+
+### 簡易驗證碼
+```php
+// mt_rand() 函式
+
+$str = "請輸入驗證碼: ";
+$str .= '<span style="color: rgb(
+    '.mt_rand(0, 255).', 
+    '.mt_rand(0, 255).', 
+    '.mt_rand(0, 255).');">'.mt_rand(1000, 9999).'</span>';
+
+echo $str;
+```
+
+
+
+<br/>
 
 # 比較運算 邏輯運算
 
@@ -136,7 +182,7 @@ echo $result;
 // 0
 ```
 
-<br>
+<br/>
 
 ### 三元運算子
 ```php
@@ -155,7 +201,7 @@ if ($result == true){
 echo ($result == true) ?  "true" :  "false";
 ```
 
-<br>
+<br/>
 
 ### switch case
 1. 記得每個 case 都要 break，否則會繼續執行程式到下一個 break
@@ -214,7 +260,7 @@ $flag = true;
 
 while($flag){
     echo "HI";
-    echo "<br>";
+    echo "<br/>";
 
     $count += 1;
     $flag = ($count != 10);
@@ -231,7 +277,7 @@ while($flag){
 $count = 0;
 while($count != 10){
     echo "HI";
-    echo "<br>";
+    echo "<br/>";
     $count --;      // -- 為減1
 }
 
@@ -241,7 +287,7 @@ while($count != 10){
 $count = 10;
 while($count --){
     echo "HI";
-    echo "<br>";    
+    echo "<br/>";    
 };
 
 
@@ -257,7 +303,7 @@ $array = ["A", "B", "C"];
 $count = count($array);         // count() 可回傳 $array 長度
 while($count--){
     echo $array[$count];
-    echo "<br>";    
+    echo "<br/>";    
 };
 
 // 會印相反
@@ -274,7 +320,7 @@ $index = 0;
 
 while($count --){
     echo $array[$index];        // 改成 index
-    echo "<br>";
+    echo "<br/>";
     $index += 1;
 }
 
@@ -292,7 +338,7 @@ $index = 0;
 
 do{
     echo $array[$index];
-    echo "<br>";
+    echo "<br/>";
     $index += 1;
 }while(--$count)        // --放前面
 
@@ -309,7 +355,7 @@ $count = count($array);
 $index = 0;
 
 while($index < $count){
-    echo $array[$index] . "<br>";
+    echo $array[$index] . "<br/>";
     $index ++;
 }
 
@@ -320,19 +366,19 @@ while($index < $count){
 // for(  ; true ;  )   第三個區塊為每個迴圈都會做的事
 
 for($i=0; $i<count($array); $i++){
-    echo $array[$i] . "<br>";
+    echo $array[$i] . "<br/>";
 };
 
 
 // foreach 寫法
 foreach($array as $a){
-    echo $a . "<br>";
+    echo $a . "<br/>";
 };
 
 // foreach 寫法
 // $key $value
 foreach($array as $key => $value){
-    echo $key . "=>" . $value . "<br>";
+    echo $key . "=>" . $value . "<br/>";
 }
 ```
 
