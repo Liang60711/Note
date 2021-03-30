@@ -89,9 +89,9 @@ extension=php_pdo_mysql.so
 ## 建立專案-用composer
 1. 使用 composer 建立專案
     ```
-    // * 為指定最大版本號
-    $ composer create-project --prefer-dist laravel/laravel:^7.* <project_name>
+    // * 為指定最大版本號 (version 8.x)
+	$ composer create-project --prefer-dist laravel/laravel <project_name> "8.*"
 
-    // 也可以直接指定版本號
+    // 也可以直接指定版本號 (version 7.x)
         $ composer create-project --prefer-dist laravel/laravel:^7.0 <project_name>
     ```
