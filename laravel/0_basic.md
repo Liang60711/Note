@@ -64,6 +64,61 @@ app.blade.php
 </p>
 ```
 
+### 讀取靜態內容(css, js, img)
+```php
+// page.blade.php
+// asset 函數可以抓取 public 中的靜態檔案
+
+<img src="{{ asset('images/image.jpg') }}">
+```
+```php
+// controller.php 中可以抓取
+
+class homeController extends Controller
+{	
+    function show()
+    {
+		$imageUrl = asset('images/image.jpg');
+
+        return view('layouts/show',[
+            'imageUrl' => $imageUrl,
+        ]);
+    }
+}
+```
+多圖片可以使用二維 array
+```php
+// controller.php
+
+class homeController extends Controller
+{	
+    function show()
+    {
+		$products = 
+		[
+			[
+				"imageUrl" => asset("images/image1.jpg")
+			],
+			[
+				"imageUrl" => asset("images/image2.jpg")
+			]
+		]
+		
+		$product = $products[0];
+
+        return view('layouts/show',[
+            'product' => $product,
+        ]);
+    }
+}
+```
+```hmtl
+// product.blade.php
+
+<img src="{{ $product["imageUrl"] }}">
+```
+
+
 <br/>
 
 # controller
@@ -76,7 +131,7 @@ controller 位置: root_dir/app/Http/Controllers/
 $ php artisan make:controller <controller_name>
 ```
 
-### 2.controller 傳遞參數
+### 2.controller URL傳遞參數
 ```php
 // homeController.php
 
@@ -120,3 +175,4 @@ Route::get('/home', [homeController::class, 'home']);
 	{{ $key1 }}
 </p>
 ```
+
