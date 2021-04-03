@@ -6,6 +6,32 @@ $ composer create-project --prefer-dist laravel/laravel <project_name> "8.*"
 
 <br/>
 
+# Route 路由
+基本語法
+```php
+Route::http_method($url, $callback);
+
+// 舉例
+Route::get('/', function () {
+    return view('welcome');
+});
+```
+
+寫在 routes/web.php 檔案中
+```php
+// routes/web.php
+
+use use App\Http\Controllers\homeController;
+
+Route::get(
+    '/home/{id}', 
+    [homeController::class, 'home']
+);
+```
+
+
+<br/>
+
 
 # blade 模板
 blade templates 的位置:  root_dir/public/views/
@@ -65,14 +91,15 @@ app.blade.php
 ```
 
 ### 讀取靜態內容(css, js, img)
-```php
-// page.blade.php
+```html
+// 可以直接在 blade 模板中抓取，但通常會寫在 controller 中
 // asset 函數可以抓取 public 中的靜態檔案
 
 <img src="{{ asset('images/image.jpg') }}">
 ```
+在 Controller 中抓取
 ```php
-// controller.php 中可以抓取
+// controller.php
 
 class homeController extends Controller
 {	
@@ -116,6 +143,59 @@ class homeController extends Controller
 // product.blade.php
 
 <img src="{{ $product["imageUrl"] }}">
+```
+
+### 呈上，在 URL 中加入 ID 讀取圖片
+* Route 中加入 url/{id} 可以建立 id
+* 需要限制 url 格式 (使用 regex)，[參考](https://laravel.com/docs/8.x/routing#parameters-regular-expression-constraints)
+* 需要限制 id 的範圍 (使用 if else)
+```php
+// web.php
+use App\Http\Controllers\homeController;
+
+Route::get(
+	'products/{id}',
+    [homeController::class, 'home']
+)->where(['id' => '[0-9]+']);		// regex
+```
+```php
+// homeController
+class homeController extends Controller
+{	
+	// 多一個參數 $id
+	function home(Request $request, $id)
+    {
+        // 產品 array；array 的 index 即為 Route 的 id 
+        $products = [
+            [
+                "imageUrl" => asset("images/iphone.jpg")
+            ],
+            [
+                "imageUrl" => asset("images/macbook.jpg")
+            ],
+        ];
+
+		// $id 從U，會自動轉型
+		$id = intval($id);
+        $index = $id -1;
+        
+        // exception
+        if ($index < 0 || $index >= count($products)){
+            abort(404);
+        }
+        // else
+        $product = $products[$index];
+            return view("layouts/home", [
+            "product" => $product
+        ]);
+    }
+}
+```
+
+```html
+// home.blae.php
+
+<img src="{{ $product['imageUrl'] }}" width=400 alt="oops">
 ```
 
 
