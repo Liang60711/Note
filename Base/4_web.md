@@ -44,3 +44,52 @@
 # Cache
 Cache: 為了增加處理速度跟效率，server 會將一些 request 的內容儲存在某個地方，通常這地方稱做為 Cache，之後如果有 Request 想要同樣的內容，就直接傳送給它。
 （這樣 server 就不用每次都根據 rquest 去 DB 或其它地方收集資訊再 Response）
+
+<br/>
+
+# Http methods
+### 共有以下 8 種方法，方法基本上都是大寫，前5種比較常見
+* GET：查詢 (Read)。
+* POST：新增 (Create)。
+* PUT：完整更新 (Update/Replace)。
+* PATCH：部分更新 (Partial Update/Modify)。
+* DELETE：刪除 (Delte)。
+* HEAD：同GET，但 response 中不回傳主體 (response body)，用來測試連線或更新cache。
+* TRACE：迴路返回測試。
+* OPTIONS：跨來源資源共用 (CORS)。
+
+<br/>
+
+### 8種方法，分為 safe、idempotent 兩類
+
+**Safe Methods**:  
+client 的請求僅限於讀取 (read-only)，且不改變 server 的狀態，此方法則為Safe Methods。
+
+**Idempotent Methods**:  
+client 發出一次或多次同樣的請求對 server 以及資源狀態(資料庫中的資料)的影響結果不變，此方法為 Idempotent Methods。就算同樣的請求即使不小心送了兩次，也不用擔心對 server 造成影響。目的是請求失敗可以自動重送而不用擔心造成不同的結果。
+
+<br/>
+
+| Method  | Safe | Idempotent |
+|--|:--:|:--:|
+| GET     | yes | yes |
+| POST    | no  | no  |
+| PUT     | no  | yes |
+| PATCH   | no  | no  |
+| DELETE  | no  | yes |
+| HEAD    | yes | yes |
+| CONNECT | no  | no  |
+| TRACE   | yes | yes |
+| OPTIONS | yes | yes |
+
+<br/>
+
+### PUT 和 PATCH 差別
+* PUT 是完整更新資料，將舊資料全部取出並更新。若要修改會員的電話號碼，會先取出原有的會員資料，修改了電話號碼然後送出請求更新。因此請求不管一次或多次結果都相同，屬於 Idempotent Methods。
+* PATCH (義同:補丁) 與 PUT 不同在於 PATCH 不會將舊資料全部取出修改後再送回，而僅送出要修改部分的參數。
+* 以修改會員資料為例，使用 PUT 會把會員資料重頭到尾再填一次後更新；PATCH 只需要修改需要更新的欄位。
+
+
+### Safe methods 的例外
+* 基本上 GET 不會去改變資源狀態，但**觀看人數**會被 GET 所改變，因此為例外。
+* 通常不用太鑽牛角尖去限制 GET 一定要符合 Safe Methods，實務上不會太去在意。
