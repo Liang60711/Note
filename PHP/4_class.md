@@ -9,8 +9,9 @@
 2. 可視性(visibility)
     * 分為3種 public protected private。
     * 可視性用來決定有關成員(member)的存取權限。
-    * public 可以從物件外部被存取，但是 protected、private 兩者都不行。
-    * public 和 protected 的成員都會在繼承的時候繼承到子類別，而 private 則不會。
+    * public 可以使用在原 class、繼承的 class、建立的物件中。
+	* protected 可以使用在原 class、繼承的 class 中。
+    * private 只可以使用在原 class 中。
 
 3. 靜態/非靜態(static/non-static)
     * 使用 static 關鍵字的為靜態，(除了const的成員以外)，其餘為非靜態。

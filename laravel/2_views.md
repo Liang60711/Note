@@ -1,42 +1,8 @@
-# 建立專案
-需要先安裝 composer
-```
-$ composer create-project --prefer-dist laravel/laravel <project_name> "8.*"
-```
-
-<br/>
-
-# Route 路由
-基本語法
-```php
-Route::http_method($url, $callback);
-
-// 舉例
-Route::get('/', function () {
-    return view('welcome');
-});
-```
-
-寫在 routes/web.php 檔案中
-```php
-// routes/web.php
-
-use use App\Http\Controllers\homeController;
-
-Route::get(
-    '/home/{id}', 
-    [homeController::class, 'home']
-);
-```
-
-
-<br/>
-
-
 # blade 模板
 blade templates 的位置:  root_dir/public/views/
 
 <br/>
+
 
 ### extends 繼承
 ```php
@@ -45,11 +11,41 @@ blade templates 的位置:  root_dir/public/views/
 @extends('layouts.app')
 ```
 
-### include
+
+### @yield
+自定義(挖洞)一個區塊給子模板使用，如果子樣板未定義，就不會顯示任何內容。
+```html
+<!-- base.blade.php -->
+<title> @yield('title')  </title>
+
+<main>
+    @yield('main')
+</main>
+```
+子樣板需要繼承 base.blade.php
+```html
+<!-- inherit.blade.php -->
+<!-- 1.繼承父模板 -->
+@extends('base')
+
+
+<!-- 2.使用@section填入 -->
+<!-- title 不用 endsection -->
+@section('title', 'good websites')  
+
+@section('main')
+    <!-- code -->
+@endsection
+```
+
+
+### @include
+將已寫好模板嵌入進此區塊
 ```php
 @include('layouts.nav')
 ```
 
+### blade 模板
 如果要使用 php 官方提供另外一種方式
 ```php
 // 原本的方式，也會過
@@ -198,8 +194,6 @@ class homeController extends Controller
 <img src="{{ $product['imageUrl'] }}" width=400 alt="oops">
 ```
 
-
 <br/>
-
 
 
