@@ -73,11 +73,11 @@ Route::resource('photos', PhotoController::class);
 |Verb|URI|Action|Route Name|
 |--|--|--|--|
 |GET|/photos|index|photos.index|
-|GET|/photos/create|create|photos.create|
-|POST|/photos|store|photos.store|
 |GET|/photos/{photo}|show|photos.show|
+|GET|/photos/create|create|photos.create|
 |GET|/photos/{photo}/edit|edit|photos.edit|
 |PUT/PATCH|/photos/{photo}|update|photos.update|
+|POST|/photos|store|photos.store|
 |DELETE|/photos/{photo}|destroy|photos.destroy|
 
 <hr/>
@@ -169,4 +169,176 @@ class productsController extends Controller
 
 Route::resource('products', productsController::class);
 ```
-			
+
+<br/>
+
+<br/>
+
+# Resource Controller 寫法
+
+```php
+private function getProducts()
+{
+    return [
+        [
+            "id" => 1,
+            "imageUrl" => asset("images/iphone.jpg")
+        ],
+        [
+            "id" => 2,
+            "imageUrl" => asset("images/macbook.jpg")
+        ],
+    ];
+}
+```
+
+
+## 1. index
+* 變數給二維 array 再去 template 中用迴圈拉出資料
+```php
+public function index()
+{
+    $products = $this->getProducts();
+    return view('layouts/index', [
+        'products' => $products
+    ]);
+}
+```
+
+## 2. show 
+* 變數給 array
+```php
+public function show()
+{
+    settype($id, 'integer');
+    $index = $id - 1;
+    $products = $this->getProducts();
+
+    // $index 超過範圍就給404
+    if ($index < 0 || $index >= count($products)){
+        abort(404);
+    }
+
+    $product = $products[$index];
+    return view('layouts/product', ['product' => $product]);
+}
+```
+## 3. create
+* 不用傳遞變數
+* action 給 route('products.store') 需加上 @csrf
+```php
+// productsController.php
+return view('layouts/create');
+```
+```html
+<!-- create.blade.php -->
+
+<form method="POST" action="{{ route('products.store') }}">
+    <!--  -->
+    @csrf
+    <input type="text" name="title">
+    <button type="submit">Submit</button>
+</form>
+```
+
+## 4.edit
+* controller 中基本上與 show 相同。
+* 在 blade 中，action 給 route('products.update', 參數)。
+* 在 blade 中，form method 還是用 POST，但是需加上 @method('PATCH')，並不是直接改 form method。
+```php
+public function edit($id)
+{   
+    settype($id, 'integer');
+    $index = $id - 1;
+    $products = $this->getProducts();
+
+    if ($index < 0 || $index >= count($products)){
+        abort(404);
+    }
+    $product = $products[$index];
+    return view('layouts/edit', ['products' => $products]);
+}
+```
+```html
+<!-- edit.blade.php -->
+
+<form method="POST" action="{{ route('products.update', ['product' => $product['id']]) }}">
+    @csrf
+    <!-- 使用 PATCH 或 PUT 都可以 -->
+    @method('PATCH')
+    <input type="text" name="title">
+    <button type="submit">Submit</button>
+</form>
+```
+@method('PATCH')
+```html
+<!-- 兩者等價，其實可以自己打 -->
+
+@method('PATCH')
+
+<input type="hidden" name="_method" value="PATCH">
+```
+
+
+## 5. store
+* create 和 edit 都會 action 給 store
+* edit 頁面使用 PATCH/PUT 傳遞到 route(products.store)
+* 通常會將 form 儲存給 SQL
+
+## 6. update
+* 可以使用 $request->method() 方法來檢查
+```php
+public function update(Request $request, $id)
+{
+    echo "update!";
+    $method = $request->method();
+    echo $method;
+}
+```
+## 7. destroy
+* 將資料刪除，Route name 為 products.destroy 非 products.delete
+```php
+public function destroy($id)
+{
+    // code
+}
+```
+```html
+<!-- index.blade.php -->
+
+@foreach($products as $product)
+<form action="{{ route('products.destroy', ['product' => $product['id']]) }}" method="POST">
+    @csrf
+    <!-- 方法用 DELETE -->
+    @method('DELETE')
+    <button type="submit">Delete</button>
+</form>
+@endforeach
+```
+
+<br/>
+
+<br/>
+
+# 重新導向 redirect
+### 使用 redirect 函數
+```php
+public function update($id)
+{   
+    settype($id, 'integer');
+    $index = $id - 1;
+    $products = $this->getProducts();
+
+    if ($index < 0 || $index >= count($products)){
+        abort(404);
+    }
+    $product = $products[$index];
+
+    // 導回首頁(無參數)
+    return redirect()->route('product.index');
+
+    // 導回 edit 頁面(有參數)
+    return redirect()->route('product.edit', ['product' => $product['id']]);
+}
+```
+
