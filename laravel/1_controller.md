@@ -75,9 +75,9 @@ Route::resource('photos', PhotoController::class);
 |GET|/photos|index|photos.index|
 |GET|/photos/{photo}|show|photos.show|
 |GET|/photos/create|create|photos.create|
+|POST|/photos|store|photos.store|
 |GET|/photos/{photo}/edit|edit|photos.edit|
 |PUT/PATCH|/photos/{photo}|update|photos.update|
-|POST|/photos|store|photos.store|
 |DELETE|/photos/{photo}|destroy|photos.destroy|
 
 <hr/>
@@ -133,9 +133,6 @@ class productsController extends Controller
             ],
         ];
     }
-
-    // index.blade 給 二維陣列
-    // product.blade 給 一維陣列
 
 
     public function index()
@@ -206,7 +203,7 @@ public function index()
 ```
 
 ## 2. show 
-* 變數給 array
+* 變數給一維 array
 ```php
 public function show()
 {
@@ -225,6 +222,7 @@ public function show()
 ```
 ## 3. create
 * 不用傳遞變數
+* create 用 GET，store 用 POST
 * action 給 route('products.store') 需加上 @csrf
 ```php
 // productsController.php
@@ -234,7 +232,6 @@ return view('layouts/create');
 <!-- create.blade.php -->
 
 <form method="POST" action="{{ route('products.store') }}">
-    <!--  -->
     @csrf
     <input type="text" name="title">
     <button type="submit">Submit</button>
@@ -242,7 +239,7 @@ return view('layouts/create');
 ```
 
 ## 4.edit
-* controller 中基本上與 show 相同。
+* edit 用 GET，update 用 PATCH/PUT
 * 在 blade 中，action 給 route('products.update', 參數)。
 * 在 blade 中，form method 還是用 POST，但是需加上 @method('PATCH')，並不是直接改 form method。
 ```php
@@ -256,7 +253,7 @@ public function edit($id)
         abort(404);
     }
     $product = $products[$index];
-    return view('layouts/edit', ['products' => $products]);
+    return view('layouts/edit', ['product' => $product]);
 }
 ```
 ```html
@@ -281,12 +278,14 @@ public function edit($id)
 
 
 ## 5. store
-* create 和 edit 都會 action 給 store
+* create 會 action 給 store
 * edit 頁面使用 PATCH/PUT 傳遞到 route(products.store)
 * 通常會將 form 儲存給 SQL
 
 ## 6. update
+* edit 會 action 給 update
 * 可以使用 $request->method() 方法來檢查
+* 通常會將 form 更新給 SQL
 ```php
 public function update(Request $request, $id)
 {
@@ -307,7 +306,7 @@ public function destroy($id)
 <!-- index.blade.php -->
 
 @foreach($products as $product)
-<form action="{{ route('products.destroy', ['product' => $product['id']]) }}" method="POST">
+<form  method="POST" action="{{ route('products.destroy', ['product' => $product['id']]) }}">
     @csrf
     <!-- 方法用 DELETE -->
     @method('DELETE')
