@@ -11,9 +11,15 @@ blade templates 的位置:  root_dir/public/views/
 @extends('layouts.app')
 ```
 
+### @yield 和 @section
+* @yield 負責**顯示**區塊中的內容
+* @section 負責**定義**區塊中的內容
+* 如果只有使用 @section 定義，但未使用 @yield 顯示，則不會顯示定義內容
+
+<br/>
 
 ### @yield
-自定義(挖洞)一個區塊給子模板使用，如果子樣板未定義，就不會顯示任何內容。
+顯示一個子模板定義的區塊，如果子樣板未定義(未寫@section)，則會顯示空白。
 ```html
 <!-- base.blade.php -->
 <title> @yield('title')  </title>
@@ -38,6 +44,36 @@ blade templates 的位置:  root_dir/public/views/
 @endsection
 ```
 
+### @section('content'), @show, @parent
+* 與 @yield 用法類似，但可以多一個預設值
+* 因為 @section 只有定義功能，沒有顯示功能，所以需要加上 @show
+```php
+// base.blade.php
+
+@section('content')
+	預設值
+@show
+```
+這邊 @show 的意思為 @endsection 加上 @yield 顯示區塊
+```php
+// 與上方等價
+@section('content')
+    預設值
+@endsection
+@yield('content')
+```
+@parent 作用為，可以將原模板的預設值帶入子模板
+```php
+// inherit.blade.php
+
+@section('extra_js')
+    @parent
+    // code
+@endsection
+```
+
+
+<hr/>
 
 ### @include
 將已寫好模板嵌入進此區塊
