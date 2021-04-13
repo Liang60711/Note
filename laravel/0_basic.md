@@ -1,8 +1,49 @@
 # 建立專案
-需要先安裝 composer
+使用 composer 安裝
 ```
 $ composer create-project --prefer-dist laravel/laravel <project_name> "8.*"
 ```
+或是使用 installer 安裝
+```
+$ laravel new <project_name>
+```
+
+<br/>
+
+# 本地端開啟 Application
+預設的 port 號為 8000
+```
+$ php artisan serve
+```
+也可以指定 port 號，如果有其他程序佔用同一個 port 號為
+```
+$ php artisan serve --port=8081
+```
+<br/>
+
+# 幾個好用的 VSCode 外掛
+### 有關 Laravel:  
+|No.|Extension Name|Function|
+|--|--|--|
+|1|Laravel artisan|可以輸入額外 artisan 指令，或快捷鍵|
+|2|Laravel snippets|自動輸入 laravel 語法 (基本syntax)|
+|3|Laravel Extra Intellisense|自動輸入 laravel 語法 (多半為變數、views、route name、參數)|
+|4|Laravel Blade snippets|支援 Blade 模板 highlight|
+|5|Laravel Blade Spacer|支援 Blade 模板 自動完成下引號、括號|
+|6|Laravel goto view|支援點選 view 切換視窗|
+|7|Live Sass Compiler|webpack.mix 自動跑 npm run watch|
+|8|Live Server|安裝 Live Sass Compiler 後會自動安裝|
+
+<br/>
+
+### 與 UI 相關: 
+|No.|Extension Name|Function|
+|--|--|--|
+|1|Bracket Pair Colorizer|括號自動上色|
+|2|JavaScript (ES6) code snippets|JS ES6 syntax|
+|3|VSCode great icon|棒棒的 Icon|
+
+<br/>
 
 <br/>
 

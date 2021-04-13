@@ -131,20 +131,27 @@ mix.copy('node_modules/foo/bar.css', 'public/css/bar.css');
 ```
 ### 複製目錄
 ```javascript
-mix.copy('resources/img', 'public/img');
+mix.copyDirectory('resources/img', 'public/img');
 ```
 
 <br/>
 
 ## 網址 Url Processing
-Url 從 resources 目錄被複製到 public 中，會自動添加 ? 加上一些字母，防止 cache 以為是同一個檔案，不會即時更新。
+(只限 style sheet 中) Url 從 resources 目錄被複製到 public 中，會自動添加 ?hash，防止 cache 以為是同一個檔案，並即時更新。
 ```scss
+// public/css/app.css
 .example {
     background: url(/images/example.png?d41d8cd98f00b204e9800998ecf8427e);
 }
 ```
 如果正在開發的話，也可以至瀏覽器中關閉 Cache:  
 * F12 >> Network >> Disable cache
+
+如果是使用絕對路徑 或 根目錄的形式，則不會加入 hash
+```php
+url('/images/thing.png')
+url('http://example.com/images/thing.png')
+```
 
 <br/>
 
@@ -180,3 +187,43 @@ webpack.mix 設定
 mix.js('resources/js/app.jsx', 'public/js')
    .react();
 ```
+
+<br/>
+
+## 使用完整 URL (加入 Domain)
+* 目的: 使用外部連結，並不是全部連結都是同一個 Domain
+1. 至 config/app.php，輸入
+
+    ```php
+    // 第二個參數為 default (MIX_ASSET_URL 找不到就為 null)
+    'mix_url' => env('MIX_ASSET_URL', null),
+    ```
+
+2. 至 .env 輸入
+
+    ```
+    MIX_ASSET_URL=http://localhost:8000
+    ```
+
+<br/>
+
+## 加入 version() 函數
+* 目的: 將網址加入版號，防止 Cache 不更新。
+* 範圍: javascript 和 css 的路徑都可以使用。
+1. webpack.mix 加入 version() 函數。
+    
+    ```javascript
+    mix.js('resources/js/app.js', 'public/js')
+    .version();
+    ```
+
+2. blade 模板中，使用 mix() 函數。
+
+    ```php
+    // css
+    <link rel="stylesheet" href={{ mix("/css/app.css") }}>
+
+
+    // js
+    <script src="{{ mix('/js/app.js') }}"></script>
+    ```
