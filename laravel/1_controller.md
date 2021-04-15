@@ -66,7 +66,7 @@ $ php artisan make:controller <Controller_name> --resource
 use App\Http\Controllers\PhotoController;
 
 // Route::resource(name, class)
-// name 會直接設定 URI
+// name 會直接設定 URI，記得加 s
 Route::resource('photos', PhotoController::class);
 ```
 ### 產生以下 7 個路由
