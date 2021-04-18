@@ -1,7 +1,7 @@
 # Route 路由
 ### 基本語法
 ```php
-Route::http_method($url, $callback);
+Route::<http_method>($url, $callback);
 
 // 使用 view 函數
 Route::get('/', function () {
@@ -43,15 +43,44 @@ Route::get('products', 'App\Http\Controllers\productsController@show')
 ```php
 // web.php
 
-use use App\Http\Controllers\homeController;
+use use App\Http\Controllers\productsController;
 
-Route::get(
-    '/home/{id}', 
-    [homeController::class, 'home']
-);
+// 參數為 integer
+Route::get('/products/{id}', [productsController::class, 'show'])->where('id', '[\d]+');    // 使用 regex 限制 Url，若在條件之外則給 404
 
-// 與使用 Controller 無異，但在 Controller function 中需要加入參數 $id
+// 參數為 string
+Route::get('/products/{name}', [productsController::class, 'show'])->where('name', '[a-zA-Z]+');
+
+// 參數有 integer 和 string
+Route::get('/products/{name}/{id}', [productsController::class, 'show'])->where([
+    'name' => '[a-z]+',
+    'id' => '[0-9]+'
+]);
+
 ```
+controller 中需要加入參數
+```php
+// controller.php
+public function show($id) {
+        $data = [
+            1 => 'iphone',
+            2 => 'samsung'
+        ];
+        
+        return view('products.show', [
+            'product' => $data[$id] ?? 'product ' . $name . ' doesn\'t exist.'
+        ]);
+    }
+```
+使用 ?? 符號，若 ?? 前面的變數為 Null 時，返回 ?? 後面的值，可疊加使用。
+```php
+// $a 未定義
+echo $a ?? 1 ?? 2;      // 1
+
+// $a $b 未定義
+echo $a ?? $b ?? 3;     // 3
+```
+
 ### 使用 Resource Controller
 ```php
 // web.php

@@ -1,5 +1,5 @@
 # blade 模板
-blade templates 的位置:  root_dir/public/views/
+blade templates 的位置:  root_dir/resources/views/
 
 <br/>
 
@@ -73,7 +73,7 @@ blade templates 的位置:  root_dir/public/views/
 ```
 
 
-<hr/>
+<br/>
 
 ### @include
 將已寫好模板嵌入進此區塊
@@ -94,9 +94,61 @@ blade templates 的位置:  root_dir/public/views/
 	// code
 @endphp
 ```
+
 <br/>
 
-### 透過 URL 傳遞參數
+<br/>
+
+### 傳遞 data 給 view 的三種方法
+1. 使用 compact() 函式
+2. 使用 with 
+3. 使用 array
+
+    ```php
+    // ProductsController.php
+
+    namespace App\Http\Controllers;
+
+    use Illuminate\Http\Request;
+
+    class productsController extends Controller
+    {
+        public function index(){
+            $title = 'Laravel 8';
+            $description = 'php framework';
+            
+            // 以下三選一
+            // 1.compact 函式(可使用多個變數)
+            return view('products.index', compact('title', 'description'));
+
+            // 2. with 只能傳遞一個變數
+            return view('products.index')->with('title', $title);
+
+            // 3. array
+            $data = [
+                'title' => $title,
+                'description' => $description
+            ]
+            return view('products.index', $data);
+
+            // 4. array 若使用 foreach
+            $data = [
+                'title' => $title,
+                'description' => $description
+            ]
+            return view('test', ['data' => $data]);
+            
+        }
+    }
+    ```
+2. 使用 array
+
+
+<br/>
+
+<br/>
+
+### 透過 URL 傳遞參數給 view
 URL 的傳遞參數以 ? 開頭，之後放 key=value，例如
 ```
 localhost:8000/app?key=value
@@ -121,6 +173,11 @@ app.blade.php
 	傳遞的參數為: {{ $var }}
 </p>
 ```
+
+<br/>
+
+<br/>
+
 
 ### 讀取靜態內容(css, js, img)
 ```html
