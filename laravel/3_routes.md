@@ -80,6 +80,57 @@ echo $a ?? 1 ?? 2;      // 1
 // $a $b 未定義
 echo $a ?? $b ?? 3;     // 3
 ```
+<br/>
+
+### Route Name
+可將 route 命名，達到好管理的目的；而命名的變數為**全域變數**
+```php
+// route.php
+
+// 使用 name 屬性命名
+Route::get('/products', [productsController::class, 'show'])->name('show');
+```
+可在 blade 和 controller 中使用 route() 函數呼叫
+```php
+// blade.php
+<a href="{{ route('test') }}">123</a>
+
+// controller.php
+public function newPage()
+{
+    return redirect()->route('products.index');
+}
+```
+
+### URL() 函式
+可被用於應用程式的任何一個 URL。顯示完整 URL (包含 protocol 和 domain)。
+```php
+$post = App\Post::find(1);
+
+echo url("/posts/{$post->id}");
+
+// 輸出 http://example.com/posts/1
+```
+
+<br/>
+
+### Route 函式
+可被用於產生 URL 到被命名的路由。也會顯示完整 URL (包含 protocol 和 domain)。
+```php
+// web.php
+
+Route::get('/post/{post}', function () {
+    //
+})->name('post.show');
+```
+```php
+// controller
+echo route('post.show', ['post' => 1]);
+
+// 輸出 http://example.com/post/1
+```
+
+<br/>
 
 ### 使用 Resource Controller
 ```php

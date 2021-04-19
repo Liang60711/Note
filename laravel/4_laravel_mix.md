@@ -4,8 +4,8 @@
 
 <br/>
 
-## 安裝 Laravel Mix
-內建的 package-json 檔案中已經將 mix 寫入，只需 install
+## 使用 Laravel Mix 前置
+專案內建的 package-json 檔案中已經將 mix 寫入，只需 install
 ```php
 $ npm install
 ```
@@ -29,6 +29,7 @@ $ npm install
 <br/>
 
 ## webpack.mix.js 中定義需要打包的檔案
+* 注意: /dir 為 絕對路徑， dir 為相對路徑
 ```php
 // webpack.mix.js
 mix.js('resources/js/app.js', 'public/js')
@@ -47,6 +48,39 @@ $ npm run prod
 // 整合並可以隨時同步模式
 $ npm run watch
 ```
+
+<br/>
+
+## 使用 laravel ui 套件安裝前端框架，並用 mix 打包程式碼
+1. 安裝 laravel ui
+    
+    ```
+    $ composer require laravel/ui
+    ```
+2. 選擇要安裝的套件，會更新 package.json 檔案
+
+    ```php
+    // Generate basic scaffolding...
+    $ php artisan ui bootstrap
+    $ php artisan ui vue
+    $ php artisan ui react
+
+    // Generate login / registration scaffolding...
+    $ php artisan ui bootstrap --auth
+    $ php artisan ui vue --auth
+    $ php artisan ui react --auth
+    ```
+3. 安裝套件
+    ```php
+    $ npm install
+    ```
+4. mix 檔案打包
+    ```php
+    $ npm run dev
+    ```
+5. 檢查 public/css/app.css 檔案
+
+<br/>
 
 <br/>
 
@@ -127,7 +161,7 @@ laravel 在網站中的靜態資源只會抓取 public 目錄底下的資料，�
 
 ### 複製檔案
 ```javascript
-mix.copy('node_modules/foo/bar.css', 'public/css/bar.css');
+mix.copy('resources/foo/bar.css', 'public/css/bar.css');
 ```
 ### 複製目錄
 ```javascript
@@ -177,7 +211,7 @@ url('http://example.com/images/thing.png')
 <br/>
 
 ## React 安裝
-官方推薦使用 babel/preset-react，一款 javasript 整合包
+官方推薦使用 babel/preset-react，一款 javasript 整合包。要用 laravel/ui 套件安裝也是可以。
 ```php
 // --save-dev 是安裝在 devDependencies 中
 $ npm install --save-dev @babel/preset-react

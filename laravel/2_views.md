@@ -179,8 +179,8 @@ app.blade.php
 <br/>
 
 
-### 讀取靜態內容(css, js, img)
-```html
+### asset() 函數讀取靜態內容(css, js, img)
+```php
 // 可以直接在 blade 模板中抓取，但通常會寫在 controller 中
 // asset 函數可以抓取 public 中的靜態檔案
 
@@ -289,4 +289,50 @@ class homeController extends Controller
 
 <br/>
 
+### blade 模板 - 檢查 NULL 的函數
+1. isset(): 檢查的變數存不存在。
+2. empty(): 檢查的變數內的值是否為空 (null、各種型態的0、空字串)
+3. is_null(): 檢查變數是否為 null。
 
+<br/>
+
+||gettype()|isset()|empty()|is_null()|
+|--|--|--|--|--|
+|$x is undefined|NULL|FALSE|TRUE|TRUE|
+|$x = null;|NULL|FALSE|TRUE|TRUE|
+|$x = 0;|integer|TRUE|TRUE|FALSE|
+|$x = "0";|string|TRUE|**TRUE**|FALSE|
+|$x = 1;|integer|TRUE|FALSE|FALSE|
+|$x = "";|string|TRUE|TRUE|FALSE|
+|$x = "PHP";|string|TRUE|FALSE|FALSE|
+
+<br/>
+
+<br/>
+
+<br/>
+
+### blade 中的 forelse
+為 blade 特有，為 foreach 邏輯 + 如果變數為空
+```php
+// blade.php
+
+@forelse($datas as $data)
+// 循環時的內容
+
+@empty
+// 若 $datas 為空 (null、各種型態的0、空字串) 時
+
+@endforelse
+```
+
+### blade 中的 while 迴圈
+```php
+// blade.php
+
+{{ $i = 0 }}
+@while ($i < 10)
+    <h1> $i </h1>
+    {{ $i++ }}
+@endwhile
+```
