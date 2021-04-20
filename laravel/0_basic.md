@@ -119,4 +119,13 @@ composer.json 是安裝清單， composer.lock 是實際安裝版本。所以通
 
 <br/>
 
+# 補充
+## 正斜線 與 倒斜線
+### windows 系統
+* <code> / </code> : **URL**
+* <code> \ </code> : **檔案路徑**
 
+### UNIX 系統
+* <code> / </code> : **檔案路徑**、**URL**
+* <code> \ </code> : 轉義
+* <code> - </code> 或 <code> -- </code> : 參數
