@@ -8,7 +8,7 @@
 'default' => env('DB_CONNECTION', 'mysql'),
 ```
 
-### 使用 mysql 的環境配置
+## 使用 mysql 的環境配置
 ```php
 // .env
 
@@ -23,10 +23,16 @@ DB_PASSWORD=
 ```php
 $ mysql -u root -p
 ```
+然後進入 mysql WorkBench 建立 DB_DATABASE，編碼選擇 <code> utf8mb4 </code>。
+
+
+<br/>
 
 <hr/>
 
-### 使用 sqlite 的環境配置
+<br/>
+
+## 使用 sqlite 的環境配置
 sqlite 沒有像 mysql、pgsql、sqlsrv 有 server 程式，有不占資源 (RAM) 的優點。缺點為速度較慢 (因檔案存放在硬碟)。
 ```php 
 // .env
@@ -36,7 +42,7 @@ DB_CONNECTION=mysql
 DB_DATABASE="C:/Users/Liang/Desktop/laravel_test/database.sqlite"
 DB_FOREIGN_KEYS=true    // sqlite 需手動開啟
 ```
-使用 <code>pwd</code> 指令，複製 DB_DATABASE 路徑，並在根目錄建立 <code>database.sqlite</code>。
+使用 <code>pwd</code> 指令，複製 DB_DATABASE 路徑，並在根目錄建立 <code>database.sqlite</code> 檔案 (只有 sqlite 需要)。
 
 最後必須在 <code>php.ini</code> 檔案中加入 extension，否則  <code>migrate</code> 時會報錯。
 ```php
@@ -67,8 +73,15 @@ $ php artisan make:model Post
 再進行 migration
 ```php
 // create_posts_table 為檔名
+// 會自動抓 "posts" 作為 table 名稱
 $ php artisan make:migration create_posts_table
 ```
+可以自行定義 table 的名稱
+```php
+// 使用 --create= 參數
+$ php artisan make:migration create_posts_table --create=posts
+```
+
 <Br/>
 
 ## 建立 model + 產生 Migrations (比上述更快的方法)
@@ -152,3 +165,73 @@ $ php artisan reset && php artisan migrate
 ```php
 $ php artisan migrate:status
 ```
+<br/>
+
+<br/>
+
+<br/>
+
+# Factory
+## 作用
+指定一個 model 並用 faker library 產生資料，用以測試資料庫。
+
+<br/>
+
+## 建立 factory
+建立後的 factory 位置在 <code> /database/factories/</code> 中，基本上 factory 會自動搜尋 model 名稱 (Post)
+```php
+$ php artisan make:factory PostFactory
+```
+如果搜尋不到或是想自定義，可使用參數 <code>--model</code>
+```php
+$ php artisan make:factory PostFactory --model=Post
+```
+<br/>
+
+## 產生 model 
+需要先修改剛產生的 <code>PostFactory.php</code> 檔案
+```php
+// PostFactory.php
+
+namespace Database\Factories;
+
+use App\Models\Post;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use League\CommonMark\Block\Element\Paragraph;
+use Illuminate\Support\Str;     // 視情況加入
+
+class PostFactory extends Factory
+{   
+
+    // 這邊視情況使用 完整路徑
+    // protected $model = \App\Models\Post;
+    protected $model = Post::class;
+    
+    // 開始定義 factory 要產生的 fields
+    public function definition()
+    {
+        return [
+            'title' => $this->faker->title,
+            'body' => $this->faker->paragraph,
+            'created_at' => now(),
+        ];
+    }
+}
+```
+修改後，進入 tinker
+```php
+$ php artisan tinker
+```
+輸入以下，建立假資料，count() 選擇建立幾筆
+```php
+$ Post::factory()->count(2)->create();
+```
+
+
+
+
+
+<br/>
+
+## Tinker 
+Tinker 為 REPL （Read–eval–print loop，交互式命令行介面）。當輸入一段程式碼以後，會馬上將結果輸出在 command 上。
