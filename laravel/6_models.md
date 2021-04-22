@@ -50,23 +50,64 @@ DB_FOREIGN_KEYS=true    // sqlite 需手動開啟
 extension=php_pdo_sqlite.dll
 ```
 
+<br/>
+
+<br/>
+
+## Migration 與 Model
+**Migration**: 只負責撰寫資料表的架構 (columns)，以及管理資料表的版本。
+
+**Model**: 設定資料表的設定 (通常是用 override)，如 Table Names、PrimaryKeys 開啟/關閉、timestamps 開啟/關閉。
 
 <br/>
 
 <br/>
 
-## 建立 model 
-model 位置在 <code>App\Http\model\\<model_name></code>
+
+## 建立 model (即 Eloquent Model)
+位置:  <code>\App\models\\</code>
 ```php
 // model 名稱需為單數
 $ php artisan make:model Post
 ```
+model 可設定資料表內容
+```php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Car extends Model
+{
+    use HasFactory;
+
+    // 可以 override 資料表名稱
+    protected $table = 'cars';
+
+    // 更換 pk
+    protected $primaryKey = 'cars_id';
+
+    // 關閉自動增加功能
+    public $incrementing = false;
+
+    // timestamp 預設為 true；必須要有 created_at 和 updated_at 這兩個欄位，否則會無法使用
+    public $timestamps = false;
+
+    // 自定義 dateFormat
+    protected $dateFormat = 'U';
+}
+```
+
+
+
+
 
 <br/>
 
 ## 產生 Migrations
-### 手動，自行定義 migration 檔名
-首先建立 model
+位置:  <code>\database\migrations\\</code>  
+
+建立 model
 ```php
 $ php artisan make:model Post
 ```
@@ -188,7 +229,7 @@ $ php artisan make:factory PostFactory --model=Post
 ```
 <br/>
 
-## 產生 model 
+## 產生 假資料
 需要先修改剛產生的 <code>PostFactory.php</code> 檔案
 ```php
 // PostFactory.php
@@ -226,6 +267,30 @@ $ php artisan tinker
 ```php
 $ Post::factory()->count(2)->create();
 ```
+
+<br/>
+
+## 建立 model 時，順便建立 factory, seed, controller, migration 參數
+```php
+// Generate a model and a FlightFactory class...
+$ php artisan make:model Flight --factory
+$ php artisan make:model Flight -f
+
+// Generate a model and a FlightSeeder class...
+$ php artisan make:model Flight --seed
+$ php artisan make:model Flight -s
+
+// Generate a model and a FlightController class...
+$ php artisan make:model Flight --controller
+$ php artisan make:model Flight -c
+
+// Generate a model and a migration, factory, seeder, and controller...
+$ php artisan make:model Flight -mfsc
+```
+
+<br/>
+
+<br/>
 
 
 

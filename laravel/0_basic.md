@@ -56,13 +56,14 @@ $ php artisan serve --port=8081
 
 # 專案結構
 ### 目錄
-* app : 包含 controller 和 model
-* config: 包含設定檔案
-* database: migration 檔案
+* app: 包含 controller 和 model
+* bootstrap: 啟動 larael，開發上不太會用到
+* config: 設置系統參數
+* database: migration 檔案、 factory 假資料
 * node_modules: node packages
 * public: 包含 index.php，為 requests 進入點，網站可讀取的 assets (images, js, css)
-* resources: 存放 raw assets、views、language files
-* routes: 存放路由設定
+* resources: 存放前台資源，包含 raw assets、views、language files
+* routes: 路由設定
 * storage: 包含編譯後的 blade 模板、session、cache、log 日誌檔案
 * test: 自動化測試檔案
 * vender: laravel 的依賴模組
@@ -129,3 +130,17 @@ composer.json 是安裝清單， composer.lock 是實際安裝版本。所以通
 * <code> / </code> : **檔案路徑**、**URL**
 * <code> \ </code> : 轉義
 * <code> - </code> 或 <code> -- </code> : 參數
+
+<br/>
+
+<br/>
+
+# Laravel 中的命名
+|檔案/物件名稱|命名方式 (以 car 舉例)|
+|--|--|
+|model|Car|
+|controller|CarsController|
+|factory|CarFactory|
+|seeder|CarSeeder|
+|table 資料表|cars (只有資料表是 snake_case)|
+|migration 檔案名稱|XXXX_XX_XX_create_cars_table|
