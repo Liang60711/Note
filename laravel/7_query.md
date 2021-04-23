@@ -184,6 +184,7 @@ DB::table('posts')->where('votes', '>', 100)->delete();
 // 記得 use model
 use App\Models\Flight;
 ```
+all(), find(), get()
 ```php
 // 取所有資料
 Flight::all();
@@ -194,15 +195,30 @@ Flight::find(5);
 // 取 PK 多筆資料
 Flight::find([5, 6, 7]);
 
+// 取條件值
+Flight::where('name', 'FR 900')->get();
+```
+count(), sum(), avg
+```php
+// count
+Flight::all()->count();
+Flight::where('price', '>', 300)->count();
+
+// sum
+Flight::sum('price');
+
+// avg；return 浮點數 4 位
+Flight::avg('price');
+```
+
+where
+```php
 // where 欄位條件
 Flight::where('price', '>', 300)->get();
 
 // where 多欄位條件 (二維陣列)
 $query = [['number', '=', 'FR 900'], ['price', '<', '300']]
 Flight::where($query)->get();
-
-// where + count
-Flight::where('price', '>', 300)->count();
 
 // where('active', '=', 1)， = 可省略
 Flight::where('active', 1)
@@ -236,4 +252,78 @@ $flights = Flight::findOrFail(1);
 
 // firstOrFail + where；取 where 條件第一筆，如果沒有就 return 404
 $flights = Flight::where('price', '>', 300)->firstOrFail(1);
+```
+
+<br/>
+
+<br/>
+
+## Insert (與 query builder 寫法與差異較大)
+可見 <code>1_controller</code> 筆記
+```php
+// controller --resource
+
+public function store(Request $request)
+{   
+    // 使用 create 就不用 save
+    $car = Car::create([
+            'name' => $request->input('name'),
+            'founded' => $request->input('founded'),
+            'description' => $request->input('description')
+        ]);
+    
+    return redirect()->route('cars.index');
+}
+```
+
+## Update
+update 在 HTTP 方法中是 PUT/PATCH 所以模板中的 Form 記得要加上 <code>@method('PUT')</code>
+```php
+// controller --resource
+
+public function update(Request $request, $id)
+{   
+    // 使用 where 或 find 都可以
+    $car = Car::where('id', $id)
+        ->update([
+            'name' => $request->input('name'),
+            'founded' => $request->input('founded'),
+            'description' => $request->input('description')
+        ]);
+    
+    return redirect()->route('cars.index');
+}
+```
+
+## Delete
+Delete 在 HTTP 方法中是 Delete 所以模板中的 Form 記得要加上 <code>@method('DELETE')</code>
+```php
+// controller --resource
+
+public function destroy($id)
+{
+    $car = Car::find($id)->first();
+    $car->delete();
+
+    return redirect()->route('cars.index');
+}
+```
+以上是 resource 預設的寫法，可以直接將 $id 改成該實例 model $car，直接刪除 model
+```php
+// controller --resource
+
+public function destory(Car $car)
+{
+    $car->delete();
+    return redirect()->route('cars.index');
+}
+```
+呈上，因為在模板中就已經將 'car' 指向 $car->id 作為參數，所以可以直接有 $car 這個參數
+```html
+<!-- Delete --> 
+<form method="POST" action="{{ route('cars.destroy', ['car' => $car->id]) }}">
+    @csrf
+    @method('DELETE')
+    <button class="btn-xs btn-danger" type="submit">Delete</button>
+</form>
 ```

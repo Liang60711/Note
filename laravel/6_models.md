@@ -97,10 +97,46 @@ class Car extends Model
     protected $dateFormat = 'U';
 }
 ```
+<br/>
 
+## Model 中的 Mass Assignment 設定
+### Mass Assignment 批量賦值
+是一種 create 新資料的保護機制，把屬性資料陣列傳入，這些屬性值會經由批量賦值存成模型資料。然而，若盲目地將使用者輸入存到模型，可能會造成嚴重的安全隱患。如果盲目的存入使用者輸入，使用者可以隨意的修改任何以及所有模型的屬性。基於這個理由，所有的 Eloquent 模型預設會防止批量賦值。
+```php
+// controller
+// create 不會成功，因為需要在 model 中設定 fillable
 
+public function store(Request $request)
+{
+    $car = Car::create([
+        'name' => $request->input('name'),
+        'founded' => $request->input('founded'),
+        'description' => $request->input('description')
+    ])
+}
+```
 
+定義 <code>$fillable</code> 和 <code>$guarded</code> 屬性來設定批量賦值的資料表欄位
+```php
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Car extends Model
+{
+    use HasFactory;
+
+    // 可以被批量賦值的欄位
+    protected $fillable = ['name', 'founded', 'description'];
+
+    // 拒絕被批量賦值的欄位
+    protected $guarded = ['id', 'password'];
+
+    // 阻擋所有欄位被批量賦值
+    protected $guarded = ['*'];
+}
+```
 
 <br/>
 

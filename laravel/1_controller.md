@@ -282,6 +282,53 @@ public function edit($id)
 * edit 頁面使用 PATCH/PUT 傳遞到 route(products.store)
 * 通常會將 form 儲存給 SQL
 
+### 方法一
+```php
+public function store(Request $request)
+{   
+    // 1. 先新增物件
+    $product = new Product;
+
+    // 2. 將屬性填入，使用 $request 實例和 input 方法
+    $product->name = $request->input('name');
+    $product->founded = $request->input('founded');
+    $product->description = $request->input('description');
+
+    // 3. save model
+    $product->save();
+
+    // 4.回 index page
+    return redirect()->route('products.index');
+}
+```
+input() 方法
+```php
+// 不需要擔心發出請求時使用的 HTTP 動詞，取得輸入資料的方式都是相同的
+// POST 或 GET 都可以用以下方式抓取資料
+$request->input();
+
+// input() 方法 可以填入第二個參數作為 default
+$request->input('name', 'Sally');
+```
+### 方法二 - 使用 array
+```php
+public function store(Request $request)
+{
+    $product = Product::create([
+        'name' => $request->input('name'),
+        'founded' => $request->input('founded'),
+        'description' => $request->input('description')
+    ]);
+    
+    return redirect()->route('products.index');
+}
+```
+
+
+<br/>
+
+<br/>
+
 ## 6. update
 * edit 會 action 給 update
 * 可以使用 $request->method() 方法來檢查
