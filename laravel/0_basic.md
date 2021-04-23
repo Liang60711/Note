@@ -72,7 +72,7 @@ $ php artisan serve --port=8081
 * .env: 系統參數
 * .env.example: .env 會有隱私問題(如資料庫密碼)，使用此檔作為測試
 * composer.json: composer 管理套件的檔案
-* composer.lock: 編譯過後的 json 檔案
+* composer.lock: 確定版本的 json 檔案
 * package.json: npm 管理套件的檔案
 * phpunit.xml: 設定 php unit test 檔案
 * server.php: 模擬 apache 或 nginx 的設定，可以快速建立一個測試環境
