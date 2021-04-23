@@ -22,7 +22,7 @@ class homeController extends Controller
     function home(Request $request)
     {
 		// $_GET 可以改成 $request(自定義的名稱，只要是 Request 類別就好)
-        // $keys = $_GET['keys'];
+        	// $keys = $_GET['keys'];
 		$keys = $request->input('keys');
 		
 		// 參數1 = 指定的模板
