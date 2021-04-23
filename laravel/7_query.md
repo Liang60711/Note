@@ -327,3 +327,68 @@ public function destory(Car $car)
     <button class="btn-xs btn-danger" type="submit">Delete</button>
 </form>
 ```
+
+<br/>
+
+<br/>
+
+## Eloquent Serialization
+### 序列化 Serialization
+在做前端和後端的資料交換時，通常使用 JSON 作為格式，所以需要將 Eloquent 取出的 Collection/Model 格式轉換為 JSON 格式。
+
+<br/>
+
+### Eloquent 回傳的格式
+* get() 回傳以 Model 為內容的 Collection 物件 <code>object(Illuminate\Database\Eloquent\Collection)</code>
+* find() 或 first() 回傳 Model 物件 <code>object(App\Models\Car)</code>
+
+### 轉換格式
+```php
+public function index()
+{
+    // PHP array 格式
+    $cars = Car::all()->toArray();
+
+    // Json 格式 (會使用字串包起來，所以無法呼叫 key)
+    $cars = Car::all()->toJson();
+    // Json decode 將上方的 Json字串 解開雙引號，格式為 object
+    $cars = Json_decode($cars);
+
+    return view('cars.index')->with('cars', $cars);
+}
+```
+所以在 blade 中就不是用屬性讀取資料，而是用 Array
+```html
+<!-- 原本 -->
+{{ $car->name }}
+
+<!-- Array -->
+{{ $car['name'] }}
+```
+### json_decode 函式
+將 Json 字串轉為 PHP array 或 PHP object；預設是 false
+```php
+$json = '{"name":"John", "age":"31", "city":"New York"}';
+
+// 轉為 array
+$array = json_decode($json, true);
+echo $array['name'];        // john
+
+// 轉為 object 
+$obj = json_decode($json, false);
+echo $obj->name;            // 屬性呼叫 john
+```
+### json_encode 函式
+將 PHP array 轉為 json字串
+```php
+$array1 = [
+    'a' => '1',
+    'b' => '2',
+    'c' => '3'
+];
+$json = json_encode($array1);
+var_dump($json);    // string(25) "{"a":"1","b":"2","c":"3"}"
+```
+<br/>
+
+<br/>
