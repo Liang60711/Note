@@ -1,8 +1,4 @@
 # blade 模板
-blade templates 的位置:  root_dir/resources/views/
-
-<br/>
-
 
 ### extends 繼承
 ```php
@@ -72,7 +68,6 @@ blade templates 的位置:  root_dir/resources/views/
 @endsection
 ```
 
-
 <br/>
 
 ### @include
@@ -141,8 +136,6 @@ blade templates 的位置:  root_dir/resources/views/
         }
     }
     ```
-2. 使用 array
-
 
 <br/>
 
@@ -194,7 +187,7 @@ class homeController extends Controller
 {	
     function show()
     {
-		$imageUrl = asset('images/image.jpg');
+	$imageUrl = asset('images/image.jpg');
 
         return view('layouts/show',[
             'imageUrl' => $imageUrl,
@@ -210,17 +203,12 @@ class homeController extends Controller
 {	
     function show()
     {
-		$products = 
-		[
-			[
-				"imageUrl" => asset("images/image1.jpg")
-			],
-			[
-				"imageUrl" => asset("images/image2.jpg")
-			]
-		]
-		
-		$product = $products[0];
+	$products = [
+		["imageUrl" => asset("images/image1.jpg")],
+		["imageUrl" => asset("images/image2.jpg")]
+	]
+
+	$product = $products[0];
 
         return view('layouts/show',[
             'product' => $product,
@@ -229,7 +217,7 @@ class homeController extends Controller
 }
 ```
 ```hmtl
-// product.blade.php
+<-- product.blade.php -->
 
 <img src="{{ $product["imageUrl"] }}">
 ```
@@ -242,37 +230,32 @@ class homeController extends Controller
 // web.php
 use App\Http\Controllers\homeController;
 
-Route::get(
-	'products/{id}',
-    [homeController::class, 'home']
+Route::get('products/{id}', [homeController::class, 'home']
 )->where(['id' => '[0-9]+']);		// regex
 ```
 ```php
 // homeController
 class homeController extends Controller
 {	
-	// 多一個參數 $id
-	function home(Request $request, $id)
+    // 多一個參數 $id
+    function home(Request $request, $id)
     {
-        // 產品 array；array 的 index 即為 Route 的 id 
-        $products = [
-            [
-                "imageUrl" => asset("images/iphone.jpg")
-            ],
-            [
-                "imageUrl" => asset("images/macbook.jpg")
-            ],
-        ];
-
-		// $id 從U，會自動轉型
-		$id = intval($id);
+	// 產品 array；array 的 index 即為 Route 的 id 
+	$products = 
+	[
+            ["imageUrl" => asset("images/iphone.jpg")],
+            ["imageUrl" => asset("images/macbook.jpg")],
+	];
+	    
+	// $id 從U，會自動轉型
+        $id = intval($id);
         $index = $id -1;
-        
+
         // exception
         if ($index < 0 || $index >= count($products)){
             abort(404);
         }
-        // else
+        // return
         $product = $products[$index];
             return view("layouts/home", [
             "product" => $product
