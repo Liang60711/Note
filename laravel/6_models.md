@@ -101,7 +101,7 @@ class Car extends Model
 
 ## Model 中的 Mass Assignment 設定
 ### Mass Assignment 批量賦值
-是一種 create 新資料的保護機制，把屬性資料陣列傳入，這些屬性值會經由批量賦值存成模型資料。然而，若盲目地將使用者輸入存到模型，可能會造成嚴重的安全隱患。如果盲目的存入使用者輸入，使用者可以隨意的修改任何以及所有模型的屬性。基於這個理由，所有的 Eloquent 模型預設會防止批量賦值。
+是一種 create 新資料的保護機制，把屬性資料陣列傳入，這些屬性值會經由批量賦值存成模型資料。當使用者輸入這些 attribute 之外的參數 (就算那些參數也屬於該 table 的某個 column )，就會產生錯誤。
 ```php
 // controller
 // create 不會成功，因為需要在 model 中設定 fillable
@@ -131,10 +131,18 @@ class Car extends Model
     protected $fillable = ['name', 'founded', 'description'];
 
     // 拒絕被批量賦值的欄位
-    protected $guarded = ['id', 'password'];
+    protected $guarded = ['id'];
 
     // 阻擋所有欄位被批量賦值
     protected $guarded = ['*'];
+
+    // 限制能出現在 array 或 JSON 格式的屬性資料，不會被看到。
+    // blackList
+    protected $hidden = ['password', 'remember_token'];
+
+    // 與 $hidden 相反，加入屬性資料後，可以在 blade 中被讀取。
+    // whiteList
+    protected $visible = ['name', 'founded', 'description'];
 }
 ```
 
