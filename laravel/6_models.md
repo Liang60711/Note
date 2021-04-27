@@ -104,7 +104,7 @@ class Car extends Model
 是一種 create 新資料的保護機制，把屬性資料陣列傳入，這些屬性值會經由批量賦值存成模型資料。當使用者輸入這些 attribute 之外的參數 (就算那些參數也屬於該 table 的某個 column )，就會產生錯誤。
 ```php
 // controller
-// create 不會成功，因為需要在 model 中設定 fillable
+// create 不會成功，因為需要在 model 中設定 fillable，預設所有的 model field 都是受保護的。
 
 public function store(Request $request)
 {

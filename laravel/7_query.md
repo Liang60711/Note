@@ -232,7 +232,7 @@ Flight::offset(0)
     ->limit(10)
     ->get();
 ```
-切分查詢
+chunk 切分查詢
 ```php
 // 第一個參數: 每次「切分」要取出的資料數量。
 // 第二個參數: 閉合函數 (closure function) 會在每次取出資料時被呼叫。
@@ -252,6 +252,15 @@ $flights = Flight::findOrFail(1);
 
 // firstOrFail + where；取 where 條件第一筆，如果沒有就 return 404
 $flights = Flight::where('price', '>', 300)->firstOrFail(1);
+```
+cursor 方法建立 generator
+```php
+// cursor 會使用 generator，將 query 使用較少的 RAM
+// 將 cursor 裝進 generator 並用 foreach 讀取
+
+foreach (Flight::where('destination', 'Zurich')->cursor() as $flight) {
+    //
+}
 ```
 
 <br/>
@@ -295,6 +304,10 @@ public function update(Request $request, $id)
 }
 ```
 
+<br/>
+
+<br/>
+
 ## Delete
 Delete 在 HTTP 方法中是 Delete 所以模板中的 Form 記得要加上 <code>@method('DELETE')</code>
 ```php
@@ -326,6 +339,44 @@ public function destory(Car $car)
     @method('DELETE')
     <button class="btn-xs btn-danger" type="submit">Delete</button>
 </form>
+```
+### Soft Delete 軟刪除
+會在指定的 model 中添加 <code>deleted_at</code>，將 model label，讀取暫時讀不到此 model。後續可以繼續操作將該筆資料**永久刪除**或**回復**。
+
+```php
+// Model file
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Flight extends Model
+{   
+    // 使用實例
+    use SoftDeletes;
+}
+```
+使用 SoftDeletes 後，需要在 table 中新增 <code>deleted_at</code> 這個欄位
+```php
+Schema::table('flights', function ($table) {
+    $table->softDeletes();
+});
+```
+現在使用模型呼叫 delete 方法時， <code>deleted_at</code> 欄位會被更新成現在的時間戳。在查詢使用軟刪除功能的模型時，被「刪除」的模型資料不會出現在查詢結果裡。
+
+<br/>
+
+如果想查詢 被軟刪除的資料 使用 <code>withTrashed</code>
+```php
+$flight = Flight::withTrashed()->where('id', 1)->get();
+```
+如果想 恢復/永久刪除 軟刪除的資料 使用 <code>restore</code> 或 <code>forceDelete</code>
+```php
+// 恢復
+$flight->restore();
+
+// 使用 where 條件查詢並恢復
+Flight::withTrashed()->where('id', 1)->restore();
+
+// 永久刪除
+$flight->forceDelete();
 ```
 
 <br/>
