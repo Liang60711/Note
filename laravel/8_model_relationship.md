@@ -77,3 +77,9 @@ class CarModel extends Model
     }
 }
 ```
+blade 中使用 <code>foreach</code> 逐個抓出
+```php
+@foreach (car->carModels as $model)     // $model 這裡為 php object，用屬性呼叫
+    {{ $model->model_name }}
+@endforeach
+```
