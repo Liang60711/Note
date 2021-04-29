@@ -13,7 +13,7 @@ Route::get('/users', function (){
     return ['PHP', 'Laravel', 'Html'];
 });
 
-// 使用 JSON object
+// 使用 JSON object 輸出為 json 字串
 Route::get('/users', function (){
     return response()->json([
         'name' => 'Apple',
@@ -29,30 +29,30 @@ Route::get('/users', function (){
 ## 使用 Controller
 ```php
 // web.php
-use App\Http\Controllers\productsController;
+use App\Http\Controllers\productController;
 
-// 方法1
-Route::get('/products', [productsController::class, 'show']);
+// 方法1 - 新
+Route::get('/products', [productController::class, 'show']);
 
-// 方法2 
-Route::get('products', 'App\Http\Controllers\productsController@show')
+// 方法2
+Route::get('products', 'App\Http\Controllers\productController@show')
 ```
 
 
-## 使用 URL 傳遞參數
+## 使用 URL 傳遞參數篩選
 ```php
 // web.php
 
-use use App\Http\Controllers\productsController;
+use use App\Http\Controllers\productController;
 
 // 參數為 integer
-Route::get('/products/{id}', [productsController::class, 'show'])->where('id', '[\d]+');    // 使用 regex 限制 Url，若在條件之外則給 404
+Route::get('/products/{id}', [productController::class, 'show'])->where('id', '[\d]+');    // 使用 regex 限制 Url，若在條件之外則給 404
 
 // 參數為 string
-Route::get('/products/{name}', [productsController::class, 'show'])->where('name', '[a-zA-Z]+');
+Route::get('/products/{name}', [productController::class, 'show'])->where('name', '[a-zA-Z]+');
 
 // 參數有 integer 和 string
-Route::get('/products/{name}/{id}', [productsController::class, 'show'])->where([
+Route::get('/products/{name}/{id}', [productController::class, 'show'])->where([
     'name' => '[a-z]+',
     'id' => '[0-9]+'
 ]);
@@ -88,7 +88,7 @@ echo $a ?? $b ?? 3;     // 3
 // route.php
 
 // 使用 name 屬性命名
-Route::get('/products', [productsController::class, 'show'])->name('products.show');
+Route::get('/products', [productController::class, 'show'])->name('products.show');
 ```
 可在 blade 和 controller 中使用 route() 函數呼叫
 ```php

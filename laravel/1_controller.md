@@ -8,7 +8,7 @@ controller 位置: root_dir/app/Http/Controllers/
 $ php artisan make:controller <controller_name>
 ```
 
-### 2.controller URL傳遞參數
+### 2.使用 URL 傳遞參數 ?{key=value}
 ```php
 // homeController.php
 
@@ -84,14 +84,14 @@ Route::resource('photos', PhotoController::class);
 
 <br/>
 
-### 通常不會將每個功能都開啟，需要再把功能開啟，所以需要設定功能是否開啟
+### 通常不會將每個路由都開啟，需要再開啟，所以需要設定
 
 ```php
 // web.php
-// 只開啟 index, show 兩個 function
+// 只開啟 index, show 兩個路由
 Route::resource('photos', PhotoController::class)->only(['index', 'show']);  
 
-// 只關閉 index, show 兩個 function
+// 只關閉 index, show 兩個路由
 Route::resource('photos', PhotoController::class)->except(['index', 'show']);
 ```
 ### 檢查所有 route 路徑
@@ -99,15 +99,15 @@ Route::resource('photos', PhotoController::class)->except(['index', 'show']);
 $ php artisan route:list
 ```
 ### Route Name 的用法
-通常 blade 模板中，網址會使用 Route Name，方便維護
+通常 blade 模板中，網址會使用 Route Name，方便維護、呼叫
 ```html
-<!-- index page (名稱見上方表格) -->
+<!-- 無參數 products.index -->
 <a href="{{ route('products.index'}}">
     <img src="{{ $product['imageUrl'] }}" width=400 alt="">
 </a>
 
 
-<!-- show page (需要有參數 photo，此例為 product) -->
+<!-- 有參數 show page (需要加入參數 {product}) -->
 <a href="{{ route('products.show', ['product' => $product['id']]) }}">
     <img src="{{ $product['imageUrl'] }}" width=400 alt="">
 </a>
@@ -118,7 +118,7 @@ $ php artisan route:list
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
-class productsController extends Controller
+class productController extends Controller
 {
     private function getProducts()
     {
@@ -164,7 +164,7 @@ class productsController extends Controller
 ```php
 // 只需要寫一行
 
-Route::resource('products', productsController::class);
+Route::resource('products', productController::class);
 ```
 
 <br/>
@@ -225,7 +225,7 @@ public function show()
 * create 用 GET，store 用 POST
 * action 給 route('products.store') 需加上 @csrf
 ```php
-// productsController.php
+// productController.php
 return view('layouts/create');
 ```
 ```html
@@ -282,7 +282,7 @@ public function edit($id)
 * edit 頁面使用 PATCH/PUT 傳遞到 route(products.store)
 * 通常會將 form 儲存給 SQL
 
-### 方法一
+### 方法一 - 使用 $request
 ```php
 public function store(Request $request)
 {   
@@ -301,16 +301,15 @@ public function store(Request $request)
     return redirect()->route('products.index');
 }
 ```
-input() 方法
+$request->input() 方法
 ```php
-// 不需要擔心發出請求時使用的 HTTP 動詞，取得輸入資料的方式都是相同的
-// POST 或 GET 都可以用以下方式抓取資料
+// 不需要擔心發出請求時使用的 HTTP 動詞 (POST 或 GET 都可以用)，取得輸入資料的方式都是相同的
 $request->input();
 
 // input() 方法 可以填入第二個參數作為 default
 $request->input('name', 'Sally');
 ```
-### 方法二 - 使用 array
+### 方法二 - 使用 array - 需要在 model 中開啟 $fillable 
 ```php
 public function store(Request $request)
 {
@@ -331,7 +330,7 @@ public function store(Request $request)
 
 ## 6. update
 * edit 會 action 給 update
-* 可以使用 $request->method() 方法來檢查
+* 可以使用 $request->method() 方法來檢查是否為 PUT/PATCH
 * 通常會將 form 更新給 SQL
 ```php
 public function update(Request $request, $id)
@@ -369,22 +368,10 @@ public function destroy($id)
 # 重新導向 redirect
 ### 使用 redirect 函數
 ```php
-public function update($id)
-{   
-    settype($id, 'integer');
-    $index = $id - 1;
-    $products = $this->getProducts();
+// 導回首頁(無參數)
+return redirect()->route('products.index');
 
-    if ($index < 0 || $index >= count($products)){
-        abort(404);
-    }
-    $product = $products[$index];
-
-    // 導回首頁(無參數)
-    return redirect()->route('product.index');
-
-    // 導回 edit 頁面(有參數)
-    return redirect()->route('product.edit', ['product' => $product['id']]);
-}
+// 導回 edit 頁面(有參數)
+return redirect()->route('products.edit', ['product' => $product['id']]);
 ```
 

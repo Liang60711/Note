@@ -139,7 +139,7 @@ composer.json 是安裝清單， composer.lock 是實際安裝版本。所以通
 |檔案/物件名稱|命名方式 (以 car 舉例)|
 |--|--|
 |model|Car|
-|controller|CarsController|
+|controller|CarController|
 |factory|CarFactory|
 |seeder|CarSeeder|
 |table 資料表|cars (只有資料表是 snake_case)|

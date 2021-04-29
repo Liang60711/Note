@@ -100,13 +100,13 @@
 3. 使用 array
 
     ```php
-    // ProductsController.php
+    // ProductController.php
 
     namespace App\Http\Controllers;
 
     use Illuminate\Http\Request;
 
-    class productsController extends Controller
+    class productController extends Controller
     {
         public function index(){
             $title = 'Laravel 8';
@@ -160,13 +160,6 @@ route::get('/app', function(){
 	return view('layouts/app', ['var' => $var]);
 })
 ```
-app.blade.php
-```html
-<p>
-	傳遞的參數為: {{ $var }}
-</p>
-```
-
 <br/>
 
 <br/>
@@ -223,8 +216,8 @@ class homeController extends Controller
 ```
 
 ### 呈上，在 URL 中加入 ID 讀取圖片
-* Route 中加入 url/{id} 可以建立 id
-* 需要限制 url 格式 (使用 regex)，[參考](https://laravel.com/docs/8.x/routing#parameters-regular-expression-constraints)
+* Route 中加入 pathName/{id} 可以建立 id
+* 需要限制 pathName 格式 (使用 regex)，[參考](https://laravel.com/docs/8.x/routing#parameters-regular-expression-constraints)
 * 需要限制 id 的範圍 (使用 if else)
 ```php
 // web.php
@@ -240,15 +233,15 @@ class homeController extends Controller
     // 多一個參數 $id
     function home(Request $request, $id)
     {
-	// 產品 array；array 的 index 即為 Route 的 id 
-	$products = 
-	[
+		// 產品 array；array 的 index 即為 Route 的 id 
+		$products = 
+		[
             ["imageUrl" => asset("images/iphone.jpg")],
             ["imageUrl" => asset("images/macbook.jpg")],
-	];
+		];
 	    
-	// $id 從U，會自動轉型
-        $id = intval($id);
+		// 轉型
+        settype($id, "integer");
         $index = $id -1;
 
         // exception
@@ -296,7 +289,7 @@ class homeController extends Controller
 <br/>
 
 ### blade 中的 forelse
-為 blade 特有，為 foreach 邏輯 + 如果變數為空
+blade 特有，為 foreach 邏輯 + 如果變數為空
 ```php
 // blade.php
 
