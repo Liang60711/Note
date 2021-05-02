@@ -83,3 +83,94 @@ blade 中使用 <code>foreach</code> 逐個抓出
     {{ $model->model_name }}
 @endforeach
 ```
+
+<br/>
+
+<br/>
+
+# Has One Through
+* 1 car has many car_model
+* 1 car_model has many engines
+* 1 car_model has 1 car_production_date
+```php
+car
+    -id
+    -name
+
+------------------
+
+car_model
+    -id
+    -car_id
+    -carModel_name
+
+car_production_date
+    -id
+    -carModel_id
+    -created_at
+
+------------------
+
+engines
+    -id
+    -carModel_id
+    -engine_name
+```
+has one through 寫法為 car 可以呼叫 car_production_date (透過中介關係 car_model)
+```php
+class Car extends Model
+{
+    public function carProductionDate()
+    {
+        /** 
+        *   參數1: 最終要建立關係的 model
+        *   參數2: 中介關係 model
+        *   參數3: 中介 model 的 foreign key
+        *   參數4: 最終 model 的 foreign key
+        */
+        return $this->hasOneThrough(CarProductionDate::class, CarModel::class, 'car_id', 'model_id');
+    }
+}
+```
+
+
+<br/>
+
+<br/>
+
+# Has Many Through
+關係: 
+* 1 car has many car_model
+* 1 car_model has many engines
+```php
+car
+    -id
+    -name
+
+car_model
+    -id
+    -car_id
+    -carModel_name
+
+engines
+    -id
+    -carModel_id
+    -engine_name
+```
+has many through 寫法為 car 可以呼叫 engines (透過中介關係 car_model)
+```php
+class Car extends Model
+{
+    public function engines()
+    {   
+        /** 
+        *   參數1: 最終要建立關係的 model
+        *   參數2: 中介關係 model
+        *   參數3: 中介 model 的 foreign key
+        *   參數4: 最終 model 的 foreign key
+        */
+
+        return $this->hasManyThrough(Engine::class, CarModel::class, 'car_id', 'carModel_id');
+    }
+}
+```
