@@ -158,3 +158,75 @@ var obj = {
 obj.myFunc()
 // 輸出 Hello apple
 ```
+<br/>
+
+<br/>
+
+# ES6 物件建立
+class 建立
+```javascript
+class Car{
+    constructor(name, color){
+        this.name = name
+        this.color = color
+        this.hello = function (){
+            console.log('Hello ' + this.name)
+        }
+    }
+}
+```
+instance 建立
+```javascript
+var c = new Car('Audi', 'blue')
+
+// 呼叫屬性
+c.name
+
+// 呼叫方法
+c.hello()
+```
+
+<br/>
+
+<br/>
+
+# 模組 exports
+## 輸出 module
+```javascript
+// car.js
+class Car{
+    constructor(name, color){
+        this.name = name
+        this.color = color
+        this.hello = function (){
+            console.log('Hello ' + this.name)
+        }
+    }
+}
+
+module.exports = Car
+```
+require module
+```javascript
+// 載入是 Class
+var car = require('./car.js')
+
+var car = new Car('s', 'b')
+console.log(car.name)
+```
+
+## 輸出 function
+```javascript
+// log.js
+module.exports.logMsg = function(msg){
+    console.log(msg);
+}
+```
+輸入
+```javascript
+// test.js
+
+var log = require('./log')
+
+log.logMsg('Hello World')   // Hello World
+```
