@@ -3,6 +3,8 @@
 
 1. abstract class 不能直接 new 出來。
 
+2. 只要 class 裡面有 abstract function，就必須被宣告為 abstract class。
+
 
 <br/>
 
