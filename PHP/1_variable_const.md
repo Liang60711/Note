@@ -22,8 +22,8 @@
 <br/>
 
 # 型別檢查
-* var_dump() 函式
-* is_XXX() 函式，回傳 1 或 0
+###  var_dump() 函式
+### is_XXX() 函式，回傳 1 或 0
 ```php
 $a = 123;
 $b = "456";
@@ -34,7 +34,10 @@ var_dump($a);           // int(123)
 // way 2  與 var_dump() 一起用
 var_dump(is_int($b));   // bool(false)
 ```
-
+### gettype() 函式
+```php
+echo gettype(123);      // integer
+```
 
 <br/>
 
@@ -85,13 +88,18 @@ var_dump(is_int($b));   // bool(false)
 ### 雙引號 單引號
 * 單引號執行效率比較快
 * 單引號不解析 \，並把所有範圍內的當作字串
+* 除了一個例外，內外都是雙引號或單引號，則可以使用跳脫字元 \ 。
+
 ```php
-// 宣告字串單雙都可以
-$str = "aabbabc";
+$number = 1;
 
 // 雙引號才能解析變數
-echo '$str';         // 輸出 $str 
-echo "$str";         // 輸出 aabbabc
+echo "$number";      // 1
+echo "'$number'";    // '1'
+
+// 單引號只能輸出字串
+echo '$number';      // $number
+echo '"$number"';    // "$number"
 
 
 // 宣告跳脫字元只能用雙
@@ -99,10 +107,13 @@ $name1 = "abc\nabc";
 $name2 = 'abc\nabc';
 echo $name1;         // abc abc
 echo $name2;         // abc\nabc
+
+// 例外，內外都是雙引號，內外都是單引號
+echo "\"aaa\"";      // "aaa"
+echo '\'aaa\'';      // 'aaa'
+echo "\'aaa\'";      // \'aaa'\
+echo '\"aaa\"';      // \"aaa\"
 ```
-
-
-
 
 ## 命名法
 1. camelCase；字首單字小寫，第二字首大寫，js, php
