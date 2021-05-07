@@ -27,6 +27,7 @@ class CreateCarsTable extends Migration
             $table->increments('id');
             // unsignedInteger (無符號整數)，指 0 或正整數
             // 負整數為 signedInteger (有符號整數)
+            // unsigned 為有符號數，指有帶負號、小數點(float)的數字
             $table->unsignedInteger('car_id');
             $table->string('model_name');
             $table->timestamps();
@@ -82,6 +83,72 @@ blade 中使用 <code>foreach</code> 逐個抓出
 @foreach (car->carModels as $model)     // $model 這裡為 php object，用屬性呼叫
     {{ $model->model_name }}
 @endforeach
+```
+<br/>
+
+<br/>
+
+# Many to Many
+Many to Many 關係中，兩張資料表會透過 **pivot table** 來進行關聯。
+```php
+// users 和 roles 互為 Many to Many
+cars
+    id - integer
+    name - string
+
+products
+    id - integer
+    name - string
+
+car_product
+    car_id - integer
+    product_id - integer
+```
+migration 檔案
+```php
+// cars
+Schema::create('cars', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+// products
+Schema::create('products', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->timestamps();
+        });
+
+// pivot table
+Schema::create('car_product', function (Blueprint $table) {
+    $table->integer('car_id')->unsigned();     // 無法被指定成符號數字(有負號、小數點)
+    $table->integer('product_id')->unsigned();
+    // pivot 兩個 id 皆為 foreign Key
+    $table->foreign('car_id')
+        ->references('id')
+        ->on('cars')
+        ->onDelete('cascade');
+    $table->foreign('product_id')
+        ->references('id')
+        ->on('products')
+        ->onDelete('cascade');
+});
+```
+Model 檔案
+```php
+// Car
+public function products()
+{
+    return $this->belongsToMany(Product::class);
+}
+```
+```php
+// Product
+public function cars
+{
+    return $this->bbelongsToMany(Car::class);
+}
 ```
 
 <br/>

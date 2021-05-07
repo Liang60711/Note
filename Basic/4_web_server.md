@@ -137,7 +137,7 @@ Client 透過某些方法和 Server (最終要登入的網站 Server) 驗證，�
 * Authentication 驗證: 證明使用者是否真的是其所宣稱的那個人的過程 (是否可以做)。
 * Authorization 授權: 授與已驗證的合作對象權限以執行某些工作的動作 (可以做到什麼程度)。
 
-* 已被 Authorization 的使用者，已經通過 Authentication。
+* 已被 Authorization 的使用者，必通過 Authentication。
 
 <br/>
 
