@@ -78,6 +78,7 @@ IP封包(Packet): 分為 Head、Data，Head包含版本、長度、IP地址；Da
 * 目的: 當使用使用請求時，只有輸入接收方的 IP，故不知道接收方的 MAC，故會使用 broadcast 詢問接收方廣播區域內的設備，符合 IP 者，回復自己的 MAC，請求方就知到接收方的 MAC。
 * 呈上，若是要在 Router 之間傳送，MAC 地址會不斷的執行 ARP (每換一個 Router 會執行一次)，所以 MAC 地址在繞送的過程中會不斷更換。
 * ARP Cache: 每台 L3 以上的設備 (Router、PC) 都具有此功能，可以將 IP 對應屬於哪個 MAC。
+* ARP 執行時，若已知道 neighbor 的 MAC 地址之後，便會停止，反向也需要再跑一次，並記錄在 ARP Cache 中，慢慢推進。
 
 ### IPv4 協定
 * 結構: 由 32 位元(bits) 組成；分為**網路位址**和**主機位址**。
