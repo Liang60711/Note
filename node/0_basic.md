@@ -1,4 +1,49 @@
-# node 基礎
+# node basic
+## npm 常用指令
+```javascript
+npm init                    // 建立 package.json
+
+npm install express         // 區域安裝
+
+npm install express -g      // 全域安裝
+
+npm update express          // 更新套件
+
+npm uninstall express       // 解除安裝套件
+
+npm uninstall express -g    // 解除安裝 global 套件
+
+npm ls                      // 列出安裝套件
+
+npm ls -g                   // 列出安裝 global 套件
+
+npm search                  // 搜尋套件名稱
+```
+
+## JSON 和 Javascript object
+結構類似，但還是有不一樣:
+1. JSON就是一組字串。
+2. 在使用<code> { } </code>建立 Javascript 物件時，屬性名稱是可以有引號也可以沒有的，但在JSON格式中，該屬性名稱一定要有引號。
+3. 若物件中有 function，是無法透過JSON傳遞的。
+
+```javascript
+var person =  {
+    "name": "Molecule Man",
+    "age": 29,
+};
+
+// 將物件轉成 JSON
+var json1 = JSON.stringify(person);
+
+// 將 JSON 解析成物件
+var obj1 = JSON.parse(json1);
+```
+
+
+<br/>
+
+<br/>
+
 ## 在 localhost 建立 http server
 ```javascript
 // 需要 http 模組
