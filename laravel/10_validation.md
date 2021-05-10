@@ -1,7 +1,20 @@
 # Validation 驗證
 
 ## 內建驗證
-目的: 在 controller 中直接進行驗證邏輯，可以過，但會顯得有點亂(驗證邏輯和業務邏輯寫在一起)。
+* 目的: 在 controller 中直接進行驗證邏輯，可以過，但會顯得有點亂(驗證邏輯和業務邏輯寫在一起)。
+
+* 驗證目標: 驗證 html 表單中的 name；非 model 的欄位名稱。
+
+    ```html
+    <form action="#" method="POST">
+        @csrf
+        <!-- 是驗證 input 的資料 -->
+        <input class="form-control" type="text" name="name" placeholder="Name...">
+
+        <button class="btn-primary" type="submit">SUBMIT</button>
+        </div>
+    </form>
+    ```
 
 <br/>
 
