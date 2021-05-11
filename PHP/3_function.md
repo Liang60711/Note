@@ -119,6 +119,75 @@ function createTable($datas){
 createTable($students);
 ```
 
+<br/>
+
+<br/>
+
+# 陣列函式
+### 排序類
+```php
+$arr1 = [1,6,3,8,9];
+$arr2 = [
+    'a' => '7',
+    'c' => '2',
+    'b' => '5'
+];
+
+// 索引陣列 小>>大
+sort($arr1);        // [1,3,6,8,9]
+
+// 索引陣列 大>>小
+rsort($arr1);       // [9,8,6,3,1]
+
+// 結合陣列  value 小>>大
+asort($arr2);      
+
+// 結合陣列  value 大>>小
+arsort($arr2);
+
+// 結合陣列  key 小>>大
+ksort($arr2);      
+
+// 結合陣列  key 大>>小
+krsort($arr2);
+
+// 檢查 value 是否在 array
+in_array(7, $arr2);     // return 1
+```
+
+<br/>
+
+<br/>
+
+# 字串函式
+```php
+// string 長度
+strlen();
+
+// 回傳小寫
+strtolower();
+
+// 回傳大寫
+strtoupper();
+
+// 刪除前後空白
+trim();
+
+// 只刪除左右空白
+ltrim();
+rtrim();
+
+// 切割字元(類似 python strip() )
+$str = 'aaa|bbb|ccc';
+explode('|', $str); // 回傳 array
+
+// 字串陣列 轉 字串
+// 預設第一參數是空字串
+$str = ['aaa', 'bbb', 'ccc'];
+join(':', $str)     // 回傳 aaa:bbb:ccc
+```
+
+<br/>
 
 <br/>
 
