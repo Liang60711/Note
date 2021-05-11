@@ -266,9 +266,10 @@ class homeController extends Controller
 <br/>
 
 ### blade 模板 - 檢查 NULL 的函數
-1. isset(): 檢查的變數存不存在。
-2. empty(): 檢查的變數內的值是否為空 (null、各種型態的0、空字串)
-3. is_null(): 檢查變數是否為 null。
+1. <code>isset()</code>: 檢查的變數存不存在。
+2. <code>empty()</code>: 檢查的變數內的值是否為空 (null、各種型態的0、空字串)
+3. <code>is_null()</code>: 檢查變數是否為 null。
+4. <code>isset()</code> 和 <code>is_null()</code> 是完全相反。
 
 <br/>
 

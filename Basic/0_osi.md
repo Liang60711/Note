@@ -136,6 +136,17 @@ TCP header 中，有兩個欄位，分別是:
 
 <br>
 
+### SSL 協定
+* 發生在 TCP 三次握手之後，
+
+* 對稱加密: 連線雙方都知道密碼，一方輸入，一方驗證。
+* 非對稱加密: 連線雙方各有公鑰與私鑰(共4把)，使用對方給的公鑰加密，讓對方使用私鑰解密。公鑰只能加密而沒有解密的功能，所以是可以被公布的。私鑰因為要解密用，不能公布。
+
+
+<br>
+
+<br>
+
 ## 5. 應用層 Application Layer
 協定: 動態主機設定協定(Dynamic Host Configuration Protocol，DHCP)、網域名稱系統(Domain Name System，DNS)
 

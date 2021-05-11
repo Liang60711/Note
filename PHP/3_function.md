@@ -166,3 +166,62 @@ text("username", "password", "taipei");
 // username
 // Array ( [0] => username [1] => password [2] => taipei )
 ```
+
+<br/>
+
+<br/>
+
+# 打印
+```php
+// 輸出 array
+print_r
+
+// 輸出 format
+printf
+
+$a = 1;
+$b = "Taipei";
+printf("%s is no. %d", $b, $a);  // Taipei is no. 1
+```
+
+<br/>
+
+<br/>
+
+# 全域變數、區域變數 函數
+### $GLOBALS()
+回傳 array
+```php
+// 用字串取 $GLOBALS() 內容
+print_r($GLOBALS()['_GET']);
+```
+
+### get_defined_vars()
+```php
+// 只能在區域內使用
+function test(){
+    $a = 1;
+    $b = 2;
+    return (get_defined_vars());
+}
+
+print_r(test()['b']);   // 2
+```
+
+<br/>
+
+<br/>
+
+# 時間函數
+
+```php
+// 回傳 timestamp
+time();
+
+// 回傳 Format 時間
+// 05/11/2021 09:50:38 *** Tuesday May
+date('m/j/Y h:i:s *** l F');
+
+// 調整時區
+date_default_timezone_set('Asia/Taipei');
+```
