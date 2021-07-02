@@ -131,3 +131,55 @@ SELECT title, author,
 FROM book
 GROUP BY author;
 ```
+
+# HAVING
+HAVING(函數條件)；WHERE 和 HAVING 的區別在於與 GROUP BY 子句一起使用時，WHERE 用於在分組之前過濾 column，HAVING 用於在分組後排除記錄。
+```sql
+SELECT item, cost
+FROM shop
+GROUP BY item
+HAVING SUM(cost) > 1500;
+```
+
+原文網址：https://kknews.cc/code/vrgvx8q.html
+
+# EXISTS
+檢查**內查詢**是否有結果，如果有，就會執行外查詢；如果沒有，整個查詢就不會產生結果。
+```SQL
+SELECT <col>
+FORM <table1>
+WHERE EXISTS
+    (SELECT * FROM <table2> WHERE <condition>)
+```
+舉例
+```sql
+SELECT name, SUM(cost)
+FROM person
+WHERE EXISTS    -- 若內查詢有結果才會繼續外查詢
+    (SELECT * FROM country  
+    WHERE city="Taipei");
+```
+
+
+# 取別名
+都是在 `col` 後面空一個加上別名，table 和 col 都可以。
+```sql
+SELECT S.store_name Store, SUM(S.total_sales) "Total Sales"     -- 3. 再取 column 別名
+FROM store_information S    -- 1.先取 table 別名
+GROUP BY S.store_name       -- 2.用 table 別名分組
+```
+
+<br/>
+
+|新別名|Store|Total Sales|
+|--|--|--|
+|舊名稱|store_name|total_sales|
+
+<br/>
+
+若要使用 `AS` 取別名，與空格效果相同
+```sql
+SELECT S.store_name AS Store, SUM(S.total_sales) AS "Total Sales"
+FROM store_information AS S
+GROUP BY S.store_name;
+```
