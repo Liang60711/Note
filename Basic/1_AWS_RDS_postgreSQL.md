@@ -15,9 +15,9 @@
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'DEMO TEST',    # 此為資料庫名稱(與postgres資料庫同級)
-            'USER': 'postgres',
-            'PASSWORD': 'Chunchia625',
+            'NAME': 'DEMO TEST',    # 此為資料庫名稱
+            'USER': 'usr',
+            'PASSWORD': 'passwd',
             'HOST': 'localhost',
             'PORT': '5432',
         }
@@ -29,8 +29,8 @@
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'demo_1',       # 在AWS建立資料庫時的名稱
-            'USER': 'liang60711',
-            'PASSWORD': 'Chunchia625',
+            'USER': 'usr',
+            'PASSWORD': 'passwd',
             'HOST': 'database-1.cbnbxw5so1th.us-east-2.rds.amazonaws.com',
             'PORT': '5432',
         }
