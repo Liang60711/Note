@@ -131,12 +131,45 @@ class Demo
     function __construct(){
         echo "123:", self::BR_TAG;
     }
-    }
 }
 
 // 在 class 外呼叫 const
 echo Demo::BR_TAG;
 ```
+
+<br/>
+
+## self
+* self 可以使用在**多型抑制 (suppressing polymorphic behaviour)**
+* **$this->foo()** 呼叫當前實例化的物件。 如果實例化的是X class，會印出X::foo()。如果實例化的是Y class，會印出Y::foo()。 
+* **self::foo()** 永遠呼叫 X::foo()。
+
+```php 
+class X {
+    function foo() {
+        echo 'X::foo()';
+    }
+
+    function bar() {
+        self::foo();	//self指的是A (尚未instance)
+    }
+    
+    function xxx() {
+    	$this->foo();	//$this指的是instance的class
+    }
+}
+
+class Y extends X {
+    function foo() {
+        echo 'Y::foo()';
+    }
+}
+
+$x = new Y();
+$x->bar();  //X::foo()	
+$x->xxx();  //Y::foo()
+```
+
 
 <br/>
 
