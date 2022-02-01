@@ -1,4 +1,49 @@
 # Ajax
+1. `XMLHttpRequest (XHR)` 是 JavaScript 的 API，
+頁面 能透過它操作 HTTP 請求，進行網路作業，
+擷取資料的同時，不進行頁面重載 (page reload)
+2. ajax != XHR，XHR 僅是最常見的應用模式之一。
+
+<br/>
+
+<br/>
+
+## 使用原生 js 實作 ajax
+Laravel 中，若要使用 ajax，需要在html頁面中產生 `csrf_token`，通常會放在 meta 中。
+```html
+<meta name="csrf-token" content="{{ csrf_token() }}">
+```
+
+```js
+// js
+
+var formData = new formData();
+var csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+var csrfToken = csrfTokenMeta.content;
+formData.append('key', 'value');
+// 在 laravel 中，需加入 _method, _token
+formData.append('_method', 'DELETE'); // 或其他 method
+formData.append('_token', csrfToken); // laravel 可以使用 csrf_token() 函式產生 token
+
+// get
+var request = new XMLHttpRequest();
+request.open('get', actionUrl);
+request.send();
+
+// post
+var request = new XMLHttpRequest();
+request.open('post', actionUrl);
+request.onreadystatechange = function(){
+    if(request.readyState === XMLHttpRequest.DONE && request.status ===200){
+        window.location.reload();
+    }
+}
+request.send(formData);
+```
+
+<br/>
+
+<br/>
 
 ## 使用原生 JavaScript 舉例 - 抓取pathName =  test/{id} 的資料內容
 在 blade 模板中使用 JavaScript
