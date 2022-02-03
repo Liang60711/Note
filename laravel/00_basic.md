@@ -47,6 +47,36 @@ $ php artisan serve --port=8081
 
 <br/>
 
+# Xdebug 安裝 (windows)
+1. windows可以在terminal輸入 `php -i`，貼到 [`Xdebug installation wizard`](https://xdebug.org/wizard)來看要下載哪個檔案。
+    * windows 10
+    * VScode 1.63.2
+    * php 8.0.15
+    * xdebug 3.1.3
+
+
+2. 下載`php_debug.dll`單個檔案
+
+3. 設定 `php.ini`
+    
+    ```ini
+    ; 下載檔案路徑
+    zend_extension = "C:\Program Files\php-8.0.15\ext\php_xdebug.dll"
+    xdebug.mode=debug
+    xdebug.start_with_request=yes
+    ; v2預設是9000，v3要改成9003
+    xdebug.remote_port=9003
+    ```
+
+4. 使用 `phpinfo()` 查看 Xdebug 是否有執行。
+
+5. 在 vscode 下載外掛 `PHP Debug`，並新增 `launch.json` 檔案
+
+
+<br/>
+
+<br/>
+
 # 好用的網站
 1. [Packagist.org](https://packagist.org/): 一個可以下載 PHP 套件的網站
 

@@ -142,3 +142,116 @@ use App\Http\Controllers\PhotoController;
 Route::resource('photos', PhotoController::class);
 ```
 <br/>
+
+<br/>
+
+# RouteServiceProvider
+1. 路徑在 `App\Providers\RouteServiceProvider.php`。
+2. 可以在此設定 Url 中參數的限制。
+3. 此限制是全域的，變數名稱若相同則會互相影響。
+
+    ```php
+    // RouteServiceProvider.php
+
+    public function boot()
+    {
+
+        // 1.加入限制
+        // 2.若route中只要參數名稱命名為 {id} ，都會被影響。
+        Route::pattern('id', '[0-9]+');
+
+    }
+    ```
+    多半還是會使用原本的方法來限制參數。
+
+    ```php 
+    // route/web.php
+
+    Route::get('/show/{id}', [Show::class, 'index'])->where('id', '[0-9]+');
+    ```
+
+<br/>
+
+<br/>
+
+# Route::prefix
+1. 在一般的網站應用中，一定會有數個頁面是屬於同性質甚至有著相似的 URL，透過 Route Groups 可以批次處理這些 routes。
+2. `prefix` 可以將 Route 前加上前贅字。
+
+    ```php
+    // web.php
+
+    // 新增 admin/users 和 admin/list 路徑
+    Route::prefix('admin')->group(function(){
+        Route::get('users', function () {
+            //
+        });
+
+        Route::get('list', function () {
+            //
+        });
+    })
+    ```
+
+3. 若要加上 route name，需再設定 name
+
+    ```php
+    // web.php 
+
+    // prefix 記得加 "."
+    Route::prefix('admin')->name('admin.')->group(function(){
+        Route::get('users', function () {
+            //
+        })->name('users');
+
+        Route::get('list', function () {
+            //
+        })->name('list');
+    })
+
+    ```
+
+<br/>
+
+<br/>
+
+# Route::fallback
+1. 若連線至未定義 Route 時，可以使用 fallback() 顯示 `404` 或是 `首頁`。
+
+    ```php
+    // web.php
+    use Illuminate\Http\Request;
+
+    // 可以將 $request 丟進來
+    Route::fallback(function(Request $request){
+        // 回首頁
+        return redirect('/');
+
+        // 導向特定頁
+        return redirect()->route('user/index');
+    })
+    ```
+
+    或是自定義一個頁面
+
+
+        ```php
+        // web.php
+        use App\Http\Controllers\PageController;
+
+        Route::fallback([PageController::class, 'index']);
+        ```
+
+2. `fallback()` 的自動導向預設是 `302`，若要改成 `301` 則需多加一個參數。
+
+    ```php
+    // web.php
+
+    Route::fallback(function(){
+        // 302 (通常用302即可)
+        return redirect('/');
+
+        // 301
+        return redirect('/', 301);
+    })
+    ```
