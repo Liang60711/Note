@@ -121,7 +121,7 @@ echo Person::getAge();
 ## parent 和 self 和 $this 差別
 * parent 代表父類別
 * self 代表當前類名
-* $this 代表當前物件
+* $this 代表當前物件 (**代表內部物件，指向外部實例化物件**)
 * 用 self::const 或 self::$static 呼叫常數或靜態變數
 * 用 $this->$non_static 呼叫非靜態變數。
 ```php
@@ -135,6 +135,22 @@ class Demo
 
 // 在 class 外呼叫 const
 echo Demo::BR_TAG;
+```
+
+$this 在類內部時，記憶體會指向外部實例化的物件
+
+```php
+class Car
+{
+    public $name = "bmw";
+    public function callName(){
+        echo $this->name;
+    }
+}
+
+$c = new Car();
+// 此時 $this 會指向 $c
+$c->callName();
 ```
 
 <br/>
