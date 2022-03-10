@@ -20,7 +20,7 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public'),   // storage/app/public 底下
             'url' => env('APP_URL').'/storage',
-            'visibility' => 'public',
+            'visibility' => 'public',               // 權限設定
         ],
 
         's3' => [
@@ -89,9 +89,49 @@ public function store(Request $request)
 }
 ```
 
-</br>
+刪除檔案1
+```php
+public function destroy()
+{
+    Storage::delete('fileName.txt');    // 預設刪除 local 路徑底下
+    return redirect()->route('index');
+}
+```
+刪除檔案2-指定disk
+```php
+public function destroy()
+{
+    Storage::disk('gcp')->delete('fileName.txt');
+    return redirect()->route('index');
+}
+```
+<br/>
 
-</br>
+<br/>
+
+## 各種路徑寫法
+```php
+$path = 'path_.txt';
+// local public
+// C:\Users\Liang\Desktop\laravel_ecommerce\public\storage/path_.txt
+$localPath = public_path("storage/$path");  // 不會這樣用，此網址是軟連結
+
+// local storage
+// C:\Users\Liang\Desktop\laravel_ecommerce\storage\path_.txt"
+$storagePath = storage_path($path);
+
+// url網址
+// http://localhost/storage/path_.txt
+$fullUrl = asset(Storage::disk('public')->url($path));
+
+// url相對網址
+// /storage/path_.txt
+$url = Storage::url($path);
+```
+
+<br/>
+
+<br/>
 
 修改儲存的檔名
 ```php
@@ -122,3 +162,4 @@ public function store(Request $request)
 ```sh
 php artisan storage:link
 ```
+
