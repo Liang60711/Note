@@ -80,3 +80,36 @@ public function show($id)
     $car = Car::insert($data);
 }
 ```
+
+<br/>
+
+<br/>
+
+## upsert()
+>`updateOrCreate` 效率很低，db會先去select，没有找到再去插入數據，找到了再去更新，故使用`upsert`。
+
+```php
+$data = [
+    ['goods_id' => 1,'title' => 'ttt111'],
+    ['goods_id' => 2,'title' => 'ttt222'],
+    ['goods_id' => 3,'title' => 'ttt333']
+]
+
+// updateOrCreate
+foreach($data as $item) {
+Product::query()->updateOrCreate(
+        ['goods_id' => $item['goods_id']], $item
+    );
+}
+
+// upsert 
+// arg1, 需要insert或update的$data
+// arg2, 為條件，如果和這些欄位完全相同的資料，則將數據修改為 arg3 的欄位。
+// arg3, 要修改的欄位
+Flight::upsert([
+    ['departure' => 'Oakland', 'destination' => 'San Diego', 'price' => 99],
+    ['departure' => 'Chicago', 'destination' => 'New York', 'price' => 150]
+], 
+['departure', 'destination'], 
+['price']);
+```
