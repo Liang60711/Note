@@ -113,3 +113,22 @@ Flight::upsert([
 ['departure', 'destination'], 
 ['price']);
 ```
+
+<br/>
+
+<br/>
+
+## relationship
+### `belongsTo()`
+```php
+// 一個category有多個product
+class Product extends Model
+{
+    public function category()
+    {
+        // 第二個參數為 product 的 foreignKey，這裡會自動默認為小寫的 category_id，找不到欄位則需手動加上第二個參數
+        // 第三個參數為 category 的 id (owner id)，預設為小寫的 id，若找不到則需手動填入
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+}
+```
