@@ -2,19 +2,34 @@
 
 ### 存取權限修飾子
 1. private
-    * 只可用在同 class。
+    * 僅此類別(class)內有效。
 
 2. default
-    * 只可用在同 class 和 package。
+    * 只可用在同 class 和 package，即`此套件 package 內有效`。
 
 3. protected
-    * 只可用在同 class 和 package
-* 不同 package 繼承 class 後，也可以使用；等於是介於 private 和 public 之間，增加便利性。
+    * 此套件 package 內有效。
+    * 不同 package 繼承 class 後，也可以使用。
 
 4. public  
     * 都可以使用。
 
-<hr>
+<br/>
+
+|修飾子|同一類別|同一套件|不同套件的子類別|不同套件且非子類別|
+|:--:|:--:|:--:|:--:|:--:|
+|public|●|●|●|●|
+|protected|●|●|●||
+|default|●|●|||
+|private|●||||
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
 
 ### fianl
 final 即最後，修飾後即不可繼承或更改值
