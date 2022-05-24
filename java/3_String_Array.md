@@ -131,24 +131,6 @@ str.endsWith("x");          // false
 ```
 
 
-### 字串 檢查 equals()
-```java
-// 會回傳 boolean
-// equals() 是檢查數值， == 是檢查 reference 位址
-// new 會建立新物件(新reference)
-
-String str1 = "abc";
-String str2 = "abc";
-String str3 = new String("abc");
-String str4 = new String("abc");
-
-str1.equals(str2)       // true
-str1 == str2            // true
-str3.equals(str4)       // true
-str3 == str4            // false
-```
-
-
 ### 字串 取代 replace()
 ```java
 // String 或 char 都適用，取代所有相同字串
@@ -164,3 +146,80 @@ str.replace("a", "b");      // bbcd_bbcd
 String str = "abc123";
 str.replaceAll("\\d", "!");       // 跳脫字元 \\d
 ```
+
+<br/>
+
+## 字串/物件 檢查 == 和 equals() 差別
+`==` 
+* 為運算子。
+* 對於8大基本資料型態，比對兩者的數值。
+* 對於物件，則是比對兩者存放的記憶體位置。
+
+`equals()`
+* 為物件方法 (`java.lang.Object`類裡面的方法)。
+* 純粹比較兩個物件是否有相同的值。
+
+```java
+String str1 = "abc";
+String str2 = "abc";
+String str3 = new String("abc");
+
+(str1 == str2)      // true
+(str1 == str3)      // false
+str1.equals(str2)   // true
+str1.equals(str3)   // true
+```
+解釋: 
+1. `str1` 和 `str2` 指向相同的物件，擁有相同的address。
+2. `str1` 和 `str2`，會指向相同物件的原因為，兩者在常數池(constant pool)中，為相同數值。
+
+
+<br/>
+
+<br/>
+
+## *常數池 constant pool
+>http://zake7749.github.io/2015/11/08/constantPool/
+
+Java存在一個特殊空間，把編譯時期就已經確定的常數(constant)包進.class，執行時再從這個空間統一拿出。這個特殊空間稱作常數池或(constant pool)，它主要保管這兩種東西：
+
+1. `字面量(Literal)`: 包含了常數以及既定字串。
+
+2. `Symbolic References`: 主要是類別和介面的Fully qualified name，欄位和方法的名稱。
+
+每當編譯完成，編譯器會將上述兩者包進.class中。原始碼中每一個字面量會被統一構成一張常數表，並透過索引的型式參照它。
+
+
+
+```java
+// 舉例: 
+
+String s1 = "Hello";
+String s2 = "Hello";
+String s3 = new String("Hello");
+String s4 = "Hel" + "lo";
+String s5 = "Hel" + new String("lo");
+String s7 = "He";
+String s8 = "llo";
+String s9 = s7+s8;
+String s10 = new String("Hello");
+
+
+System.out.println(s1 == s2);   // true
+System.out.println(s1 == s3);   // false
+System.out.println(s1 == s4);   // true
+System.out.println(s1 == s5);   // false
+System.out.println(s1 == s9);   // false，這是因為編譯器不知道我們在String s9 = s7+s8;這行前，會不會對s7與s8的值進行修改，若貿然的假設s7仍是He或s8仍是llo，反而可能導致預期外的錯誤。
+System.out.println(s3 == s10);  // false
+```
+
+
+常數池運作方式:
+
+1. 編譯時發現字串，若常數池中已存在，則將現有的(先前找到的)位置賦予它，否則將該字串壓入常數池，並紀錄位置。
+
+2. 當載入class時，JVM會尋找.class的常數表，發現了字串常量Hello，在heap中生成對應的實例。
+3. 接著JVM會對常數池的入口位置進行解析，首先會找到字串s1的字面量Hello。
+4. 由於常數池中已經存在Hello，所以提供常數池的引用給s1
+5. 之後JVM找到s2的字面量Hello，
+6. 由於常數池中已經存在Hello，所以仍舊將s2指向已經生成好的Hello，而非再產生一個Hello。
