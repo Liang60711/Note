@@ -68,36 +68,47 @@ public class HelloWorld {
 
 }
 ```
-類別 class 
-1. 通常字首大寫
-2. 命名與檔名相同
-3. 需有 {}
 
-方法 method 
-1. 一切從 main 方法開始
-2. 沒有回傳值 void
-3. 輸入參數 String[] args
+<br/>
 
-修飾子 modifier 
-* 存取權限修飾子 Access Control Modifiers
-    * public
-    * private
-    * protected
-    * default
-* 非存取權限修飾子 Non-Access Modifiers
-    * static: 不用產生實體，就可以直接使用方法、屬性
-    * final
-    * abstract
-    * synchronized
+<br/>
 
-package 類似資料夾，檔案必須放在 package 名稱下才能執行程式
-```java
-$ javac HelloWorld.java
+## 匯入jar檔案
+為壓縮檔案，下載lib後，需在編輯器中匯入，以IntelliJ為例:
+1. 將 jar 檔案丟入 lib 中。
+2. File >> Project Structure。
+3. 左邊選 Module，右邊選 Dependencies。
+4. 點 `+` ，選 `JARs or Directories`，OK。
+5. 可使用 lib 的 Class。
 
-$ java HelloWorld
-```
+<br/>
 
-屬性 attribute  
-1. 可提供給方法使用
-2. 可以不用提供初始值
-3. 會有修飾子
+<br/>
+
+## Tomcat 安裝 (windows)
+1. 下載 Tomcat，並解壓縮。
+2. 新增環境變數 `CATALINA_HOME` 為 `C:\Program Files\apache-tomcat-8.5.79`
+
+3. 新增環境變數(path)
+
+    ```sh
+    %CATALINA_HOME%\bin
+    %CATALINA_HOME%\lib
+    ```
+
+4. 這時啟動 `startup.bat` 會報錯，因為在啟動 startup.bat 會調用 `setclasspath.bat`。
+
+    > Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
+At least one of these environment variable is needed to run this program
+
+5. `setclasspath.bat` 檔案需新增
+    ```sh
+    set JAVA_HOME=C:\Program Files\Java\jdk-18.0.1
+    set JRE_HOME=C:\Program Files\Java\jdk-18.0.1
+    ```
+
+6. 有可能在瀏覽器產生錯誤，這是因為 tomcat 目錄沒有被讀寫的許可權，導致檔案不能被編譯到指定的工作目錄中。
+
+    > java.lang.IllegalStateException: No output folder
+
+7. 找到 tomcat 目錄，右鍵—>內容—>安全性—>編輯，找到Users，將`完全控制`選項打勾。

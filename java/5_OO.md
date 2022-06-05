@@ -69,6 +69,22 @@ public interface Circle {
 ||Abstract class 可由 Interface 實作(implements)而來|Interface 不可由 Abstract class 實作而來|
 
 
+<br/>
+
+<br/>
+
+在 Java8 中 interface 可以有實作方法，但須加關鍵字`default`，原因是為了讓 interface 有更好的擴充性，舉例，若 DataHelp 這個 class 新開發一個方法 getData()，會造成原本 implements 此 interface 的類報錯，故可使用 default method。
+
+```java
+public interface DataHelp {
+    default List<String> getData(){
+        // 加上 default 後，可以實作方法
+        List<String[]> list = new ArrayList<String[]>();
+        return list;
+    }
+}
+```
+
 <br>
 <br>
 
