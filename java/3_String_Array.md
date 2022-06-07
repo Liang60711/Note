@@ -1,9 +1,8 @@
 
-
-
-# Array
+## 陣列 Array
 * 陣列只能存放相同資料型態；例如:String array
 * 陣列是物件
+* 宣告一定要有長度。
 
 <br>
 
@@ -18,6 +17,14 @@ int[] array_2 = new int[5];
 
 // 宣告長度為5
 ```
+
+### 陣列宣告3
+```java
+int[] array_2 = new int[] {1,2,3,4,5};
+
+// 不用宣告長度
+```
+
 
 ### 二維陣列宣告1
 ```java
@@ -61,9 +68,35 @@ String[] array = {"id", "name", "age"};
 System.out.println(Arrays.toString(array))      // ["id", "name", "age"]
 ```
 
-<br>
+<br/>
 
-<hr>
+<br/>
+
+## 可變參數(varargs)
+允許在調用方法時傳入不定長度的參數，是 Java 的一個語法糖。
+
+1. 可變參數只能作為函數的最後一个參數，前面可以有也可以沒有其他參數。
+2. 由於可變參數必須是最後一個參數，所以一個函數最多只能有一個可變參數。
+
+```java
+// 可變參數，直接輸入值，與陣列相同意思
+public void foo(int... x){
+    for(int i :x){
+        System.out.println(i);
+    }
+}
+
+
+// 調用
+foo(1,2,3);
+foo(1,2,3,4,5,6);
+```
+
+
+<br/>
+
+<br/>
+
 
 # String
 * 字串String 就是 字元char 的陣列。

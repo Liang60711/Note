@@ -112,3 +112,12 @@ At least one of these environment variable is needed to run this program
     > java.lang.IllegalStateException: No output folder
 
 7. 找到 tomcat 目錄，右鍵—>內容—>安全性—>編輯，找到Users，將`完全控制`選項打勾。
+
+<br/>
+
+<br/>
+
+## IDEA 快捷鍵
+快速生成語句
+
+`sout` =  System.out.println();
