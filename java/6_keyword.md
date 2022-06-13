@@ -4,7 +4,7 @@
 1. private
     * 僅此類別(class)內有效。
 
-2. default
+2. (default)
     * 只可用在同 class 和 package，即`此套件 package 內有效`。
 
 3. protected
@@ -20,7 +20,7 @@
 |:--:|:--:|:--:|:--:|:--:|
 |public|●|●|●|●|
 |protected|●|●|●||
-|default|●|●|||
+|(default)|●|●|||
 |private|●||||
 
 <br/>
@@ -42,6 +42,14 @@ final 即最後，修飾後即不可繼承或更改值
 3. variable
     * 在初始化後不能更改。
 
+4. 屬性
+    * 即常數，`必須賦值或在建構子中初始化賦值`。
+
+        ```java
+        // 通常會加上static
+        static final int NUM = 10;
+        ```
+
 <hr>
 
 ### static
@@ -57,7 +65,8 @@ final 即最後，修飾後即不可繼承或更改值
 
 ### override, overload 差異
 
-* override： 指一個子類別將會 extends 父類別，並改寫父類別已定義好的方法。方法名稱、參數型別、回傳型別需要相同，回傳的值可以不同。
+* override： 指一個子類別將會 extends 父類別，並改寫父類別已定義好的方法。
+方法名稱、參數型別、回傳型別需要相同，`回傳的值可以不同`；`子類權限修飾符需大於等於父類`，例如父類方法是proteced，子類必須是protected或public。
 
 * overload： 同一個 class 裡用同一個方法名，但參數不同(參數數量 或 參數型別)。用途: 藉由不同的參數，去調用不同的函式。
 

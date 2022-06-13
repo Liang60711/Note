@@ -67,8 +67,10 @@
 
 ```java
 34 4 56 17 90 65 // 排序，由小到大
+                 // 34和4比，向右交換位置，34和56比，不交，換，56和17比，交換位置，56和90比，不交換。
 
 4 34 17 56 65 90 // 第一輪，比較5次 (90已經排完，下輪不需要出現)
+
 
 4 17 34 56 65    // 第二輪，比較4次 (90,65已經排完，下輪不需要出現)
 
@@ -113,6 +115,7 @@ public static int[] bubbleSort(int[] nums){
 
 ```java
 34 4 56 17 90 65 // 排序，由小到大
+                 // 第一輪中，4最小，排在最前面
 
 4 34 56 17 90 65 // 第一輪，比較5次(4最小，順序和34換)
 4 17 56 34 90 65 // 第二輪，比較4次(17最小，順序和34換)
@@ -124,23 +127,23 @@ public static int[] bubbleSort(int[] nums){
 選擇排序法
 ```java
 public static int[] selectionSort(int[] nums){
-    int mixIndex = 0;
+    int minIndex = 0;
     // 外迴圈算幾輪
     for(int i=0; i<nums.length-1; i++){
 
-        mixIndex = i; // 每輪最小值的index(從尚未排序好的開始算)
+        minIndex = i; // 每輪最小值的index(從尚未排序好的開始算)
         // 內迴圈算幾次
         for(int j=i+1; j< nums.length; j++){
             // 兩兩相比，找最小值的index
-            if(nums[mixIndex]>nums[j]){
-                mixIndex = j;
+            if(nums[minIndex]>nums[j]){
+                minIndex = j;
             }
         }
         // 如果最小值不是 i 這個index，就需交換兩元素
-        if(mixIndex != i){
-            nums[mixIndex] = nums[mixIndex] + nums[i];
-            nums[i] = nums[mixIndex] - nums[i];
-            nums[mixIndex] = nums[mixIndex] - nums[i];
+        if(minIndex != i){
+            nums[minIndex] = nums[minIndex] + nums[i];
+            nums[i] = nums[minIndex] - nums[i];
+            nums[minIndex] = nums[minIndex] - nums[i];
         }
     }
     return nums;
