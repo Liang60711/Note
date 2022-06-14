@@ -141,4 +141,30 @@ double d = Double.parseDouble("3.14");
 String s = String.valueOf(3.14);
 ```
 
-<br>
+<br/>
+
+<br/>
+
+## 基本面試題
+Flyweight 輕量模式(享元模式): Interger在`-128~127`之間有常量池存在，API位置在`java.lang.Integer`的`IntegerCache`靜態類中。
+```java
+Integer x1 = new Integer(1);
+Integer x2 = new Integer(1);
+System.our.println(x1==x2);//false
+System.our.println(x1.equals(x2));//true
+
+Integer x3 = new Integer(128);
+Integer x4 = new Integer(128);
+System.our.println(x3==x4);//false
+System.our.println(x3.equals(x4));//true
+
+Integer x5 = 1;
+Integer x6 = 1;
+System.our.println(x5==x6);//true
+System.our.println(x5.equals(x6));//true
+
+Integer x7 = 128;
+Integer x8 = 128;
+System.our.println(x7==x8);//false，常量池範圍以外
+System.our.println(x7.equals(x8));//true
+```

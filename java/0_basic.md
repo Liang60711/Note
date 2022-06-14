@@ -54,19 +54,10 @@ $ java -Xmx2048m -Xms256m helloworld
 
 <hr>
 
-## Hello World
+## package命名
 ```java
-package test;
-
-public class HelloWorld {
-    // attribute
-
-    // method
-	public static void main(String[] args) {
-		System.out.println("Hello World");
-	}
-
-}
+package com.apple.cms.vo;
+// 命名:  商業, 公司名稱, 項目名稱, 模塊名稱
 ```
 
 <br/>

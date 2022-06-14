@@ -70,3 +70,32 @@ final 即最後，修飾後即不可繼承或更改值
 
 * overload： 同一個 class 裡用同一個方法名，但參數不同(參數數量 或 參數型別)。用途: 藉由不同的參數，去調用不同的函式。
 
+
+<br/>
+
+<br/>
+
+## assert
+檢查錯誤，有以下兩種:
+1. `assert <boolean表示式>`
+
+    如果<boolean表示式>為true，則程式繼續執行。
+
+    如果為false，則程式丟擲AssertionError，並終止執行。
+
+ 
+
+2. `assert <boolean表示式> : <錯誤資訊表示式>`
+
+    如果<boolean表示式>為true，則程式繼續執行。
+
+    如果為false，則程式丟擲java.lang.AssertionError，並輸入<錯誤資訊表示式>。
+
+<br/>
+
+IntelliJ編輯器需要在 `add VM options` 加入參數，才能使用。
+>步驟: https://se-education.org/guides/tutorials/intellijUsefulSettings.html
+
+<br/>
+
+<br/>
