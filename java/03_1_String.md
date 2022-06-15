@@ -1,103 +1,3 @@
-
-## 陣列 Array
-* 陣列只能存放相同資料型態；例如:String array
-* 陣列是物件
-* 宣告一定要有長度。
-
-<br>
-
-### 陣列宣告1
-```java
-int[] array_1 = {1, 2, 4, 8, 16};
-```
-
-### 陣列宣告2
-```java
-int[] array_2 = new int[5];
-
-// 宣告長度為5
-```
-
-### 陣列宣告3
-```java
-int[] array_2 = new int[] {1,2,3,4,5};
-
-// 不用宣告長度
-```
-
-
-### 二維陣列宣告1
-```java
-int[][] array_3 = {{1, 2}, {3, 4, 5}}       // 不一定要正方形矩陣
-
-```
-
-### 二維陣列宣告2
-```java
-int[][] array_4 = new int[2][2]     // 表示 2X2 int陣列
-
-array_4[0][0] = 1;                  // 賦值
-array_4[1][1] = 1;
-
-array_4[2][2] = 1;                  // 超出範圍會報錯
-```
-
-### 陣列取值
-```java
-int a = array_1[0]      // a = 1
-```
-
-### 陣列複製
-```java
-int[] num1 = new int[2];
-int[] num2 = Arrays.copyOf(num1, 2);    // 參數1=要複製的陣列，參數2=複製長度
-```
-
-不能使用
-```java
-int[] num2 = num1       // 這個意思是將 num1 的 reference 交給 num2
-```
-
-### 陣列 print
-```java
-// 因為 array是物件，所以需要轉型才能print
-import java.util.Arrays;
-
-String[] array = {"id", "name", "age"};
-
-System.out.println(Arrays.toString(array))      // ["id", "name", "age"]
-```
-
-<br/>
-
-<br/>
-
-## 可變參數(varargs)
-允許在調用方法時傳入不定長度的參數，是 Java 的一個語法糖。
-
-1. 可變參數只能作為函數的最後一个參數，前面可以有也可以沒有其他參數。
-2. 由於可變參數必須是最後一個參數，所以一個函數最多只能有一個可變參數。
-
-```java
-// 可變參數，直接輸入值，與陣列相同意思
-public void foo(int... x){
-    for(int i :x){
-        System.out.println(i);
-    }
-}
-
-
-// 調用
-foo(1,2,3);
-foo(1,2,3,4,5,6);
-```
-
-
-<br/>
-
-<br/>
-
-
 # String
 * 字串String 就是 字元char 的陣列。
 
@@ -110,20 +10,20 @@ char[] c = {'a', 'b', 'c'};
 String c = "abc";
 ```
 
-### 字串取值1 - 取單字
+### charAt() - 取單字
 ```java
 String str = "abc";
 str.charAt(1)           // 輸出 b
 ```
 
-### 字串取值2 - 取區間
+### substring() - 取區間
 ```java
 String str = "abcdef";
 str.substring(0,4);     // 輸出 abcd
 ```
 
 
-### 字串 split(), trim()
+### split(), trim()
 ```java
 String str = "id, name, age";           // 類似 csv 檔
 String[] array = str.split(",");
@@ -131,7 +31,7 @@ String[] array = str.split(",");
 System.out.println(array[1].trim());    // trim() 為去掉首尾空白
 ```
 
-### 字串 索引值 indexOf(), lastIndexOf()
+### indexOf(), lastIndexOf() 取索引
 ```java
 // 通常會和 subString() 一起用
 // indexOf()        回傳第一個字串
@@ -145,7 +45,7 @@ str.indexOf("x");           // -1 找不到回傳-1
 ```
 
 
-### 字串 檢查 contains()
+### contains() 檢查是否包含
 ```java
 // 會回傳 boolean
 
@@ -154,7 +54,7 @@ str.contains("a");          // true
 str.contains("x");          // false
 ```
 
-### 字串 檢查 startsWith(), endsWith()
+### startsWith(), endsWith() 檢查前綴/後綴
 ```java
 // 會回傳 boolean
 
@@ -164,7 +64,7 @@ str.endsWith("x");          // false
 ```
 
 
-### 字串 取代 replace()
+### replace() 取代 
 ```java
 // String 或 char 都適用，取代所有相同字串
 
@@ -172,12 +72,38 @@ String str = "abcd_abcd";
 str.replace("a", "b");      // bbcd_bbcd
 ```
 
-### 字串 取代 replaceAll()
+### replaceAll() 取代(正則)
 ```java
 // 語法: replaceAll(regex, String)，取代所有相同字串
 
 String str = "abc123";
 str.replaceAll("\\d", "!");       // 跳脫字元 \\d
+```
+
+### isEmpty() 判斷是否為空字串
+```java
+String str = "";
+str.isEmpty();
+```
+
+### length() 回傳長度
+`String`的length()是方法；`Array`的length是屬性
+```java
+String str = "aaa";
+str.length();
+```
+
+### toLowerCase() / toUpperCase() 轉大小寫
+```java
+String str = "Aaa";
+str = str.toLowerCase();
+str = str.toUpperCase();
+```
+
+### concat() 合併字串
+```java
+String str = "aaa";
+str = str.concat("---");
 ```
 
 <br/>
@@ -214,7 +140,7 @@ str1.equals(str3)   // true
 ## *常數池 constant pool
 >http://zake7749.github.io/2015/11/08/constantPool/
 
-Java存在一個特殊空間，把編譯時期就已經確定的常數(constant)包進.class，執行時再從這個空間統一拿出。這個特殊空間稱作常數池或(constant pool)，它主要保管這兩種東西：
+Java存在一個特殊空間(記憶體Heap中)，把編譯時期就已經確定的常數(constant)包進.class，執行時再從這個空間統一拿出。這個特殊空間稱作常數池或(constant pool)，它主要保管這兩種東西：
 
 1. `字面量(Literal)`: 包含了常數以及既定字串。
 
@@ -236,14 +162,29 @@ String s7 = "He";
 String s8 = "llo";
 String s9 = s7+s8;
 String s10 = new String("Hello");
+final String s11 = "He";
+final String s12 = "llo";
+String s13 = s11+s12;
+String s14 = getString();
+String s15 = "llo";
+String s16 = s14+s15;
 
 
 System.out.println(s1 == s2);   // true
 System.out.println(s1 == s3);   // false
 System.out.println(s1 == s4);   // true
 System.out.println(s1 == s5);   // false
-System.out.println(s1 == s9);   // false，這是因為編譯器不知道我們在String s9 = s7+s8;這行前，會不會對s7與s8的值進行修改，若貿然的假設s7仍是He或s8仍是llo，反而可能導致預期外的錯誤。
+System.out.println(s1 == s9);   // false，如果在編譯期間值可以被確定(如s4)，則使用已有的物件(常量池)，但因s7+s8接為變數，在runtime運行期時，才能確定s9的值，故s9會另外建立物件。
 System.out.println(s3 == s10);  // false
+System.out.println(s1 == s13);  // true，與s9原因相同，因為常數(加上final)已能在編譯期間確定值，故s13使用常數池中的物件。
+System.out.println(s1 == s16);  // 方法在運行期才能返回值，故會新建立物件。
+
+// 結論: 編譯期間可以確定的變數，都會從常數池撈。
+```
+```java
+private static String getString(){
+    return "He";
+}
 ```
 
 
@@ -256,3 +197,34 @@ System.out.println(s3 == s10);  // false
 4. 由於常數池中已經存在Hello，所以提供常數池的引用給s1
 5. 之後JVM找到s2的字面量Hello，
 6. 由於常數池中已經存在Hello，所以仍舊將s2指向已經生成好的Hello，而非再產生一個Hello。
+
+
+<br/>
+
+<br/>
+
+## StringBuffer
+* 為了減少字串在相加時所產生的物件，可以使用StringBuffer作為替代。
+* 線程安全的(表示多線程時，會有lock機制)，效能低，適合在多線程中使用。
+
+```java
+// String
+String a = "a";
+String b = "b";
+String c = a+b+"c";
+System.out.println(c);//產生超過3個物件
+
+
+// StringBuffer
+StringBuffer sb = new StringBuffer();
+sb.append("a").append("b").append("c");//只產生3個物件
+System.out.println(sb.toString());
+```
+
+<br/>
+
+<br/>
+
+## StringBuilder
+* 此類提供與StringBuffer兼容的API，被設計為StringBuffer的簡易替換，用在字串單線程時使用，效能會比StringBuffer高。
+* 線程不安全的(沒lock機制)，效能高，適合在單線程中使用，這種情況佔大多數。

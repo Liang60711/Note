@@ -109,6 +109,14 @@ At least one of these environment variable is needed to run this program
 <br/>
 
 ## IDEA 快捷鍵
-快速生成語句
+### 快速生成語句
 
 `sout` =  System.out.println();
+
+
+<br/>
+
+<br/>
+
+### 快捷鍵
+`alt`+ 7 顯示此class大綱 [stack overflow](https://stackoverflow.com/questions/31752352/eclipses-outline-window-equivalent-in-intellij)

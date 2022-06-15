@@ -56,3 +56,25 @@ try {
     System.out.println(e.getMessage());
 }
 ```
+
+<br/>
+
+<br/>
+
+## 範例
+```java
+public static void main(String[] args) {
+
+    Scanner input = new Scanner(System.in);
+    System.out.println("Enter username");
+
+    try {
+        int userName = input.nextInt();// 輸入String會報錯
+        System.out.println("Username is: " + userName);
+    } catch (InputMismatchException e) {
+
+        e.printStackTrace();
+    }
+
+}
+```
