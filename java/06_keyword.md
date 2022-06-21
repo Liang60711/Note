@@ -99,3 +99,18 @@ IntelliJ編輯器需要在 `add VM options` 加入參數，才能使用。
 <br/>
 
 <br/>
+
+
+## 函式參數 (parameters) vs 函式引數 (arguments)
+* 參數是在函式定義中所列出的變數
+* 引數是呼叫函式時傳遞給它的值
+
+    ```java
+    // s, i 為參數
+    void solution(String s, Integer i){
+
+    }
+
+    // "Apple", 5 為引數
+    solution("Apple", 5);
+    ```

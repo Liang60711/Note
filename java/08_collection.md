@@ -6,6 +6,12 @@
 
 <br/>
 
+## package
+collection 都是存放在 `java.util` package下
+
+<br/>
+
+<br/>
 
 # List
 1. 會依序存放物件 (代表有index)
@@ -104,12 +110,17 @@ LinkedList<String> list = new LinkedList<>();
     * HashSet
     * TreeSet
     * LinkedHashSet
+
+4. 總結:
+    * 要求排序選`TreeSet`
+    * 不要求排序選`HashSet`
+    * 不要求排序但是要保持插入順序選`LinkedHashSet`
     
 
 ### HashSet
 1. 實現原理，使用`HashMap`實現，新增元素時，會先計算元素的hashCode值，取餘後，決定將物件存在雜湊表的哪個位置中。
 2. 不允許重複，可以有一個null元素。
-3. 不保證順序恆久不變。
+3. 不保證順序。
 4. 排除重複元素是透過`equals`檢查，若多new一個相同的元素，則還是可以添加進HashSet。
     ```java
     Cat c1 = new Cat("A");
@@ -195,6 +206,61 @@ set.size();
 <br/>
 
 ### TreeSet
+1. TreeSet是基於TreeMap去實現，TreeMap是一個有序的二元樹，故TreeSet必須也要是有序的，這點與HashSet不同。
+2. 如果是自定義的物件加入TreeSet，需要new `comparator`，來比較順序。
+
+    ```java
+    // 若為Interger則會使用已寫好的comparator比較
+    TreeSet<Integer> tree = new TreeSet<>();
+    tree.add(1);
+    tree.add(2);
+    tree.add(3);
+    // 可以自定義 Integer 的順序
+    TreeSet<Integer> tree = new TreeSet<>(new Comparator<Integer>(){
+        @Override
+        public int compare(Integer o1, Integer o2){
+            return o1 - o2; //此時順序會是1,2,3，這是默認寫法
+        }
+    });
+    ```
+    自定義的物件，有3種寫法
+
+    ```java
+    // 1.直接複寫
+    TreeSet<Cat> tree = new TreeSet<>(new Comparator<Cat>(){
+        @Override
+        public int compare(Cat o1, Cat o2){
+            return o1.id - o2.id;   //依照id排順序
+        }
+    });
+    
+
+    // 2.使用繼承的類當參數
+    TreeSet<Cat> tree = new TreeSet<>(new CatComparator());
+    
+    class CatComparator implements Comparator<Cat>{
+        @Override
+        public int compare(Cat o1, Cat o2){
+            return o1.id - o2.id;   //依照id排順序
+        }
+    }
+
+    // 3.使用lambda
+    Comparator<Cat> com = (Cat o1, Cat o2) -> (o1.id - o2.id);//只有一行可以省略大括號，加上小括號；也可以不佳小括號
+    TreeSet<Cat> tree = new TreeSet<>(com);
+    ```
+3. 因為使用了`Comparator`，可實現兩個功能:
+    1. 可以比較順序。
+    2. 可以用來排除重複的元素(因為有進行比較，如果元素相同，則不會add進TreeSet)。
+
+4. 若自定義的類沒有implements Comparator，則無法添加到TreeSet中(TreeSet必須是有序的)。
+
+<br/>
+
+<br/>
+
+### LinkedHashSet
+1. 使用`Hash table` + `LinkedList` 實作；雜湊表用來表示元素的唯一，鍊表用來保證元素的插入順序。
 
 <br/>
 
@@ -236,5 +302,103 @@ set.size();
 
 <br/>
 
-## package
-collection 都是存放在 `java.util` package下
+## 集合輸出
+通常集合輸出分為以下幾種: 
+1. **Iterator**
+2. ListIterator
+3. Enumeration
+4. **foreach**
+
+<br/>
+
+### Iterator 迭代器
+jdk1.5前都用此方式
+```java
+// 第一次使用next()是返回第一個元素
+private static void iterator(Collection<Cat> c){
+    Iterator<Cat> iter = c.iterator();
+    while(iter.hasNext()){
+        System.out.println(iter.next());
+    }
+}
+```
+
+
+### ListIterator
+只有`list`可以使用。可以向前/後進行迭代，使用hasPrevious() / hasNext()
+```java
+private static void listIterator(List<Cat> c){
+    ListIterator<Cat> li = c.listIterator();
+    while(li.hasNext()){
+        System.out.println(li.next());
+    }
+}
+```
+
+
+### Enumeration 枚舉
+jdk1.0，被認為是過時代碼
+```java
+private static void enumeration1(){
+    Vector<Cat> vs = new Vector<>();
+    vs.add(new Cat("A", 1,1));
+    vs.add(new Cat("b", 2,2));
+    vs.add(new Cat("c", 2,2));
+    vs.add(new Cat("d", 2,2));
+
+    Enumeration e = vs.elements();
+
+    while(e.hasMoreElements()){
+        System.out.println(e.nextElement());
+    }
+}
+```
+
+
+### foreach
+jdk1.5，最簡單的用法
+```java
+private static void foreach(Collection<Cat> c){
+    foreach(Cat cat : c){
+        System.out.println(cat);
+    }
+}
+```
+jdk1.8，Lambda Collection forEach()
+```java
+List<Cat> list = new ArrayList<>();
+
+// 1. forEach + lambda
+list.forEach(s -> System.out.println(s));// 參數只有一個省略小括號
+
+// 2. forEach + lambda + Method References
+list.forEach(System.out::println);//調用靜態方法，並將省略的參數丟進println方法內
+
+// 3. 其實原本forEach寫法是這樣
+list.forEach(new Consumer<Cat>() {
+    @Override
+    public void accept(Cat cat) {
+        System.out.println(cat);
+    }
+});
+```
+Iterable介面新增了forEach()方法，參數為Consumer介面的實作(action)，而Consumer是只有一個抽象方法(accept())的Functional Interface，所以可以用Lambda語法改寫。
+
+```java
+// java.lang.Iterable
+public interface Iterable{
+
+    default void forEach(Consumer<? super T> action) {
+        Objects.requireNonNull(action);
+        for (T t : this) {
+            action.accept(t);//每次foreach會執行accept這個方法
+        }
+    }
+}
+```
+```java
+// java.util.function.Consumer
+public interface Consumer<T> {
+    void accept(T t);//Consumer類只有一個accept方法，故可以用lambda複寫。
+}
+```
