@@ -260,7 +260,7 @@ set.size();
 <br/>
 
 ### LinkedHashSet
-1. 使用`Hash table` + `LinkedList` 實作；雜湊表用來表示元素的唯一，鍊表用來保證元素的插入順序。
+1. 使用`array` + `LinkedList` 實作成 `HashTable`；陣列用來表示元素的位置，鍊表用來保證元素的插入順序。
 
 <br/>
 
@@ -269,33 +269,75 @@ set.size();
 
 # map
 1. 將物件以 key, value 方式儲存
-2. 使用 key 取得存放物件
+2. key不能重複，value可以重複。
+3. 具體實現類
 
-    ```java
-    Map<String, Integer> map = new HashMap<String, Integer>();
-    ```
+    * HashMap
+    * TreeMap
+    * HashTable
+    * LinkedHashMap
 
-3. 方法
 
-    ```java
-    Map<String, Integer> map = new HashMap<String, Integer>();
-    String str = "str";
+<br/>
 
-    // 新增
-    map.put("key1", 1);  // 參數為 (key, value)
+<br/>
 
-    // 取value值
-    map.get("key1")     // 1
 
-    // 取所有值(先取所有的keySet)，再用for取值
-    // map.keySet() 為取所有的key
-    for(String key : map.keySet()){
-        System.out.println(map.get(key));
-    }
+### HashMap
+1. 實現原理是使用`array` + `LinkedList` + `紅黑樹`，java8加入紅黑樹是為了防止LinkedList過長。
 
-    // 刪除
-    map.remove(str);
-    ```
+    * 補充: 紅黑樹相較於一般二元樹是確保樹的某些分支左右平衡，遍歷時效能比較好。
+
+2. 儲存過程: 將`key`值取hashCode，並使用陣列長度(初始值為16)對其取餘數，碰撞時則使用LinkedList串聯，串聯過多(超過8)則改成紅黑樹；當陣列儲存達75%時，陣列會進行擴充，擴充算法為`<<1，相當於*2` (`resize()方法`)，每次擴充表示HashTable會重新`散列`(重新取餘，計算每個物件的儲存位置)，所以須盡量減少擴充次數。
+
+3. `default initial capacity` 預設初始容量為 `16`，元素超過此數則會重新建構。
+4. `loadFactor` 為 `0.75`，此載入因子表示`Hash表中元素的填滿的程度`，至於為什麼為這個數，因需在`雜湊衝突`和`空間利用率`取折衷。
+5. HashTable查找速度快是因為不用遍歷，所以當其中某一元素的LinkedList過長時(碰撞過多)，則需花費時間在LinkedList的遍歷上造成速度變慢，所以當LinkedList的長度大於等於`TREEIFY_THRESHOLD = 8`這個長度時，則會將此元素的LinkedList結構改變成紅黑樹 (class `TreeNode`)。
+
+6. 線程不安全，適合在單線程使用。
+
+
+```java
+// 宣告
+Map<Integer, String> map = new HashMap<>();
+
+// 新增
+map.put(1, "aaa");
+
+// 取值
+map.get(1);
+
+// 長度
+map.size();
+```
+遍歷方式
+```java
+Map<Integer, String> map = new HashMap<>();
+
+// 1.map.entrySet()
+Set<Map.Entry<Integer,String>> entrySet = map.entrySet();
+for(Map.Entry e: entrySet){
+    System.out.println(e.getKey()+ "->" + e.getValue());
+}
+
+// 2.map.keySet()，取所有key
+Set<Integer> keys = map.keySet();
+for(Integer i: keys){
+    System.out.println(i + "->" + map.get(i));
+}
+
+// 3.map.value()直接返回Collection，沒有key
+Collection<String> values = map.values();
+
+// 4.map.forEach()
+map.forEach((k,v)->System.out.println(k+"->"+v));
+```
+
+
+<br/>
+
+<br/>
+
 
 
 <br/>
@@ -402,3 +444,4 @@ public interface Consumer<T> {
     void accept(T t);//Consumer類只有一個accept方法，故可以用lambda複寫。
 }
 ```
+
