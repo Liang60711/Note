@@ -1,10 +1,15 @@
-# JDK8 新特性
-新的interface 都放在`java.util.function`，大致分為4類。
+# Functional interface
+* 新的interface 都放在`java.util.function`，大致分為4類。
+* `Functional Interface`，意思是只有一個抽象方法的interface。
+
 
 > https://matthung0807.blogspot.com/2018/09/java-8-javautilfunction-functional.html
 
+<br/>
+
+<br/>
+
 ## Consumer<T>
-* 屬於`Functional Interface`，意思是只有一個抽象方法的interface。
 * Consumer class下只有一個 `accept`方法。
 
     ```java
@@ -23,10 +28,10 @@
 
 
 
-## function<T, R>
+## Function<T, R>
 * 接受一個參數，然後以該參數進行計算後傳回結果，就可以使用Function介面。
 
-* 此介面就像是數學函數y=f(x)，給予x值計算出y值的概念，因此命名為Function，應用的例子之一
+* 此介面就像是數學函數y=f(x)，給予x值計算出y值的概念，因此命名為Function
 
 * 泛型中的T代表傳入類型，R代表回傳類型。
 

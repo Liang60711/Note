@@ -145,7 +145,7 @@ class NodeManager{
             currentIndex++;//當前已經不是root了
             if(index == currentIndex){
                 Node newNode = new Node(data);
-                newNode.next = prev.next;
+                newNode.next = prev.next;//這邊沒辦法用this，只能用prev.next表示當前節點
                 prev.next = newNode;
             }else{
                 this.insertNode(prev.next, index, data);
