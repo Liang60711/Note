@@ -119,6 +119,19 @@ LinkedList<String> list = new LinkedList<>();
 
 ### HashSet
 1. 實現原理，使用`HashMap`實現，新增元素時，會先計算元素的hashCode值，取餘後，決定將物件存在雜湊表的哪個位置中。
+2. HashSet底層是HashMap，故在儲存資料時，是使用HashMap的put()方法
+    
+    ```java
+    // java.util.HashSet
+    private static final Object PRESENT = new Object();
+
+    // 將新元素(e)儲存進key
+    // 會將一個填充物PRESENT儲存進value
+    public boolean add(E e){
+        return map.put(e, PRESENT)==NULL;
+    }
+    ```
+
 2. 不允許重複，可以有一個null元素。
 3. 不保證順序。
 4. 排除重複元素是透過`equals`檢查，若多new一個相同的元素，則還是可以添加進HashSet。
@@ -139,7 +152,7 @@ LinkedList<String> list = new LinkedList<>();
 6. 在HashSet中，判斷兩個物件是否相同會做以下判斷(基於不能存放重複元素的原則，新增元素時都會做以下篩選)
     * 第一關會先判斷兩個物件的HashCode是否相同(兩個物件的HashCode相同，不一定是同個物件)
     * 第二關再使用`equals`判斷其他屬性是否相同。
-    * 若第一第二關判斷完，結果都是true，則新元素不加入倒hashSet中。
+    * 若第一第二關判斷完，結果都是true，則新元素不加入hashSet中。
 
     ```java
     Cat c1 = new Cat("AAA", 1,1);
@@ -155,6 +168,7 @@ LinkedList<String> list = new LinkedList<>();
     System.out.println(c1.hashCode() == c3.hashCode());//true
 
     /////////////////////////////////
+    // 自定義類中，可以Override這兩個方法，讓相同屬性的物件不會被重複加入到HashSet中。
     class Cat{
         private String name;
         private int age;
@@ -277,6 +291,14 @@ set.size();
     * HashTable
     * LinkedHashMap
 
+4. 總結:
+    * 不要求元素排序: 
+        * 單線程: `HashMap`
+        * 多線程: `HashTable`
+
+    * 要求元素排序
+        * 按照插入(新增)順序排序: `LinkedHashMap`
+        * 按照key值排序: `TreeMap`
 
 <br/>
 
@@ -338,6 +360,80 @@ map.forEach((k,v)->System.out.println(k+"->"+v));
 
 <br/>
 
+## HashTable
+* HashMap和HashTable的區別
+ 
+    1. HashTable是jdk1.0開始，比較舊。
+    2. 預設陣列大小: `11`，加載因子loadFactor: `0.75`。
+    3. 擴充方式: 當前陣列容量 *2 + 1
+    4. 沒有用到`紅黑樹`結構。
+    5. 線程安全，用在多線程。
+
+* 用法幾乎與HashMap相同
+
+    ```java
+    Map<String, String> table = new Hashtable<>();
+    table.put("one", "aaa");
+    table.put("two", "bbb");
+    table.put("three", "ccc");
+
+    table.forEach((k,v)->System.out.println(k+ "->" +v));
+    ```
+
+<br/>
+
+<br/>
+
+
+## LinkedHashMap
+1. LinkedHashMap 是 HashMap 的子類。
+2. 由於 HashMap 不能保證元素順序恆久不變，擴充時進行的`散列`可能造成元素順序改變。
+
+
+<br/>
+
+<br/>
+
+## TreeMap
+1. 實現原理基於`紅黑樹`，需要排順序，故加入元素時，需要進行比較。
+2. 與`TreeSet`相同的是，自定義的類在加入元素時，需要實作`Comparator`。
+
+    ```java
+    // 1.重寫compare()
+    public class Dog implements Comparator<Dog> {
+        private int id;
+        private int age;
+        private String name;
+
+        public int getId() {
+            return id;
+        }
+
+        
+        public Dog(int id, int age, String name) {
+            this.id = id;
+            this.age = age;
+            this.name = name;
+        }
+
+        @Override
+        public int compare(Dog o1, Dog o2) {
+            return o1.id - o2.id;
+        }
+    }
+    ```
+    ```java
+    // 2. lambda，TreeMap只有key才能做排序
+    Comparator<Dog> com = (Dog o1, Dog o2) -> o1.getId()-o2.getId();
+
+    Map<Dog, Integer> dogs = new TreeMap<>(com);
+    ```
+    ```java
+    // 3. 順序顛倒 ReverseComparator
+    Comparator<Dog> com = (Dog o1, Dog o2) -> o1.getId()-o2.getId();
+
+    Map<Dog, Integer> dogs = new TreeMap<>(new ReverseComparator(com));
+    ```
 
 
 <br/>
