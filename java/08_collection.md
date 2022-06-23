@@ -541,3 +541,59 @@ public interface Consumer<T> {
 }
 ```
 
+
+<br/>
+
+<br/>
+
+## 集合方法
+`getOrDefault()` 可以設定default值
+```java
+Map<Integer, String> map = new HashMap<>();
+
+map.getOrDefault(87, "null");//default與value必須是同型
+```
+`putIfAbsent()` 檢查key值沒有重複才加入元素，`防止覆蓋原本的value`
+```java
+map.put(1,"apple");
+map.put(2,"bb");
+map.put(3,"cc");
+
+map.putIfAbsent(3, "dd"); // 已有key=3，返回已有元素"cc"
+map.putIfAbsent(4, "dd"); // 成功加入，返回null
+```
+`remove(key, value)` 比 remove(key) 更嚴謹，鍵值都相同才會刪除
+```java
+map.remove(1, "apple");
+```
+`replace(key, oldValue, newValue)` 比 put(k,v) 和 replace(k,v) 嚴謹，會先檢查舊值，確定有才替換
+```java
+map.replace(1, "cc", "dd");
+```
+`merge(key, value, remappingFunction)`
+
+如果key不存在，執行 `put(key, value)`，如果key已經存在，則 remappingFunction可以選擇合併的方式，並將newValue賦給key。
+
+```java
+map.put(1,"apple");
+map.put(2,"bb");
+map.put(3,"cc");
+
+map.merge(4, "dd", (oldVal, newVal)->oldVal.concat(newVal));//只會執行put(4,"dd");
+
+map.merge(1, " good", (oldVal, newVal)->oldVal.concat(newVal));// (1, "apple good");
+```
+可以使用在物件
+```java
+Map<Integer, Dog> map = new HashMap<>();
+map.put(1, new Dog(1,"dog1"));  // Dog(age, name);
+map.put(2, new Dog(2,"dog2"));
+map.put(3, new Dog(3,"dog3"));
+
+Dog dog4 = new (4, "dog4");
+
+map.merge(1, dog4, (oldVal, newVal) -> new Dog(oldVal.age, newVal.name));
+// oldVal = Dog(1, "dog1");
+// newVal = Dog(4, "dog4");
+// key = 1，value = Dog(1, "Dog4");
+```
