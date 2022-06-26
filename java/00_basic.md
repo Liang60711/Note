@@ -108,7 +108,18 @@ At least one of these environment variable is needed to run this program
 
 <br/>
 
-## IDEA 快捷鍵
+## IntelliJ 操作
+修改 springboot 版本
+1. 開啟 `pom.xml`，修改 `<version>2.3.7.RELEASE</version>` 中的版本。
+2. 點選右上角M符號 `Load Maven Changes`
+3. 或是右鍵->Maven->Reload project
+
+
+<br/>
+
+<br/>
+
+## IntelliJ IDEA 快捷鍵
 ### 快速生成語句
 
 `sout` =  System.out.println();
