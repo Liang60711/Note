@@ -155,12 +155,48 @@ public static void main(String[] args) throws InterruptedException {
 
 <br/>
 
+## 優先級別
+更改線程優先級別
+```java
+Thread t = new Thread(new MyRunnable());
+
+t.setPriority(Thread.MAX_PRIORITY);
+```
+
+<br/>
+
+<br/>
+
+## daemon thread 守護線程 / user thread 用戶線程
+線程分為2種: 
+
+`守護線程`: 用於服務其他線程的線程，如果用戶線程(自定義線程)執行完畢，連main線程也執行完畢，那麼jvm就會退出(即停止運行)，例如垃圾回收線程，守護線程一般具有較低的優先級。
+
+`用戶線程`: 應用程序裡的線程，一般都是用戶自定義線程。
+
+
+
+```java
+Thread t = new Thread(new MyRunnable());
+
+// 設為守護線程
+t.setDaemon(true);
+```
+
+
+<br/>
+
+<br/>
+
 
 ## 同步 synchronized
 1. 多執行緒在使用同一個 class 時，會因為不同步導致資料不一致的狀況。
 2. 因為多執行緒的的執行時間無法計算，所以問題不一定會發生，但有機會發生。
 3. `Synchronized` 使用時，需指定一個物件，系統會 `Lock` 此`物件`，當程式進入 Synchronized 區塊或 Method 時，該物件會被 Lock，直到離開 Synchronized 區塊時才會被釋放。
 4. 在 Lock 期間，鎖定同一物件的其他 Synchronized 區塊，會因為無法取得物件的 Lock 而等待。
+
+5. 如果兩線程皆為synchronized，並在synchronized區塊中調用彼此的synchronized區塊，此時彼此的物件都是在lock狀態下，會造成`dead lock`，應避免這種情況發生。
+
 
 <br/>
 
