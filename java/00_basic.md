@@ -130,4 +130,8 @@ At least one of these environment variable is needed to run this program
 <br/>
 
 ### 快捷鍵
-`alt`+ 7 顯示此class大綱 [stack overflow](https://stackoverflow.com/questions/31752352/eclipses-outline-window-equivalent-in-intellij)
+`alt`+ `7` 顯示此class大綱 [stack overflow](https://stackoverflow.com/questions/31752352/eclipses-outline-window-equivalent-in-intellij)
+
+`雙擊 shift`: 找文件、類、方法名稱
+
+`ctrl` + `shift` + `f` : 全域搜尋關鍵字

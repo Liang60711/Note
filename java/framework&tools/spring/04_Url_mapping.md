@@ -82,7 +82,18 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
 
 <br/>
 
-## @RequestParam
+## 取資料
+有4種方法:
+1. `@RequestParam` : 取query parameter
+2. `@RequestBody` : 取 request body 內容
+3. `@RequestHeader` : 取 request header
+4. `@PathVariable` : 取 url 當中的路徑名稱(Restful)
+
+<br/>
+
+<br/>
+
+## @RequestParam (GET)
 1. 可以取 url 中的 query parameter，例如:
 
     `localhost:8080/test?testId=123&name=lil`
@@ -91,7 +102,7 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
     @RestController
     public class MyController{
         
-        @RequestMapping("test")
+        @RequestMapping("/test")
         public String test(@RequestParam String name
                            @RequestParam Integer testId){ // name,testId變數名稱需和query的key名相同
             
@@ -108,7 +119,7 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
     `localhost:8080/test?testId=123`
     ```java
     // 將testId的參數123指定給id使用
-    @RequestMapping("test")
+    @RequestMapping("/test")
     public String test(@RequestParam(name = "testId") Integer id){
         ...
     }
@@ -116,7 +127,7 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
     `required`參數，定義是否為必填，預設為true，若沒收到該參數則返回 `400` 給前端。
 
     ```java
-    @RequestMapping("test")
+    @RequestMapping("/test")
     public String test(@RequestParam(required = false) Integer id){
         ...
     }
@@ -125,7 +136,7 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
     `defaultValue`提供預設值，為`required=false`的加強版，default值需給字串，可和`name`一起用。
 
     ```java
-    @RequestMapping("test")
+    @RequestMapping("/test")
     public String test(@RequestParam(defaultValue = "10") Integer id){
         ...
     }
@@ -135,6 +146,119 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
 <br/>
 
 <br/>
+
+## @RequestBody (POST)
+1. 抓取Post給後端的Request body中的參數。
+2. spring會自動將json格式對應到接收參數的java class中。
+
+    ```json
+    // json
+    {
+        "id":123,
+        "name": "Judy",
+        "score": 100
+    }
+    ```
+
+    ```java
+    @RestController
+    public class MyController{
+
+        @RequestMapping("/test2")
+        public String test2(@RequestBody Student student){
+            return "";
+        }
+    }
+    ```
+    ```java
+    // 用Student物件去接前端拋過來的json
+    public class Student{
+        Integer id;
+        String name;
+    }
+    ```
+3. 若前端給的json多帶了key，則java class會`忽略`這筆，如果少帶了key，則會設成`null`。
+
+    ```java
+    // 接資料的student class，name會設成null
+    {
+        "id": 123,
+        "score": 100
+    }
+    ```
+    
+
+<br/>
+
+<br/>
+
+## @RequestHeader (取Header)
+1. 取 Request header，header的結構一樣是 `key: value`
+2. 接收變數的名稱也需要和header的key相同。
+
+    ```java
+    @RestController
+    public class MyController{
+
+        @RequestMapping("/test3")
+        public String test3(@RequestHeader String header1){
+            return "";
+        }
+    }
+    ```
+3. 參數設定
+
+    `name`，設定變數名稱應對應哪個header key(常用，因為header字串中有 `-` 符號)
+    ```java
+    @RequestMapping("/test3")
+    public String test3(@RequestHeader(name="Content-Type") String contentType){
+        ...
+    }
+    ```
+    `required`，設定是否為必須的header
+    ```java
+    @RequestMapping("/test3")
+    public String test3($RequestHeader(required=false) String header1){
+        ...
+    }
+    ```
+    `defaultValue`，設定預設值
+    ```java
+    @RequestMapping("/test3")
+    public String test3($RequestHeader(defaultValue="application/json") String header){
+        ...
+    }
+    ```
+
+<br/>
+
+<br/>
+
+## @PathVariable
+1. 取在path中的路徑變數，Restful的url會常用到。
+2. 使用格式是使用 `{}` 取路徑中的變數。
+3. {id} 裡面的參數名稱，必須和方法中的參數名相同。
+
+    ```java
+    @RestController
+    public class MyController{
+
+        @RequestMapping("/test4/{id}")
+        public String test4(@PathVariable Integer id){//變數命名需統一
+            System.out.println(id);
+            return "test4";
+        }
+    }
+    
+    ```
+
+<br/>
+
+<br/>
+
+## IntelliJ
+若要查詢此class中，所有 route list，可以點選下方 `endpoint` tab。
+
 
 <br/>
 
