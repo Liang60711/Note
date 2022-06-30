@@ -152,9 +152,8 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
 2. spring會自動將json格式對應到接收參數的java class中。
 
     ```json
-    // json
     {
-        "id":123,
+        "id": 123,
         "name": "Judy",
         "score": 100
     }

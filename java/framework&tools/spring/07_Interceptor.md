@@ -1,7 +1,7 @@
 ## 攔截器
-1. 攔截 request 到 controller 之間的程式，多半用於授權及驗證，等於 laravel 的 middleware 功能。
+1. 攔截 request 到 controller 之間的程式，多半用於授權及驗證，類似 laravel 的 middleware 功能。
 
-2. 自定義的攔截器會注入到有`@Configuration註解的設定類`中。
+2. 自定義的攔截器會注入到`有@Configuration註解的設定類`中。
 
 
 3. HandlerInterceptor 介面下有三個抽象方法

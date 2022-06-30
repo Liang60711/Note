@@ -68,8 +68,8 @@ public String test(){
 
 ## 自定義 Exception 的 http response
 1. 目的: 將Exception程式統一管理，不用在每個Controller分別寫try-catch。
-2. `@ControllerAdvice` 底層式透過 Spring AOP 所實作。
-3. 假如拋出錯誤沒有寫自定義的 handle 方法，Spring 就會自動去找該 Exception 繼承的父類 (IllegalArgumentException 沒自定義就會去找 RuntimeException)。
+2. `@ControllerAdvice` 底層是透過 Spring AOP 所實作。
+3. 假如拋出錯誤時，沒有對應的 handle 方法，Spring 就會自動去找該 Exception 繼承的父類 (IllegalArgumentException 沒自定義就會去找 RuntimeException)。
 
 
 4. spring boot在沒有自定義 exception 時，預設給前端的狀態碼為`500`。
