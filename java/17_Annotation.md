@@ -25,6 +25,8 @@
 
     |@Target()選項|修飾在哪|
     |--|--|
+    |`ElementType.TYPE_USE`|任何地方|
+    |ElementType.TYPE_PARAMETER|泛型|
     |ElementType.TYPE|類、介面、枚舉、註解|
     |ElementType.FIELD|成員變數、枚舉的常量|
     |ElementType.METHOD|方法|
