@@ -104,6 +104,7 @@ public class ReflectionTest {
         Method test2 = clazz.getDeclaredMethod("test2");
         test2.setAccessible(true);
         String str = (String) test2.invoke(p1,"hello"); // invoke也是回傳Object類型
+        // Method.invoke(Object, param);
     }
 }
 ```

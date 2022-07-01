@@ -1,5 +1,5 @@
 ## @RequestMapping
-1. 加在`class`或`方法`上，可以url的相對路徑。
+1. 加在`class`或`方法`上，可以註冊url的相對路徑。
 2. 相應的class必須加上`@Controller`或`@RestController`，url才會生效。
 
     ```java
@@ -200,7 +200,7 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
     public class MyController{
 
         @RequestMapping("/test3")
-        public String test3(@RequestHeader String header1){
+        public String test3(@RequestHeader String headerKey1){
             return "";
         }
     }
@@ -217,14 +217,14 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
     `required`，設定是否為必須的header
     ```java
     @RequestMapping("/test3")
-    public String test3($RequestHeader(required=false) String header1){
+    public String test3($RequestHeader(required=false) String headerKey2){
         ...
     }
     ```
     `defaultValue`，設定預設值
     ```java
     @RequestMapping("/test3")
-    public String test3($RequestHeader(defaultValue="application/json") String header){
+    public String test3($RequestHeader(defaultValue="application/json") String headerKey3){
         ...
     }
     ```

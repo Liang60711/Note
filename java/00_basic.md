@@ -135,3 +135,10 @@ At least one of these environment variable is needed to run this program
 `雙擊 shift`: 找文件、類、方法名稱
 
 `ctrl` + `shift` + `f` : 全域搜尋關鍵字
+
+<br/>
+
+<br/>
+
+## IntelliJ 功能
+* `Database`功能中，在檢視table頁面，可點選右上角眼睛 `view as`-> `transpose` 倒置table。
