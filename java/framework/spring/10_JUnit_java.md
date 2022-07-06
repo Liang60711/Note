@@ -32,7 +32,7 @@
     </dependency>
     ```
 
-6. 使用 `org.junit.jupiter.api.Test`，加註解在方法上。
+6. 使用 `org.junit.jupiter.api.Test`，加註解在方法上，`class 前加上 public`，建立時預設沒有加。
 
     ```java
     public class CaculatorTest {
@@ -62,3 +62,105 @@
 <br/>
 
 <br/>
+
+## 測試用註解
+
+`@beforeEach`: 在每個 test case 前都先執行一次這個註解的方法 (常用)。
+
+`@afterEach` : 同上，每個 test case 後執行。
+
+```java
+@BeforeEach
+public void beforeEach() {
+    System.out.println("@beforeEach");
+}
+
+@AfterEach
+public void afterEach() {
+    System.out.println("@afterEach");
+}
+
+@Test
+public void test1() {
+    System.out.println("test1");
+}
+
+@Test
+public void test2() {
+    System.out.println("test2");
+}
+```
+```java
+// 輸出
+// @beforeEach
+// test1
+// @afterEach
+// @beforeEach
+// test2
+// @afterEach
+```
+
+<br/>
+
+<br/>
+
+`@BeforeAll` : 在執行所有 test case 之前，執行一次這個註解的方法 (常用)。
+
+`@AfterAll` : 同上，執行所有 test case 之後。
+
+使用這兩個註解時，方法必須聲明為 `static`，所以這兩個註解`沒辦法去測試到 Bean`，故不太常用。
+
+```java
+@BeforeAll
+public static void beforeAll() {
+    System.out.println("@beforeAll");
+}
+
+@AfterAll
+public static void afterAll() {
+    System.out.println("@afterAll");
+}
+
+@Test
+public void test1() {
+    System.out.println("test1");
+}
+
+@Test
+public void test2() {
+    System.out.println("test2");
+}
+```
+```java
+// 輸出
+// @beforeAll
+// test1
+// test2
+// @afterAll
+```
+
+<br/>
+
+<br/>
+
+`@Disabled` : 忽略該 @Test 不執行。
+
+```java
+@Disabled
+public void test() {
+
+}
+```
+
+<br/>
+
+<br/>
+
+`@DisplayName` : 自定義顯示名稱，會顯示在左下角 Run 的 tab 中。
+
+```java
+@DisplayName("自定義名稱")
+public void test() {
+
+}
+```

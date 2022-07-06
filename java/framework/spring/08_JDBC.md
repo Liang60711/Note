@@ -219,9 +219,9 @@ Spring JDBC 會自動創建名為 `NamedParameterJdbcTemplate` 的 Bean，jdbc �
         // 檢查是否有撈到資料
         if (list.size() > 0) {
             return list.get(0);
-        }else{
-            return null;
         }
+        return null;
+          
     }
     ```
 
@@ -247,14 +247,15 @@ Spring JDBC 會自動創建名為 `NamedParameterJdbcTemplate` 的 Bean，jdbc �
 
 ## Transactional 交易
 1. 用法: 加在 class 或方法上，通常是`方法`。
-2. 使用`@Transactional`可以使用Transaction功能。
+2. @Transactional 在 `main` 資料夾中
 
-    ```java
-    @Transactional
-    public void transfer(){
-        //...
-    }
-    ```
+    * 程式運行`中途發生錯誤`的話，才會 rollback 已經執行的db操作，將數據恢復。
+
+
+3. @Transactional 在 `test` 資料夾中
+
+    * 在單元測試結束後，`強制 rollback` 所有對db的操作，將數據恢復。
+
 
 
 <br/>

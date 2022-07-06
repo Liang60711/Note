@@ -134,10 +134,12 @@
 
 4. 類的初始化執行順序如下:
 
-    `Constructor >> Autowired >> PostConstruct`
+    * `Constructor >> Autowired >> PostConstruct`
 
-    故，如果初始化成員變數需要使用注入進來的物件或者值，那麼應該放在被PostConstruct註解的方法中去做。
+5. 使用 PostConstruct 取代 Constructor 的原因
 
+    * 依賴注入(Autowired)尚未完成，故使用 PostConstruct 取代 Constructor，確保該載入的依賴都被載入後才初始化。
+    * PostConstruct 可確保初始化只會被呼叫一次。
 
 <br/>
 
