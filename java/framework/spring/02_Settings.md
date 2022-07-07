@@ -29,3 +29,16 @@
 
     }
     ```
+
+<br/>
+
+<br/>
+
+## 設定不同開發環境的資料庫
+1. `main/resources`目錄下建立不同環境的設定檔
+    * application-dev.properties，開發用設定檔
+    * application-dev2.properties，開發用設定檔
+
+2. IntelliJ >> 點選右上角下拉選單 >> Edit Configurations >> 左側點選 Spring Boot >> 點選專案 >> `Active Profiles 填上 dev`
+3. 上述操作是設定使用 dev 環境的設定檔。
+
