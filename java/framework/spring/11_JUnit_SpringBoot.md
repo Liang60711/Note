@@ -96,7 +96,7 @@ public class StudentControllerTest {
         // 1. 建立一個 mock request
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/students/3");
 
-        // 2. mockMvc.perform 去執行剛建立的 request
+        // 2. mockMvc.perform 發起剛建立的 request
         // 3. 執行後驗證
         mockMvc.perform(requestBuilder).andExpect(MockMvcResultMatchers.status().is(200));
     }
@@ -185,3 +185,123 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
 
 <br/>
 
+## Mock 測試
+1. 目的: 建立一個假的 bean，去替換掉 Spring容器中原有的 bean，以達到單元測試必須各自獨立的規則，總之，就是為了`隔絕外界的變因`。
+2. 舉例: 
+    * 依賴關係: `Controller >> Service >> Dao`
+    * 測試 Service 層時，使用 mock 建立一個假的 Dao，避免 Dao 測試失敗，拖累 Service 的程式碼。
+
+<br/>
+
+<br/>
+
+## Mockito 測試工具
+1. 功能: 
+    * 模擬方法的返回值。
+    * 模擬拋出 Exception
+    * 紀錄方法的使用次數、順序。
+
+2. 寫法:
+
+    * `@MockBean` : 產生一個假的bean，替換掉Spring容器中的bean，可以自定義假方法；沒有定義的方法，預設都返回 `null`。
+    * `@SpyBean` : 不產生假的bean，使用正常Spring容器的bean，可以自定義假方法來替換；沒有定義的方法，預設使用真實的方法。
+    * `Mockito.when().thenReturn()` : 模擬測試時的條件，並自定義返回值。
+    * `Mockito.when().thenThrow()` : 模擬測試時的條件，並拋出 Exception。
+
+3. 限制: 
+    * 不能 mock `static` 方法
+    * 不能 mock `private` 方法
+    * 不能 mock `final class`
+
+4. 舉例: 
+
+    ```java
+    @SpringBootTest //1.建立bean
+    public class StudentServiceImplMockTest {
+
+        //2.注入要測試的類
+        @Autowired
+        private StudentService studentService;
+
+        //3.產生一個假的bean，替換掉Spring容器中的bean
+        @MockBean
+        private StudentDao studentDao;
+
+        @Test
+        public void getById(){
+            //4-1. 建立一個模擬的返回值
+            Student mockStudent = new Student();
+            mockStudent.setId(100);
+            mockStudent.setName("I am mock");
+
+            //4-2. 寫條件
+            Mockito.when(studentDao.getById(Mockito.any())).thenReturn(mockStudent);//Mockito.any() 為任何參數
+            Mockito.when(studentDao.insert(Mockito.any())).thenThrow(new RuntimeException());
+            Mockito.verify(studentDao, Mockito.times(2)).getById(Mockito.any());//紀錄方法的使用次數
+
+            //4-3. 寫測試
+            Student student = studentService.getById(3);
+            assertNotNull(student);
+            assertEquals(100, student.getId());
+            assertEquals("I am mock", student.getName());
+        }
+    }
+    ```
+
+<br/>
+
+<br/>
+
+## H2資料庫
+1. 目的: 為了提升單元測試的穩定性，不會受到外部資料庫的影響，可以在 Spring Boot 啟動時被生成，運行結束時銷毀。
+2. 是一種嵌入式資料庫，常用在單元測試，降低程式對實體資料庫的依賴。
+
+3. 設定: 
+    * `pom.xml` 添加 dependency
+
+        > https://mvnrepository.com/artifact/com.h2database/h2
+    
+    * 建立設定檔 `test\resources\application.properties`，跑測試都會使用這個設定檔
+
+    * 若 `main\resources\application.properties` 有添加其他設定，也要全部複製到測試的設定檔，兩個設定檔各自獨立，內容不互通。
+
+    
+        ```properties
+        # H2 db 設定資訊
+        spring.datasource.driver-class-name=org.h2.Driver
+        spring.datasource.url=jdbc:h2:mem:testdb
+        spring.datasource.username=sa
+        spring.datasource.password=sa
+
+        # 使用jpa時，避免自動根據 @Entity類自動建表
+        spring.jpa.hibernate.ddl-auto=none
+        ```
+
+4. 建立 `schema.sql` 和 `data.sql`，若 h2資料庫已連線，會檢查是否有此二檔案，有的話就自動載入。
+
+    ```
+    resources
+        ├─ application.properties
+        ├─ data.sql
+        └─ schema.sql
+    ```
+    
+    ```sql
+    -- schema.sql
+    -- 記得加 IF NOT EXISTS
+    CREATE TABLE IF NOT EXISTS student (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            name VARCHAR(30),
+            score DOUBLE,
+            graduate BOOLEAN,
+            create_date TIMESTAMP
+    );
+    ```
+
+    ```sql
+    -- data.sql
+    INSERT INTO student (name, score, graduate, create_date) VALUES ('Amy', 90.3, true, '2021-09-01 10:20:33');
+    INSERT INTO student (name, score, graduate, create_date) VALUES ('Rom', 34.6, false, '2021-08-10 17:21:14');
+    INSERT INTO student (name, score, graduate, create_date) VALUES ('Judy', 100.0, true, '2021-09-05 12:19:48');
+    INSERT INTO student (name, score, graduate, create_date) VALUES ('Mike', 87.2, true, '2021-09-03 15:01:15');
+    ```
