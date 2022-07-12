@@ -115,32 +115,63 @@ At least one of these environment variable is needed to run this program
 3. 或是右鍵->Maven->Reload project
 
 
-<br/>
-
-<br/>
-
-## IntelliJ IDEA 快捷鍵
-### 快速生成語句
-
-`sout` =  System.out.println();
-
 
 <br/>
 
 <br/>
 
-### 快捷鍵
+## IntelliJ 快捷鍵
 `alt`+ `1` 定位目前檔案在目錄位置
 
 `alt`+ `7` 顯示此class大綱 [stack overflow](https://stackoverflow.com/questions/31752352/eclipses-outline-window-equivalent-in-intellij)
 
+`ctrl` + `E` : 顯示最近打開的檔案
+
+
 `雙擊 shift`: 找文件、類、方法名稱
 
-`ctrl` + `shift` + `f` : 全域搜尋關鍵字
+`ctrl` + `shift` + `O` : 刪除沒用到的 import class
+
+`ctrl` + `shift` + `L` : 格式化程式的排版
+
+`ctrl` + `shift` + `F` : 全域搜尋關鍵字
+
+`ctrl` + `shift` + `向左鍵` : 跳轉上一層
 
 <br/>
 
 <br/>
 
 ## IntelliJ 功能
-* `Database`功能中，在檢視table頁面，可點選右上角眼睛 `view as`-> `transpose` 倒置table。
+* 檢視資料庫 : `Database`功能中，在檢視table頁面，可點選右上角眼睛 `view as`-> `transpose` 倒置table。
+
+* 查詢路由 : 若要查詢此class中，所有 route list，可以點選下方 `endpoint` tab。
+
+* 外掛套件 : File >> Settings >> Plugins
+
+<br/>
+
+<br/>
+
+## debug 功能
+
+1. 上排工具: 
+
+    * `show excecution point` : 跳回斷點檔案。
+    * `step over` : 逐行執行。
+    * `step into` : 跳進function。
+    * `evaluate expression` : 執行功能(好用)。
+    * `trace current stream chain` : 追蹤stream、追蹤lambda(好用)。
+
+
+2. 左排工具:
+
+    * `view breakpoint` : 查看所有斷點、是否開啟exception斷點。
+    * `mute breakpoint` : 打開 / 關掉所有斷點。
+
+3. 斷點上按右鍵 : 可設定觸發斷點條件。
+
+    ```java
+    // condition 
+    i == 3
+    ```

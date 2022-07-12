@@ -255,10 +255,3 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
 
 <br/>
 
-## IntelliJ
-若要查詢此class中，所有 route list，可以點選下方 `endpoint` tab。
-
-
-<br/>
-
-<br/>
