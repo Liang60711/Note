@@ -152,3 +152,16 @@ public String exchange2() {
     return "";
 }
 ``
+
+<br/>
+
+
+<br/>
+
+## 直接取 raw data 字串
+```java
+String url  = "https://api.coindesk.com/v1/bpi/currentprice.json";
+// 使用 String.class 取字串
+final String sss = restTemplate.getForObject(url, String.class);
+System.out.println(sss);
+```
