@@ -203,7 +203,7 @@ Spring JDBC 會自動創建名為 `NamedParameterJdbcTemplate` 的 Bean，jdbc �
     ```
 
 
-2. `query` 取特定id； url = `/students{studentId}`
+2. `query` 取特定id； url = `/students/{studentId}`
 
     ```java
     @GetMapping("/students/{studentId}")

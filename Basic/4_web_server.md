@@ -93,22 +93,8 @@ client 發出一次或多次同樣的請求對 server 以及資源狀態(資料�
 * 基本上 GET 不會去改變資源狀態，但**觀看人數**會被 GET 所改變，因此為例外。
 * 通常不用太鑽牛角尖去限制 GET 一定要符合 Safe Methods，實務上不會太去在意。
 
-<br/>
 
-<br/>
 
-# HTTP 格式
-## header (General, Response, Request)
-* Request Method
-* Status Code
-* User-Agent - 瀏覽器名稱 (訪問者)
-* Content-Type - body 的文件格式
-* Cookie
-* Meta
-## body
-* application/json
-* multipart (file)
-* text
 
 <br/>
 
@@ -139,23 +125,9 @@ Client 透過某些方法和 Server (最終要登入的網站 Server) 驗證，�
 
 * 已被 Authorization 的使用者，必通過 Authentication。
 
-<br/>
 
-<br/>
 
-# Http Status Code 狀態碼
-|狀態碼|解釋|舉例|
-|--|--|--|
-|100|||
-|200|成功|200 ok<br/>201 Created<br/>204 no content|
-|300|轉址、重新導向||
-|400|客戶端錯誤|401 unauthorized<br/>403 Forbidden<br/>404 Not found|
-|500|伺服端錯誤|500 Server error<br/>502 bad gateway<br/>504 time out|
 
-<br/>
-
-* 如果 Authentication 驗證沒過給 <code>401</code> (其實401應該叫做unauthenticated)。
-* Authorization 授權不夠給 <code>403</code>。
 
 <br/>
 

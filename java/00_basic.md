@@ -76,37 +76,7 @@ package com.apple.cms.vo;
 
 <br/>
 
-## Tomcat 安裝 (windows)
-1. 下載 Tomcat，並解壓縮。
-2. 新增環境變數 `CATALINA_HOME` 為 `C:\Program Files\apache-tomcat-8.5.79`
 
-3. 新增環境變數(path)
-
-    ```sh
-    %CATALINA_HOME%\bin
-    %CATALINA_HOME%\lib
-    ```
-
-4. 這時啟動 `startup.bat` 會報錯，因為在啟動 startup.bat 會調用 `setclasspath.bat`。
-
-    > Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
-At least one of these environment variable is needed to run this program
-
-5. `setclasspath.bat` 檔案需新增
-    ```sh
-    set JAVA_HOME=C:\Program Files\Java\jdk-18.0.1
-    set JRE_HOME=C:\Program Files\Java\jdk-18.0.1
-    ```
-
-6. 有可能在瀏覽器產生錯誤，這是因為 tomcat 目錄沒有被讀寫的許可權，導致檔案不能被編譯到指定的工作目錄中。
-
-    > java.lang.IllegalStateException: No output folder
-
-7. 找到 tomcat 目錄，右鍵—>內容—>安全性—>編輯，找到Users，將`完全控制`選項打勾。
-
-<br/>
-
-<br/>
 
 ## IntelliJ 操作
 修改 springboot 版本
