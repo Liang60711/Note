@@ -59,3 +59,10 @@ public enum Season {
     Season s = Season.valueOf("SPRING");
     System.out.println(s.ordinal());// 0
     ```
+
+4. `name()` : 將物件轉為 String。
+
+    ```java
+    Season s = Season.valueOf("SPRING");
+    String str = s.name();
+    ```
