@@ -263,7 +263,7 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
     
     * 建立設定檔 `test\resources\application.properties`，跑測試都會使用這個設定檔
 
-    * 若 `main\resources\application.properties` 有添加其他設定，也要全部複製到測試的設定檔，兩個設定檔各自獨立，內容不互通。
+    * 若 `main\resources\application.properties` 有添加其他設定，也要全部複製到測試的設定檔，`兩個設定檔各自獨立，內容不互通`。
 
     
         ```properties

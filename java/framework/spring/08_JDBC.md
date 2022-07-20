@@ -240,6 +240,19 @@ Spring JDBC 會自動創建名為 `NamedParameterJdbcTemplate` 的 Bean，jdbc �
 |BOOLEAN|getBoolean()|boolean|
 |TIMESTAMP|`getTimestamp()`|`Date`|
 
+<br/>
+
+<br/>
+
+## queryForObject()
+與 `query()` 不同的是
+1. `query()` 會將查詢結果封裝成 JavaBean物件，通常使用時做的 `RowMapper` 類。
+
+2. `queryForObject()` 常用在聚合函數的使用上，可將查詢結果封裝成 Integer 或是 Double 等類。
+
+    ```java
+    Integer count = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
+    ```
 
 <br/>
 
@@ -326,4 +339,30 @@ public class StudentController {
     private NamedParameterJdbcTemplate test2JdbcTemplate;
 
 }
+```
+
+<br/>
+
+<br/>
+
+## SQL語句限制
+模糊查詢 LIKE
+```java
+sql = "SELECT id, product_name FROM product WHERE 1=1 ";
+
+// 錯誤寫法，百分比不能直接寫
+sql += " AND product_name LIKE %:search% ";
+
+// 正確寫法
+sql += " AND product_name LIKE :search ";
+map.put("search", "%" + search + "%");
+```
+
+ORDER BY 排序，只能使用字串拼接的方式，無法使用佔位符
+```java
+// 錯誤
+sql += "ORDER BY :orderBy :sort";
+
+// 正確
+sql += " ORDER BY " + orderBy + " " + sort;
 ```
