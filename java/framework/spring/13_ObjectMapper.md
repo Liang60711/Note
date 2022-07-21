@@ -101,3 +101,22 @@
         String contactEmail;
     }
     ```
+
+<br/>
+
+<br/>
+
+* `@JsonProperty()` : 選擇忽略將此變數傳給前端，可使用在password上。
+
+    ```java
+    class User {
+
+        private String userName;
+
+        @JsonIgnore
+        private String password;
+    }
+    
+    ```
+
+

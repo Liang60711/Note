@@ -4,6 +4,7 @@ Logger import 目錄 `import org.slf4j.Logger`
 @RestController
 public class StudentController {
 
+    // 制式化寫法
     private final static Logger log = LoggerFactory.getLogger(StudentController.class);
 
     @Autowired
@@ -23,4 +24,8 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus).body(student);
     }
 }
+```
+在字串中加入大括號 { }，可放入多個變數
+```java
+log.warn("Email: {} are registered by {} !", userRegisterRequest.getEmail(), userRegisterRequest.getUser());
 ```
