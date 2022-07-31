@@ -42,3 +42,24 @@
 2. IntelliJ >> 點選右上角下拉選單 >> Edit Configurations >> 左側點選 Spring Boot >> 點選專案 >> `Active Profiles 填上 dev`
 3. 上述操作是設定使用 dev 環境的設定檔。
 
+<br/>
+
+<br/>
+
+## 修改端口號
+`application.properties`
+```properties
+server.port=8081
+```
+
+<br/>
+
+<br/>
+
+## 修改 Spring banner 
+1. 新增 `src/main/resources/banner.txt`
+2. 在以下連結找喜歡的圖案
+
+    >https://devops.datenkollektiv.de/banner.txt/index.html
+
+    >https://www.bootschool.net/ascii

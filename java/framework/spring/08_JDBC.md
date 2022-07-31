@@ -229,6 +229,35 @@ Spring JDBC 會自動創建名為 `NamedParameterJdbcTemplate` 的 Bean，jdbc �
 
 <br/>
 
+## 若有 JOIN 其他表，RowMapper可以擴充其他變數去接
+```java
+public class OrderItemRowMapper implements RowMapper<OrderItem> {
+    @Override
+    public OrderItem mapRow(ResultSet resultSet, int i) throws SQLException {
+
+        OrderItem orderItem = new OrderItem();
+        // order_item 資料表
+        orderItem.setOrderItemId(resultSet.getInt("order_item_id"));
+        orderItem.setOrderId(resultSet.getInt("order_id"));
+        orderItem.setProductId(resultSet.getInt("product_id"));
+        orderItem.setQuantity(resultSet.getInt("quantity"));
+        orderItem.setAmount(resultSet.getInt("amount"));
+
+        // 可擴充 product 資料表
+        orderItem.setProductName(resultSet.getString("product_name"));
+        orderItem.setImageUrl(resultSet.getString("image_url"));
+
+        return orderItem;
+    }
+}
+```
+因此，`OrderItem` 這個 model 中，可去多新增這兩個成員變數 (productName, imageUrl) 去接住 JOIN 來的欄位。
+
+
+<br/>
+
+<br/>
+
 
 |SQL欄位類型|對應到RowMapper要用什麼方法取|對應的Java類型
 |--|--|--|
