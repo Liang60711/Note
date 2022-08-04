@@ -66,3 +66,26 @@ UPPER(<str>);
 ```sql
 LOWER(<str>);
 ```
+
+<br/>
+
+<br/>
+
+# LEFT() / RIGHT()
+取字串`開頭/結尾`幾個字元
+```sql
+LEFT('ABCDEFG', 3)  -- 'ABC'
+
+RIGHT('ABCDEFG', 3) -- 'EFG'
+```
+
+<br/>
+
+<br/>
+
+# REGEXP 
+正則式，`^` 為開頭， `$` 為結尾， `.` 為萬用字元
+```sql
+-- 篩選 city 欄位以 a,e,i,o,u 開頭的資料
+SELECT DISTINCT city FROM station WHERE city REGEXP '^[aeiou].*';
+```
