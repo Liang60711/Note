@@ -8,23 +8,25 @@
 
 <br/>
 
-## JWT 認證
+## JWT 模型
 * 使用情境:
 
     1. `授權`，client-to-server 登入，使用者再次對 Server 端發送請求的時候，會夾帶著 JWT，允許使用者存取該 token 有權限的資源。。
     2. `訊息交換`，JWT 可以透過公鑰/私鑰來做簽章，可以知道是誰發送這個 JWT，此外，由於簽章是使用 header 和 payload 計算的，因此還可以驗證內容是否遭到篡改。
 
+    3. `前後端分離`，前端可以透過 JWT 方式跟後端請求資料，由於前端屬於靜態頁面，搭配 JWT 靜態特性很搭。
+
 * 流程: 
 
-    1. 伺服器端在收到登入請求後驗證使用者
+    1. 伺服器端在收到登入請求後驗證使用者。
 
-    2. 伺服器端產生和回傳一組帶有資訊，且僅能在伺服器端被驗證的 Token
+    2. 伺服器端產生和回傳一組帶有資訊，且僅能在伺服器端被驗證的 Token。
 
     3. Token 被回傳後，儲存在「客戶端」，大多存在瀏覽器的 Storage 當中，也可以`將 Token 放在 Cookie(HttpOnly=True)`，這樣可以避免 Javascript 進行存取，但以上這兩種方式都不是最安全的。
     
-    4. 往後客戶端向伺服器端發送請求時，皆附帶此 Token 讓伺服器端驗證
+    4. 往後客戶端向伺服器端發送請求時，皆附帶此 Token 讓伺服器端驗證。
 
-    5. 若伺服器端在請求中沒有找到 Token，回傳錯誤；若有找到 Token 則驗證
+    5. 若伺服器端在請求中沒有找到 Token，回傳錯誤；若有找到 Token 則驗證通過。
 
 * 優點: 
 
@@ -32,6 +34,9 @@
 
     2. 無狀態的驗證，不需要儲存用戶資訊，只需要一組 secret (或稱為 private key)，就可以驗證資料的正確性。
 
+* 缺點:
+
+    1. Token被放在客戶端，有安全性問題。
 
 <br/>
 
@@ -76,9 +81,11 @@
 
     ```json
     {
-        "_id": "<user_id>", 
-        "name": "Mike",
-        "exp": 1300819380
+        "iss": "JWT",       // 簽發者
+        "iat": 1234567899,  // 簽發時間
+        "exp": 9876543211,  // 過期時間
+        "aud": "www.example.com",// 接收方
+        "sub": "JWT@apple.com"  // 用戶
     }
     ```
 
@@ -93,4 +100,30 @@
 但由於伺服器端才擁有密鑰，因此即使 payload 被修改，轉換成 Base64 重新置入 Token 中，透過與 Signature 比對之下，就能發現資料的不一致，產生驗證錯誤。
 
 
+<br/>
 
+<br/>
+
+## 現今開發的model - 整合 Session-Cookie 模型和 JWT 模型
+* JWT不夠安全的原因 : 由於 Token 是存在客戶端的 Local storage 或是 HttpOnly Cookie 中，還是有可能被拿走 (只要存在客戶端都是不安全的)。
+
+
+* 名詞解釋:
+
+    1. `refresh-token` : 用來獲得 `access-token`，與 Session ID 產生的方法類似，即產生一組 uuid。
+    2. `access-token` : 或稱 `auth-token`，就是 JWT 的 token，會使用 In-Memory 方式存在客戶端瀏覽器中，任何跟權限相關的資訊都在此 token 中，到期時間較短。
+
+
+* 流程
+
+    1. 客戶端第一次登入伺服器。
+    2. 伺服器產生一組 refresh-token，存在 Session store 中，並將 refresh-token(放在 HttpOnly Cookie) 和 access-token(JWT token)，一起回傳給客戶端。
+    3. `查詢資料` : 客戶端訪問伺服器時，Request Header 帶上 access-token，驗證 JWT 簽章通過後，獲取私人資料。
+    4. `換發access-token` : 客戶端訪問伺服器時，Request Cookie 帶上 refresh-token，於 Session store 中查詢是否在效期內且未註銷，如果通過驗證則將舊的 refresh-token 註銷，並產生新的 refresh-token 和 access-token 給客戶端。
+    5. `客戶端登出時` : 伺服器會從 Request Cookie 中取得 refresh-token，並從 Session store 中註銷該用戶的 refresh-token。
+
+<br/>
+
+<br/>
+
+> 實作參考: https://dotblogs.com.tw/wasichris/2020/10/25/223728
