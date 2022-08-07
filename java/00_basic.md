@@ -46,13 +46,14 @@ $ java -Xmx2048m -Xms256m helloworld
 <hr>
 
 ## 安裝 JDK 和 Eclipse
-1. JDK SE 15 會自動將執行檔加入環境變數。
-    * Java SE = Java Standard Edition (開發執行軟體)
-    * Java EE = Java Enterprise Edition (EE 是在 SE 基礎上構建的，開發網站)
-    * Java ME = Micro Edition (移動裝置、IOT)
-2. Ecplise IDE 目前免付費使用人數最多。
+JDK SE 15 會自動將執行檔加入環境變數。
+* Java SE = Java Standard Edition (開發執行軟體)
+* Java EE = Java Enterprise Edition (EE 是在 SE 基礎上構建的，開發網站)
+* Java ME = Micro Edition (移動裝置、IOT)
 
-<hr>
+<br/>
+
+<br/>
 
 ## package命名
 ```java

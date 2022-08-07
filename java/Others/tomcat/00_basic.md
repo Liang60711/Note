@@ -1,3 +1,16 @@
+## Tomcat
+1. 舊架構下(伺服器渲染html頁面)，可以作為一種 Web Container，裝載 Servlet 和 JSP。
+
+    <img src="https://docs.oracle.com/javaee/5/tutorial/doc/figures/overview-j2eeArchitecture.gif" width="70%">
+
+    <br/>
+
+2. 前後端分離的架構下，tomcat 作為應用伺服器，雖說也可以作為 web伺服器，但解析靜態資源的能力沒有 nginx, apache 這麼好。
+
+<br/>
+
+<br/>
+
 ## Tomcat 安裝 (windows)
 1. 下載 Tomcat，並解壓縮。
 2. 新增環境變數 `CATALINA_HOME` 為 `C:\Program Files\apache-tomcat-8.5.79`
