@@ -30,9 +30,9 @@
 
 * 優點: 
 
-    1. 由於 JWT 中可以攜帶 payload 資料，可以降低 client 對 server 造成的請求壓力。
+    1. 由於 JWT 中可以攜帶 payload 資料，不需要每次請求都去讀取資料庫使用者資料，減少伺服器負擔。
 
-    2. 無狀態的驗證，不需要儲存用戶資訊，只需要一組 secret (或稱為 private key)，就可以驗證資料的正確性。
+    2. 無狀態的驗證，不需要在資料庫儲存用戶資訊，只需要一組 secret (或稱為 private key)，就可以驗證資料的正確性。
 
 * 缺點:
 
@@ -81,11 +81,11 @@
 
     ```json
     {
-        "iss": "JWT",       // 簽發者
-        "iat": 1234567899,  // 簽發時間
-        "exp": 9876543211,  // 過期時間
+        "iss": "JWT",            // 簽發者
+        "iat": 1234567899,       // 簽發時間
+        "exp": 9876543211,       // 過期時間
         "aud": "www.example.com",// 接收方
-        "sub": "JWT@apple.com"  // 用戶
+        "sub": "JWT@apple.com"   // 用戶
     }
     ```
 
@@ -110,8 +110,8 @@
 
 * 名詞解釋:
 
-    1. `refresh-token` : 用來獲得 `access-token`，與 Session ID 產生的方法類似，即產生一組 uuid。
-    2. `access-token` : 或稱 `auth-token`，就是 JWT 的 token，會使用 In-Memory 方式存在客戶端瀏覽器中，任何跟權限相關的資訊都在此 token 中，到期時間較短。
+    1. `refresh-token` : 用來獲得 `access-token`，與 Session ID 產生的方法類似，即產生一組 uuid，存在客戶端的 Cookie，到期時間較長。
+    2. `access-token` : 或稱 `auth-token`，就是 JWT 的 token，用來向伺服器獲取授權資料，會使用 In-Memory 方式或存在客戶端瀏覽器中(LocalStorage)，到期時間較短。
 
 
 * 流程

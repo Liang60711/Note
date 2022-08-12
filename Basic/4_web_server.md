@@ -100,7 +100,6 @@ client 發出一次或多次同樣的請求對 server 以及資源狀態(資料�
 
 <br/>
 
-# Authentication / Authorization
 
 ## Client to Server 模式
 Client 透過某些方法和 Server (最終要登入的網站 Server) 驗證，稱為 **Client to Server 模式**。

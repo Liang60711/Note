@@ -49,8 +49,7 @@
 
     <br/>
     
-    
-    <img src="https://ohdear.app/img/blogs/http-basic-authentication-monitoring/http-basic-auth-prompt.png">
+    <img src="https://ohdear.app/img/blogs/http-basic-authentication-monitoring/http-basic-auth-prompt.png" width=70%>
 
 <br/>
 
