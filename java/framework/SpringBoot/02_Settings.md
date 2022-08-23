@@ -100,3 +100,41 @@ spring:
         username: root
         password: root
 ```
+
+<br/>
+
+<br/>
+
+## Maven 查看預設依賴的版本號
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.3.7.RELEASE</version>
+    <relativePath/> 
+</parent>
+
+<!-- 為上面依賴的父類 -->
+<!-- 此依賴中有所有依賴的版本號 -->
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-dependencies</artifactId>
+    <version>2.3.7.RELEASE</version>
+</parent>
+```
+
+<br/>
+
+<br/>
+
+## spring-boot-starter 依賴
+* 依賴中有很多名為 `spring-boot-starter-X` ，代表只要引入 starter，`X` 相關的依賴全都會一起被導入。
+
+* 名稱為 `X-spring-boot-starter`， `X` 放在前面代表是第三方的 starter。
+```xml
+<!-- 舉例 -->
+<artifactId>spring-boot-starter-web</artifactId>
+<artifactId>spring-boot-starter-aop</artifactId>
+<artifactId>spring-boot-starter-tomcat</artifactId>
+<artifactId>spring-boot-starter-json</artifactId>
+```

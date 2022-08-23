@@ -89,15 +89,27 @@
 
 4. @Bean與@Component可以混用，都會在容器中建立Bean。
 
+5. `proxyBeanMethods`參數，
+
+    * `Lite模式`下，不會檢查Bean之間的依賴關係，每次從IOC容器取得的Bean都不一樣，是一個新的物件 (所以就不是Singleton了)，所以可以加速容器啟動過程，減少IOC容器的資源。
+    * `Full模式`下，Bean之間有依賴關係，會檢查依賴，每次獲取物件都是從IOC容器中取，並確保單例模式。
+
+    ```java
+    // 預設是Full模式 - true
+    // 可改成Lite模式 - false
+    @Configuration(proxyBeanMethods = false)
+    public class MyConfig {
+    }
+    ```
 
 <br/>
 
 <br/>
 
 ## @PostConstruct 與 InitializingBean afterPropertiesSet()
-1. 可以初始化Bean的方式有這2種
+可以初始化Bean的方式有這2種
 
-2. `@PostConstruct` 使用方式
+1. `@PostConstruct` 使用方式
 
     * 必須是public void 方法，不得有返回值，不得有參數
     * 方法名字沒綁定可以隨意取
@@ -115,7 +127,7 @@
         }
         ```
 
-3. 實作`InitializingBean`這個interface
+2. 實作`InitializingBean`這個interface
 
     ```java
     @Component
@@ -132,14 +144,38 @@
     ```
 
 
-4. 類的初始化執行順序如下:
+* 類的初始化執行順序如下:
 
     * `Constructor >> Autowired >> PostConstruct`
 
-5. 使用 PostConstruct 取代 Constructor 的原因
+* 使用 PostConstruct 取代 Constructor 的原因
 
     * 依賴注入(Autowired)尚未完成，故使用 PostConstruct 取代 Constructor，確保該載入的依賴都被載入後才初始化。
     * PostConstruct 可確保初始化只會被呼叫一次。
+
+    ```java
+    /**
+     * 承襲上述，Bean 只會被實例化一次
+     */
+
+    public static void main(String[] args) {
+        
+        // 1. 可以返回IOC容器
+        ConfigurableApplicationContext run = SpringApplication.run(JspApplication.class, args);
+        
+        // 2. 查看裡面的組件
+        String[] names = run.getBeanDefinitionNames();
+        for (String name : names) {
+            System.out.println(name);
+        }
+        
+        // 3. 從容器中獲取組件
+        User user01 = run.getBean("name", User.class);
+        User user02 = run.getBean("name", User.class);
+
+        System.out.println(user01 == user02); // true，因為Bean是單例模式
+    }
+    ```
 
 <br/>
 
@@ -158,6 +194,8 @@
 
     3. 需要避免寫出`循環依賴`的程式，否則會無法決定bean的建立順序。
 
+
 <br/>
 
 <br/>
+
