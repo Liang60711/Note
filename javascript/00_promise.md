@@ -20,18 +20,21 @@
 
 <br/>
 
-## await 用法
+## async / await 用法
 > https://ithelp.ithome.com.tw/articles/10205116
 
+`async` 保留字寫在 function 前，代表此 function 內程式是同步的，但對外部程式是不同步的。
 
 `await` 在收到 Promise 回應前，會暫停執行後續的程式。
+
+兩者保留字是一同出現，不會單獨出現。
 ```javascript
 // then寫法
 getData()
     .then(res => console.log(res));
 
 // await寫法 (getData()還沒回傳前，不會執行下一行)
-function getDataAwait() {
+async function getDataAwait() {
     var res = await getData();
     console.log(res);
 }
@@ -46,3 +49,4 @@ function getDataAwait() {
 
 1. 預設是 async: true
 2. 改為 false 代表程式會暫停，收到回傳後再繼續。
+3. 可以用 `.then` 取代。
