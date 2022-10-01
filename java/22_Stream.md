@@ -107,3 +107,15 @@ Stream<String> stream = Stream.of("aaaaa", "bbbb", "ccc", "ddd");
 
 List<String> list = stream.collect(Collectors.toList());
 ```
+
+<br/>
+
+<br/>
+
+## Collectors.groupingBy
+將 `List<Object>` 依照某元素分組，回傳 `Map<T, List<Object>>`，T的型別為某元素的型別
+```java
+// getStudentId 為 Integer，回傳的 Map key 也為 Integer
+List<Student> list = new ArrayList<>();
+Map<Integer, List<LedData>> groupMap = list.stream().collect(Collectors.groupingBy(Student::getStudentId));
+```
