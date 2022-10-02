@@ -147,3 +147,13 @@ tx.commit();
 session.close();
 sessionFactory.close();
 ```
+
+<br/>
+
+<br/>
+
+## Hibernate 的 API 使用
+Hibernate 提供了三種物件進行資料查詢，都可以達到查詢資料的目的: 
+1. Query
+2. Criteria
+3. SQLQuery
