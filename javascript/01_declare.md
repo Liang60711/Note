@@ -27,12 +27,10 @@ var 可以被覆蓋 (var不嚴謹的地方)
 ```js
 var i = 0;
 
+// ....
+
 // 若沒注意到，再宣告了一次
-function foo() {
-    var i = 1;  // 全域的 i 會被覆蓋
-}
-foo();
-// 可以使用let替代function內的var，這樣就不會更動到i=0
+var i = 1;
 ```
 
 <br/>
