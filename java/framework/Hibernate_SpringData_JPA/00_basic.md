@@ -1,3 +1,34 @@
+## 連線配置檔
+```yml
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update  # 使用entity更新資料表
+    show-sql: true      # 是否顯示SQL
+    
+  datasource:
+    url: jdbc:mysql://localhost:3306/myjpa
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+```
+
+<br/>
+ddl-auto 的選擇
+
+|||
+|--|--|
+|create-drop|啟動時建立Table，當次Session關閉則刪除|
+|create|啟動時建立Table，下次啟動會覆蓋上次的，會造成資料遺失|
+|update|若無Table則啟動時建立, 若有則視有無變更自動Update，`欄位建立了就無法刪除`|
+
+
+<br/>
+
+<br/>
+
+<br/>
+
 ## Hibernate
 
 1. 應用在 DDD 架構中的 dao 層。
