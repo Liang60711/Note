@@ -3,7 +3,7 @@
 
 2. 有外鍵的實體使用 `@OneToOne` 和 `@JoinColumn` 註解該屬性，
 
-3. 沒有外鍵的實體使用 `@OneToOne(mappedBy="")`
+3. 沒有外鍵的實體使用 `@OneToOne(mappedBy="")`，指定關聯實體的屬性
 
 ```java
 // Course
@@ -22,7 +22,7 @@ public class Course {
     private String title;
     private Integer credit;
 
-    @OneToOne(mappedBy = "course")  // 沒有外鍵的資料表名稱
+    @OneToOne(mappedBy = "course")  // 指向CourseMaterial的course成員變數
     private CourseMaterial courseMaterial;
 }
 ```

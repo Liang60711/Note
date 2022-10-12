@@ -29,6 +29,8 @@ ddl-auto 的選擇
 
 <br/>
 
+<br/>
+
 ## Hibernate
 
 1. 應用在 DDD 架構中的 dao 層。

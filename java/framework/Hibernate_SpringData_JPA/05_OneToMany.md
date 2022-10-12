@@ -1,3 +1,15 @@
+## 必要對應(mandatory) 或非必要對應 (optional)
+其實此關係可以建立在 `OneToOne`, `OneToMany`, `ManyToMany`。
+
+1. 一個老師可以沒有課堂，但一堂課必須要有一個老師。(老師為optional，課堂為mandatory、一對多)
+
+2. 一位員工只能為一個部門工作，而且每個部門都至少有一位員工。(員工為mandatory，部門也為mandatory，一對多)
+
+<br/>
+
+<br/>
+
+
 ## 建立步驟
 * 舉例，一個`客戶`有多個`聯繫人`，多個`聯繫人`屬於一個`客戶`
 1. 建立兩個實體類。
@@ -85,3 +97,26 @@ public class Address {
 
 <br/>
 
+## 舉例
+一個 Teacher，有許多 Course
+```java
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Teacher {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long teacherId;
+    private String firstName;
+    private String lastName;
+
+    @OneToMany(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn
+    private List<Course> courseList;
+}
+```
