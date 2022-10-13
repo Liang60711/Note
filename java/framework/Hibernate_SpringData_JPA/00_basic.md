@@ -18,9 +18,10 @@ ddl-auto 的選擇
 
 |||
 |--|--|
-|create-drop|啟動時建立Table，當次Session關閉則刪除|
+|create-drop|啟動時建立Table，當次Session關閉則刪除，嵌入式資料庫(H2)的預設值|
 |create|啟動時建立Table，下次啟動會覆蓋上次的，會造成資料遺失|
 |update|若無Table則啟動時建立, 若有則視有無變更自動Update，`欄位建立了就無法刪除`|
+|none|預設值，什麼都不做|
 
 
 <br/>

@@ -7,6 +7,23 @@
 
 <br/>
 
+## 使用方式
+1. 回傳單一物件才用 Optional 包裝。
+2. 回傳是集合，不要用 Optional包裝。
+
+    ```java
+    Optional<Student> getStudent() {
+        Student student = ...
+        return Optional.ofNullable(student);    // 正確用法
+    }
+    ```
+
+> https://matthung0807.blogspot.com/2021/01/java-optional-intro.html
+
+<br/>
+
+<br/>
+
 ## 相關方法
 
 `of()` 建立一個非null值的Optional物件。
@@ -66,3 +83,12 @@ Optional filter = opt.filter((value) -> value.length() > 3);
 
 System.out.println(filter.orElse("empty!"));
 ```
+
+
+<br/>
+
+<br/>
+
+## 使用 Optional 方式取代 if ... != null
+
+> https://matthung0807.blogspot.com/2018/08/java-8-optionalnull.html

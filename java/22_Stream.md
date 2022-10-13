@@ -1,3 +1,5 @@
+> https://matthung0807.blogspot.com/2021/01/java-8-stream-pipeline-operations-intro.htm
+
 ## Stream
 1. 可以對collection操作，處理數據的工具。
 2. 屬於`lazy loading`，數據只能被使用一次。
@@ -27,6 +29,20 @@ Stream<Integer> ss =
 遍歷
 ```java
 stream.forEach(System.out::println);
+```
+
+## sorted
+依照元素進行排序
+```java
+// ASC
+List<LedDeviceList> test = ledDeviceLists.stream()
+    .sorted(Comparator.comparing(LedDeviceList::getLdlId))
+    .collect(Collectors.toList());
+
+// DESC
+List<LedDeviceList> test = ledDeviceLists.stream()
+        .sorted(Comparator.comparing(LedDeviceList::getLdlId).reversed())
+        .collect(Collectors.toList());
 ```
 
 ## filter

@@ -22,7 +22,7 @@ public class Course {
     private String title;
     private Integer credit;
 
-    @OneToOne(mappedBy = "course")  // 指向CourseMaterial的course成員變數
+    @OneToOne(mappedBy = "course")  // 指向CourseMaterial的course成員變數(即擁有方的外鍵屬性名)
     private CourseMaterial courseMaterial;
 }
 ```
@@ -47,8 +47,8 @@ public class CourseMaterial {
             fetch = FetchType.LAZY
     )
     @JoinColumn(
-            name = "course_id",     // 映射的table欄位
-            referencedColumnName = "courseId"   // 關聯的實體類屬性 
+            name = "course_id",     // 在coursematerial表建立一個名為course_id的欄位
+            referencedColumnName = "course_id"   // 此欄位的值為course表的course_id欄位 
     )
     private Course course;
 }
