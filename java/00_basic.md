@@ -98,16 +98,39 @@ package com.apple.cms.vo;
 
 `ctrl` + `E` : 顯示最近打開的檔案
 
+`ctrl` + `R` : 替換 replace
+
+`ctrl` + `D` : 等於 ctrl c + ctrl v
+
+`ctrl` + `W` : 選取該程式區塊，可往區塊外擴增
+
+`ctrl` + `Q` : 查看[方法/變數/類]的詳細資料
+
+`ctrl` + `H` : 查看此類的繼承層級Hierarchy
+
+`ctrl` + `+` : 展開程式碼
+
+`ctrl` + `-` : 摺疊程式碼
+
+`ctrl` + `tab` : 切換當前視窗
 
 `雙擊 shift`: 找文件、類、方法名稱
 
 `ctrl` + `shift` + `O` : 刪除沒用到的 import class
+
+`ctrl` + `shift` + `I` : 優化縮排
 
 `ctrl` + `shift` + `L` : 格式化程式的排版
 
 `ctrl` + `shift` + `F` : 全域搜尋關鍵字
 
 `ctrl` + `shift` + `向左鍵` : 跳轉上一層
+
+`alt` + 左右鍵 : 切換視窗
+
+`F12` : 切換回上一個開啟的視窗
+
+> https://www.gushiciku.cn/pl/pom2/zh-tw
 
 <br/>
 
