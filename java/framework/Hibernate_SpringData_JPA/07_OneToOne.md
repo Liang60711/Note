@@ -3,7 +3,7 @@
 
 2. 有外鍵的實體使用 `@OneToOne` 和 `@JoinColumn` 註解該屬性，
 
-3. 沒有外鍵的實體使用 `@OneToOne(mappedBy="")`，指定關聯實體的屬性
+3. 沒有外鍵的實體使用 `@OneToOne(mappedBy="")`，指定[關聯實體]的屬性(即外鍵)，若不寫 `mappedBy` 屬性，則資料庫會產生第3張表(pivot table)來記錄這兩張表的關係。
 
 ```java
 // Course

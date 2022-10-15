@@ -39,9 +39,29 @@ public class Teacher {
     private String lastName;
 
     @OneToMany(
-            cascade = CascadeType.ALL
+        fetch = FetchType.LAZY,
+        mappedBy = "teacher"
     )
-    @JoinColumn
-    private List<Course> courseList;
+    private List<Course> courseList = new ArrayList<>();
+}
+```
+```java
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Course {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long courseId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+        name = "teacher_id",
+        referencedColumnName = "teacherId"  // teacherId 沒寫 @Column(name = "teacher_id")，故這邊寫 teacherId
+    )
+    private Teacher teacher;
 }
 ```
