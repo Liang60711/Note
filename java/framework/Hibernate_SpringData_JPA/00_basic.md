@@ -104,18 +104,18 @@ ddl-auto 的選擇
     <?xml version="1.0" encoding="utf-8"?>
     <!DOCTYPE hibernate-configuration PUBLIC
             "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-            "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+            "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
     <hibernate-configuration>
 
         <session-factory>
-            <!--  1. 配置資料庫信息(必須填)  -->
+            <!--  1. 配置資料庫信息(可選填，這邊其實可以在 properties/yml 中設定)  -->
             <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
             <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/hibernate</property>
             <property name="hibernate.connection.username">root</property>
             <property name="hibernate.connection.password">root</property>
 
-            <!--  2. 配置hibernate信息(可選填)  -->
+            <!--  2. 配置hibernate信息(可選填，這邊其實可以在 properties/yml 中設定)  -->
             <!-- 顯示實際操作資料庫時的SQL語句 -->
             <property name="show_sql">true</property>
             <!-- 將顯示的SQL排版，方便觀看 -->
@@ -128,7 +128,10 @@ ddl-auto 的選擇
             <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 
             <!--  3. 把映射文件放到核心配置文件中  -->
-            <mapping resource="org/example/entity/User.hbm.xml"></mapping>
+            <!-- 舊寫法: 使用xml文件 -->
+            <mapping resource="org/example/entity/User.hbm.xml" />
+            <!-- 註解寫法: 使用Entity class -->
+            <mapping resource="org/example/entity/User" />
 
         </session-factory>
 
