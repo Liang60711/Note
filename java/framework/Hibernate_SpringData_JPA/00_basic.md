@@ -131,7 +131,7 @@ ddl-auto 的選擇
             <!-- 舊寫法: 使用xml文件 -->
             <mapping resource="org/example/entity/User.hbm.xml" />
             <!-- 註解寫法: 使用Entity class -->
-            <mapping resource="org/example/entity/User" />
+            <mapping class="com.example.jsp.entity.Student"></mapping>
 
         </session-factory>
 

@@ -20,7 +20,7 @@ public static void main(args[] String){
 ## @Import
 不常用，可做為 @Configuration修飾的類
 ```java
-@Configuration(proxyBeanMethod = false) // lite模式
+@Configuration(proxyBeanMethods = false) // lite模式
 @Import({
     XXXDataConfiguration1.class,
     XXXDataConfiguration2.class
