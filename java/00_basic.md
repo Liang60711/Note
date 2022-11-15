@@ -114,6 +114,8 @@ package com.apple.cms.vo;
 
 `ctrl` + `tab` : 切換當前視窗
 
+`ctrl` + `F9` : 使用dev-tool後直接進行熱部屬刷新
+
 `雙擊 shift`: 找文件、類、方法名稱
 
 `ctrl` + `shift` + `O` : 刪除沒用到的 import class

@@ -51,3 +51,5 @@ function foo() {
 
 <br/>
 
+## let, const 
+用此兩種方式宣告的變數，不會出現在 window 中，只有 var 宣告的變數，才會出現在 window 中。

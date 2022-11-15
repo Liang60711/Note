@@ -67,6 +67,26 @@ public class Student {
 }
 ```
 
+<br/>
+
+<br/>
+
+## 序列化(物件轉json)
+預設轉json時，key 命名方式都是 camel case，可以更換為 snake case
+```java
+@Data
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+public class Student {
+    private Ling id;
+    private String name;
+}
+```
+
+
+<br/>
+
+<br/>
+
 `postForObject()` : POST 後，返回 json 並轉為指定類別
 
 `postForEntity()` : POST 後，返回 ResponseEntity 物件
