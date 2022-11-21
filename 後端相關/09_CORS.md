@@ -9,7 +9,13 @@
     
 * 同源政策: 
 
-    在同源政策下，非同源的 request 則會因為安全性的考量受到限制。瀏覽器會強制你遵守 CORS (Cross-Origin Resource Sharing，跨域資源存取) 的規範，否則瀏覽器會讓 request 失敗。
+    1. 在同源政策下，非同源的 request 則會因為安全性的考量受到限制。瀏覽器會強制你遵守 CORS (Cross-Origin Resource Sharing，跨域資源存取) 的規範，否則瀏覽器會讓 request 失敗。
+
+    2. 只有瀏覽器會擋下，Postman 因為不是瀏覽器所以沒有 CORS 問題。
+
+    3. 順序: 前端請求 -> 後端接收並response給瀏覽器 -> 瀏覽器檢查是否通過CORS -> 通過則給前端，沒通過擋下此response。
+
+    4. 基於第3點，無論如何後端都會收到請求並response給瀏覽器，所以需要區分為簡單請求和預檢，以免前端發送 DELETE 或 PUT 方法時，後端已執行刪除動作，但response被瀏覽器擋下(前端不知道後端刪除了沒)的情況。
 
 <br/>
 
@@ -49,3 +55,10 @@
 
 <br/>
 
+## 後端Header
+* `Access-Control-Allow-Origin`， 例如 SiteA 想要連到 SiteB，並且獲取資訊，則 SiteB 需要在 Response Header 中加入此 header 讓瀏覽器知道 SiteA 是被允許讀取資源的。
+
+    ```js
+    // 允許所有網域讀取資源
+    Access-Control-Allow-Origin: *
+    ```
