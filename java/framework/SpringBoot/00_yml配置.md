@@ -24,3 +24,10 @@ spring:
             cache:
                 period: 11000
 ```
+
+<img src="https://user-images.githubusercontent.com/63166397/204546300-859ff0f9-d002-4ffb-a2d6-257171e4e38a.png" width="50%">
+
+有了Cache後，Status code 為304，並且Request Header會產生 If-Modified-List
+
+<img src="https://user-images.githubusercontent.com/63166397/204546386-c252e9d5-c644-48cb-b858-5b9666fbaf40.png" width="50%">
+
