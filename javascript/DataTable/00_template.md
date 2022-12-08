@@ -1,7 +1,7 @@
 程式碼
 ```js
 function getMainList() {
-    if ($.fn.dataTable.isDataTable('#mainTable')) {
+    if ($.fn.dataTable.isDataTable('#mainTable')) { // $.fn.dataTable.tables() 獲取該頁面上所有的DataTables物件
         $('#mainTable').DataTable().destroy();
         $('#mainTable').empty();
     }
@@ -199,7 +199,9 @@ function getMainList() {
             {data: "note"}
         ],
         initComplete: function(settings, json) {},
-        drawCallback: function(setting) {
+        drawCallback: function(setting) {   // 每次繪製圖表結束時，會call
+            // 會出現兩次的原因是: 第一次在no data且顯示Loading訊息的時候，第二次是在加載data後再call一次。
+
             // 跳轉到輸入框
             var _this = $(this);
             var tableId = _this.attr('id');
@@ -232,4 +234,87 @@ function getMainList() {
         },
     });
 }
+```
+
+<br/>
+
+<br/>
+
+## 處理 Multiple Header 響應式顯示問題
+若 datatable 的 column 過長，會導致第一層 header 在顯示上會有不能隱藏的問題
+
+```html
+<table id="mainTable">
+    <thead>
+        <tr id="firstHeader">
+            <th rowspan="2">序號</th>
+            <th rowspan="2">產品名稱</th>
+            <th colspan="3">0-9歲</th>
+            <th colspan="3">10-19歲</th>
+            <th colspan="3">20-29歲</th>
+            <th colspan="3">30-39歲</th>
+            <th colspan="3">40-49歲</th>
+            <th colspan="3">50-59歲</th>
+            <th colspan="3">60-69歲</th>
+            <th colspan="3">70歲以上</th>
+            <th rowspan="2">銷售總數</th>
+        </tr>
+        <tr id="secondHeader">
+            <th>男</th><th>女</th><th>小計</th>
+            <th>男</th><th>女</th><th>小計</th>
+            <th>男</th><th>女</th><th>小計</th>
+            <th>男</th><th>女</th><th>小計</th>
+            <th>男</th><th>女</th><th>小計</th>
+            <th>男</th><th>女</th><th>小計</th>
+            <th>男</th><th>女</th><th>小計</th>
+            <th>男</th><th>女</th><th>小計</th>
+        </tr>
+    </thead>
+</table>
+```
+
+
+
+
+js 程式碼，`markHeader()` DOM載入完成後就可以呼叫；`headerAdjust()`可以在 datatable.drawCallback() 中呼叫。
+```html
+<script type="text/javascript">
+/**
+ * 標記 header
+ */
+function markHeader() {
+    $('#firstHeader > th[colspan=3]').addClass('first-header'); // 標記第一層header
+    $('#secondHeader > th').addClass('second-header');    // 標記第二層header
+}
+
+/**
+ * header加上resize事件
+ */
+function headerAdjust() {
+    // 載入後判斷一次
+    $(document).ready(function() {
+        firstHeaderAdjust();
+    })
+
+    // 綁定resize事件
+    $(window).resize(function() {
+        firstHeaderAdjust();
+    })
+}
+
+/**
+ * 修正第一層header顯示問題
+ */
+function firstHeaderAdjust() {
+    var firstHeaderNum = $('.first-header').length; // 8
+    var secondHeaderVisibleNum = $('.second-header:visible').length; // 顯示的第二層header數量
+    var firstHeadershowNum = Math.ceil(secondHeaderVisibleNum / 3); // 第一層header該顯示幾欄
+
+    $('.first-header').show();
+
+    for (var i = firstHeadershowNum; i < firstHeaderNum; i++) {     // 第一層header共8欄，從0~7
+        $('#firstHeader > th:nth-child(' + (i+3) + ')' ).hide();    // +3表示第二層header從第3欄開始
+    }
+}
+</script>
 ```
