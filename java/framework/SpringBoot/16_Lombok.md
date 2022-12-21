@@ -34,21 +34,18 @@
   }
   ```
 
-## 
-
-
 
 ## @Slf4j
 
-1. 目的:
+1. 目的: 
    
-   - 為了少寫這行代碼
+   * 為了少寫這行代碼 
    
-   - ```java
+   * ```java
      private static final Logger logger = LoggerFactory.getLogger(this.XXX.class);
      ```
    
-   - 使用: 直接使用 log物件
+   * 使用: 直接使用 log物件
      
      ```java
      // 原本寫法
@@ -62,14 +59,17 @@
    
    ```xml
    <dependency>
-     <groupId>org.slf4j</groupId>
-     <artifactId>slf4j-log4j12</artifactId>
-     <version>1.7.28</version>
+       <groupId>org.projectlombok</groupId>
+       <artifactId>lombok</artifactId>
+       <version>1.16.10</version>
+   </dependency>
+   
+   <dependency>
+       <groupId>org.slf4j</groupId>
+       <artifactId>slf4j-log4j12</artifactId>
+       <version>1.7.28</version>
    </dependency>
    ```
-
-
-
 
 
 ## @NoArgsConstructor, @AllArgsConstructor, @RequiredArgsConstructor

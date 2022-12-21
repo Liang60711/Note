@@ -49,6 +49,16 @@
 
 <br/>
 
+## 可以生成 Bean 的註解
+1. @Configuration (full或lite模式)
+2. @Bean, @Component, @Controller, @Service, @Repository
+3. @ComponentScan, @Import
+4. @Conditional
+
+<br/>
+
+<br/>
+
 ## @Qualifier
 1. 與`@Autowired`一同使用。
 2. 可以指定要注入bean的名字，class的名字字首會是小寫。
@@ -103,6 +113,58 @@
     ```
 
 <br/>
+
+<br/>
+
+
+## @Import
+可做為 @Configuration修飾的類
+```java
+@Configuration(proxyBeanMethods = false) // lite模式
+@Import({
+    XXXDataConfiguration1.class,
+    XXXDataConfiguration2.class
+})
+public class XXXXXXDataConfiguration0 {
+    //
+}
+```
+
+<br/>
+
+<br/>
+
+## @Condition
+在某條件下建立Bean
+```java
+// 當有名為 Person  的 Bean，才去建立 User Bean
+@ConditionOnBean(name = "Person")
+public class User{
+
+}
+
+// 與上相反，沒有 Person Bean 時，才去建立 User Bean
+@ConditionOnMissingBean(name = "Person")
+public class User {
+
+}
+```
+
+<br/>
+
+<br/>
+
+## @Import Resource
+老專案會使用 xml 檔案來配置 bean，就可以用此方法導入
+```java
+// 檔案路徑為src/main/Resources/beans.xml
+@ImportResource("classpath:beans.xml")
+public class MyConfig {
+
+}
+```
+
+<br>
 
 <br/>
 
