@@ -1,6 +1,11 @@
 ## Springboot 自動配置原理
 
-`@SpringBootApplication` 有3個依賴的註解
+Springboot 預設會在底層配置好所有的component，但如果用戶自己配置了，則以用戶的優先(底層用了大量的 `@ConditionOnMissingBean`，代表如果用戶沒有配置則底層會自動配置。)
+
+<br/>
+
+
+### `@SpringBootApplication` 有3個依賴的註解
 
 ```java
 // 1.springboot 配置類
@@ -27,27 +32,35 @@
     1. 將指定package下(這邊指 main 方法下所在的包名稱)，的所有component導入進來
     2. 並利用 `registry` 方法給容器導入一系列component。 
 
-    ```java
-    static class Registrar implements ImportBeanDefinitionRegistrar, DeterminableImports {
+        ```java
+        static class Registrar implements ImportBeanDefinitionRegistrar, DeterminableImports {
 
-		@Override
-		public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-			register(registry, new PackageImports(metadata).getPackageNames().toArray(new String[0]));
-            // new PackageImports(metadata).getPackageNames() 這邊就是main方法所在的包名稱，也就是整個專案的主package名稱
-            // 並將此package名稱轉成 array，登記到 BeanDefinitionRegistry 實例當中。
-		}
+            @Override
+            public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+                register(registry, new PackageImports(metadata).getPackageNames().toArray(new String[0]));
+                // new PackageImports(metadata).getPackageNames() 這邊就是main方法所在的包名稱，也就是整個專案的主package名稱
+                // 並將此package名稱轉成 array，登記到 BeanDefinitionRegistry 實例當中。
+            }
 
-		@Override
-		public Set<Object> determineImports(AnnotationMetadata metadata) {
-			return Collections.singleton(new PackageImports(metadata));
-		}
-	}
-    ```
+            @Override
+            public Set<Object> determineImports(AnnotationMetadata metadata) {
+                return Collections.singleton(new PackageImports(metadata));
+            }
+        }
+        ```
 
 * @Import(`AutoConfigurationImportSelector`.class)
 
     1. 會加載約144個自動配置類，詳見 `org.springframework.boot.autoconfigure.AutoConfiguration.imports`，裡面有所有的自動配置類
 
+    2. 這些自動配置類會依照需求判斷是否需要加載
+
+        ```java
+        @AutoConfiguration
+        @ConditionalOnProperty(prefix = "spring.aop", name = "auto", havingValue = "true", matchIfMissing = true) // matchIfMissing，若沒有實例則創建一個
+        public class AopAutoConfiguration {
+        }
+        ```
 
 
 
@@ -59,7 +72,22 @@ springboot 啟動流程
 
 <img src="https://img-blog.csdnimg.cn/img_convert/6f0a27f6463098a371ff889f6ea8870b.png">
 
+<br/>
 
+<br/>
+
+## 如果需要做自定義的配置時，可以按照以下步驟
+1. 查詢自動配置類的jar包 `spring-boot-autoconfigure-2.7.3.jar` 
+2. package會依照功能區分，例如 cache/CacheAutoConfiguration，可以找到相關可以配置的 `@Bean`。
+3. 若要找 yml 配置的 prefix 名稱，可以找到 `xxxxxProperties` 檔案中尋找。
+
+    ```java
+    // 可找到 prefix.cache 以下的所有屬性
+    @ConfigurationProperties(prefix = "spring.cache")
+    public class CacheProperties {
+        //...
+    }
+    ```
 
 <br/>
 
