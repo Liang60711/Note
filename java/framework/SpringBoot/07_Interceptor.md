@@ -39,3 +39,85 @@
         }
     }
     ```
+
+<br/>
+
+<br/>
+
+
+## filter 和 interceptor 差別
+
+1. `實現的原理不同`:  
+
+    * filter 是基於函數 callback 調用；interceptor 是基於 Java 反射機制實現 AOP 的效果。
+
+    * filter 會實現一個 dofilter()
+
+        ```java
+        public class HttpMethodFilter extends GenericFilterBean {
+
+            @Override
+            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+                // ...
+
+                chain.doFilter(request, response); // 最後結束本 filter 時，會call filterChain 的下一個 dofilter()，達到callback的效果。
+            }
+        }
+        ```
+
+    * interceptor 會針對攔截條件的前後加上 preHandle(), postHandle(), afterCompletion()
+
+2. `依賴不同`
+
+    * filter 是存在於 `javax.servlet.Filter`，此 interface 是 Servlet 規範中定義的，所以 filter 是依賴於 Tomcat 容器，導致只能在 web 中使用。
+    * interceptor 是由 Spring 容器管理，不依賴 Tomcat，可以單獨使用，不僅用在 web 中，也可以用在其他 Application 中。
+
+3. `觸發順序`
+
+    * filter 觸發在 request 進入容器後，在 servlet 前。
+    * interceptor 觸發在 request 進入 servlet 後，在 controller 前。
+
+    <img src="https://img-blog.csdnimg.cn/20200602173814901.png?#pic_center" width="50%">
+
+
+4. `觸發時機`
+
+    * filter 幾乎可以對所有 request 起作用。
+    * interceptor 只能對 controller 或 static 下的資源起作用。
+
+5. `執行鍊順序`
+
+    * filter 使用 @Order 來控制 filterChain 的執行順序，越小的越優先。
+
+        ```java
+        // filter
+        @Order(1)
+        @Component
+        public class httpMethodFilter extend Filter {
+
+        }
+        ```
+
+    * interceptor 預設的執行順序是 registry 的順序，也可以通過 `order()` 設置，越小的越優先。
+
+        ```java
+        // interceptor
+        @Configuration
+        public class InterceptorConfig implements WebMvcCoonfigurer {
+
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(interceptor1).addPathPatterns("/**").order(2);
+                registry.addInterceptor(interceptor2).addPathPatterns("/**").order(1);
+                registry.addInterceptor(interceptor3).addPathPatterns("/**").order(3);
+            }
+        }
+        ```
+
+<br/>
+
+<br/>
+
+
+## 參考
+> https://segmentfault.com/a/1190000022833940
