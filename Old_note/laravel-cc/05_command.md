@@ -79,9 +79,8 @@ use Illuminate\Support\Facades\Artisan;
 
 // array 帶參數
 Artisan::call('mail:send', [
-        'user' => 'foo', '--queue' => 'default'
-    ]);
-});
+    'user' => 'foo', '--queue' => 'default'
+]);
 
 // 直接輸入
 Artisan::call('mail:send foo --queue=default');
