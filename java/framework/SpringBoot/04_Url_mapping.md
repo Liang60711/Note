@@ -329,3 +329,39 @@ json的key只能是`字串`，value可以支援4種基本類型`整數`、`浮�
 
 <br/>
 
+## forward: 轉發請求
+將請求轉發到指定的路徑
+```java
+@GetMapping("/goto")
+public String goTo() {
+    
+    return "forward:/success";  // 轉發到 /success 請求
+}
+```
+
+<br/>
+
+<br/>
+
+## @RequestAttribute 從請求中獲取屬性
+使用 `@RequestAttribute` 可以獲取在 HttpServletRequest 中的 request 屬性值
+```java
+@GetMapping("/goto")
+public String goTo(HttpServletRequest request) {
+    
+    // 新增加request中的屬性
+    request.setAttribute("msg", "success!");
+    request.setAttribute("code", "200");
+
+    return "forward:/success";  // 轉發到 /success 請求
+}
+
+// request 在轉發情況下是同一個 request
+@GetMapping("/success")
+public String success(@RequestAttribute("msg") String msg,
+                      @RequestAttribute("code") String code,
+                      HttpServletRequest request) {
+
+    return msg;
+}
+```
