@@ -440,6 +440,20 @@ map.forEach((k,v)->System.out.println(k+"->"+v));
 
 <br/>
 
+## MultiValueMap
+1. 由 Map 和 List 組成，用途是一個 key 可以存多個 value
+2. 實現原理
+
+    ```java
+    // map 的 value 使用 list 來代替，實現可以存放多個值
+    public interface MultiValueMap<K, V> extends Map<K, List<V>> {
+    }
+    ```
+
+<br/>
+
+<br/>
+
 ## 集合輸出
 通常集合輸出分為以下幾種: 
 1. **Iterator**
