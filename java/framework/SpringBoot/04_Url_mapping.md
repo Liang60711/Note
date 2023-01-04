@@ -365,3 +365,94 @@ public String success(@RequestAttribute("msg") String msg,
     return msg;
 }
 ```
+
+<br/>
+
+<br/>
+
+## 矩陣變量 @MatrixVariable
+* 使用一般的 QueryString 的寫法 : `/cars/{path}?xxx=xxx&aaa=ccc`
+* 使用矩陣變量的寫法 : `/cars/{path;xxx=xxx;aaa=ccc}`
+* 矩陣變量應該將路徑與變量一起看
+
+    ```html
+    /school;name=taipei/student;number=1000
+    ```
+
+* 面試題: 如何在禁用 cookie 的情況下傳值?
+1. 一般情況下，server端會儲存 session.set('jsessionid1', 'aaa')，瀏覽器透過 cookie 將 jsessionid 帶到給server。
+2. 但是在禁用 cookie 的情況下，瀏覽器沒辦法帶 jsessionid 時，會將此 jsessionid 帶入到 url 中重寫。
+3. 與 queryString 方式不同的是，矩陣變量使用`分號`作為分割變量的寫法，使用`逗號`傳list值。
+
+    ```html
+    <!--把 cookie的值用矩陣變量的方式進行傳遞 -->
+    <!-- 不用加大括號 -->
+    /cars/sell;jsessionid=xxx    
+    ```
+4. 畢竟是拿 sessionid，所以還是會有資安上的問題，Springboot 預設是關閉的。
+
+    ```java
+    // 源代碼: WebMvcAutoConfiguration 中會呼叫 UrlPathHelper 類，此類的方法會將網址中，分號後面的字串移除
+    public class UrlPathHelper {
+        private boolean removeSemicolonContent = true;
+
+        //...
+
+        public void setRemoveSemicolonContent(boolean removeSemicolonContent) {
+            this.checkReadOnly();
+            this.removeSemicolonContent = removeSemicolonContent;
+        }
+    }
+    ```
+    ```java
+    // 使用 @Configuration +　WebMvcConfigurer 自定義自動配置類
+    @Configuration
+    public class WebMvcConfig {
+
+        @Bean
+        public WebMvcConfigurer webMvcConfigurer() {
+            return new WebMvcConfigurer() { // 直接返回 WebMvcConfigurer 類
+                @Override
+                public void configurePathMatch(PathMatchConfigurer configurer) {
+                    UrlPathHelper urlPathHelper = new UrlPathHelper();
+                    urlPathHelper.setRemoveSemicolonContent(false); // 將自動默認刪除分號改成false
+                    configurer.setUrlPathHelper(urlPathHelper);
+                }
+            };
+        }
+    }
+    ```
+
+5. 在後端拿矩陣變量參數
+
+    ```java
+    // 網址 /cars/sell;low=34;brand=benz,bmw,audi
+    @GetMapping("/cars/{path}")
+    public Map carSell(@MatrixVariable("low") Integer low,
+                       @MatrixVariable("brand") List<Stirng> brand
+                       @PathVariable("path") String path) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("low", low);    // 34
+        map.put("brand", brand);// ["benz","bmw","audi"]
+        map.put("path", path);  // sell
+
+        return map;
+    }
+    ```
+
+6. 當不同路徑下有相同的矩陣變量名稱，可以使用 pathVar 屬性來指定路徑
+
+    ```java
+    // 路徑 : /boss/1;age=20/2;age=10
+    @Getting("/boss/{bossId}/{empID}")
+    public Map boss(@MatrixVariable(value = "age", pathVar = "bossId") Integer bossAge,
+                    @MatrixVariable(value = "age", pathVar = "empId") Integer empAge) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("bossAge", bossAge); // 20
+        map.put("empAge", empAge);   // 10
+
+        return map;
+    }
+    ```

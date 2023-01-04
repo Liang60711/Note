@@ -78,7 +78,7 @@ springboot 啟動流程
 
 ## 如果需要做自定義的配置時，可以按照以下步驟
 1. 查詢自動配置類的jar包 `spring-boot-autoconfigure-2.7.3.jar` 
-2. package會依照功能區分，例如 cache/CacheAutoConfiguration，可以找到相關可以配置的 `@Bean`。
+2. package會依照功能區分，例如 cache/CacheAutoConfiguration，可以找到相關可以配置的 `@Bean`，類的名稱必須為`AutoConfiguration`。
 3. 若要找 yml 配置的 prefix 名稱，可以找到 `xxxxxProperties` 檔案中尋找。
 
     ```java
