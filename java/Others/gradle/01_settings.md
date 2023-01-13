@@ -85,11 +85,11 @@ buildscript {
 
 例如: A 模組依賴了 B 模組，此時 A, B 中各有自己的依賴jar包。
 
-`api` (`舊版compile`): 編譯及運行時都會使用到的依賴，但此依賴可以被其他模組一併載入(B模組的依賴會被A模組載入)。
+`api` (`即舊版compile`): 編譯及運行時都會使用到的依賴，但此依賴可以被其他模組一併載入(B模組的依賴會被A模組載入)。
 
 `implementation` : 編譯及運行時都會使用到的依賴，此依賴只能被自己模組載入(A模組不會載入B模組的依賴)，增加編譯速度。
 
-`compileOnly`(`舊版provided`) : 依賴在編譯有效，運行時無效，如 lombok。
+`compileOnly`(`即舊版provided`) : 依賴在編譯有效，運行時無效，如 lombok。
 
 `runtimeOnly` : 依賴在運行有效，編譯時無效，如 jdbc, SLF4J。
 

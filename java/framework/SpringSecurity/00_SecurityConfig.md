@@ -69,6 +69,20 @@ public class SecurityConfig extends WebSecurityConfigureAdapter {
     http.csrf()
         .disable()
         //...
-}
+    }
 }
 ```
+
+<br/>
+
+<br/>
+
+## @EnableGlobalMethodSecurity
+1. 用於取代傳統 ApplicationContext.xml 中的配置 `<global-method-security>`
+2. 此註解有三個屬性值
+    * securedEnabled : 是否啟用 @Secured
+    * prePostEnabled : 是否啟用 @PreAuthorize, @PostAuthorize
+    * jsr250Enabled : 是否啟用 @RolesAllowed
+3. @PreAuthorize, @PostAuthorize 這兩個註解才支援 SpringEL (Spring表達式)。
+
+> https://blog.csdn.net/u011305680/article/details/80271423

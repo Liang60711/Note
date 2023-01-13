@@ -177,7 +177,7 @@ System.out.println(s1 == s5);   // false
 System.out.println(s1 == s9);   // false，如果在編譯期間值可以被確定(如s4)，則使用已有的物件(常量池)，但因s7+s8接為變數，在runtime運行期時，才能確定s9的值，故s9會另外建立物件。
 System.out.println(s3 == s10);  // false
 System.out.println(s1 == s13);  // true，與s9原因相同，因為常數(加上final)已能在編譯期間確定值，故s13使用常數池中的物件。
-System.out.println(s1 == s16);  // 方法在運行期才能返回值，故會新建立物件。
+System.out.println(s1 == s16);  // false，方法在運行期才能返回值，故會新建立物件。
 
 // 結論: 編譯期間可以確定的變數，都會從常數池撈。
 ```

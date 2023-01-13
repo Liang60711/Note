@@ -260,7 +260,7 @@ set.size();
     }
 
     // 3.使用lambda
-    Comparator<Cat> com = (Cat o1, Cat o2) -> (o1.id - o2.id);//只有一行可以省略大括號，加上小括號；也可以不佳小括號
+    Comparator<Cat> com = (Cat o1, Cat o2) -> (o1.id - o2.id);//只有一行可以省略大括號，加上小括號；也可以不加小括號
     TreeSet<Cat> tree = new TreeSet<>(com);
     ```
 3. 因為使用了`Comparator`，可實現兩個功能:
@@ -337,6 +337,8 @@ map.size();
 Map<Integer, String> map = new HashMap<>();
 
 // 1.map.entrySet()
+// 一個 entry 就是一個 key + 一個 value
+// entrySet() 就是返回許多 entry，即 Map.Entry 類組成的 Set
 Set<Map.Entry<Integer,String>> entrySet = map.entrySet();
 for(Map.Entry e: entrySet){
     System.out.println(e.getKey()+ "->" + e.getValue());
