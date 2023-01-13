@@ -37,6 +37,14 @@ public class DispatcherServlet extends FrameworkServlet {
 }
 ```
 
+<br/>
+
+<br/>
+
+## Request 參數解析原理 (源代碼)
+1. DispatcherServlet 類裡面的 handlerMappings(成員變數) 中找到能處理請求的 handler，即 controller 的方法。
+2. 為當前 handler 找一個 handlerAdapter(最常見為 `RequestMappingHandlerAdapter`)
+3. `參數解析器`共有26個，在 `HandlerMethodArgumentResolver`方法中，每個參數會跑迴圈遍歷26個參數解析器，找到支持該參數的參數解析器，並將參數放在緩存當中(源代碼在 `HandlerMethodArgumentResolverComposite.class`)。
 
 <br/>
 
@@ -456,3 +464,5 @@ public String success(@RequestAttribute("msg") String msg,
         return map;
     }
     ```
+
+
