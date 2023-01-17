@@ -27,6 +27,8 @@
 
 `302 Found`: 臨時重新導向。
 
+`304 Not Modified`: 此 Response 只有 header，沒有body(客戶端收到304後，會從緩存中讀取對應的資源，節省 body 傳輸流量)。
+
 `400 Bad Request`: 前端請求的參數有誤。
 
 `401 Unauthorized`: authorization失敗。
@@ -34,6 +36,8 @@
 `403 Forbidden`: authentication失敗。
 
 `404 Not Found`: 網頁不存在，可能是url錯誤或資源不見。
+
+`405 Method Not Allowed` : 此 HTTP verb 不支援。
 
 `500 Internal Server Error`: 後端執行程式錯誤，可能是有bug。
 
