@@ -189,7 +189,68 @@ sessionFactory.close();
 
 <br/>
 
-## 簡易寫法
+## HibernateConfig 配置建立 sessionFactory 的 Bean
+```java
+@Configuration
+@EnableTransactionManagement
+public class HibernateConfig {
+    
+    /**
+     * 設定sessionFactory bean
+     */
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(dataSource());     // 連線資訊
+        sessionFactory.setPackagesToScan(
+          {"com.baeldung.hibernate.bootstrap.model"}    // entity位置
+        );
+        sessionFactory.setHibernateProperties(hibernateProperties());  // 設定連線屬性
+
+        return sessionFactory;
+    }
+
+    /**
+     * 設定dataSource bean
+     */
+    @Bean
+    public DataSource dataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://127.0.0.1:5432/testdb");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("sa");
+
+        return dataSource;
+    }
+
+    /**
+     * 設定hibernateTransactionManager bean
+     * 作用: 管理 transaction
+     */
+    @Bean
+    public PlatformTransactionManager hibernateTransactionManager() {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory().getObject());
+        return transactionManager;
+    }
+
+    private final Properties hibernateProperties() {
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+        hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+
+        return hibernateProperties;
+    }
+}
+
+```
+
+<br/>
+
+<br/>
+
+## Dao簡易寫法
 ```java
 class TestDao {
     // 1.先注入factory
@@ -246,7 +307,7 @@ Hibernate中的`實體物件`可以分為三種狀態：Persistent、Detached、
     
     2. 如果將 Transient 狀態的物件使用 Session 的 save() 方法儲存，或是使用 Hibernate 從資料庫載入資料並封裝為物件（例如使用get()、load()等查詢物件的相關方法），則該物件為 Persistent 狀態。
 
-    3. Persistent 狀態的物件對應於資料庫中的一筆資料，物件的id值與資料的主鍵值相同。如果 Session 實例尚未失效，在這期間對物件的任何狀 態變動，在 Session 實例關閉（close）或 Transaction 實例執行commit()之後，資料庫中對應的資料也會跟著更新。
+    3. Persistent 狀態的物件對應於資料庫中的一筆資料，物件的id值與資料的主鍵值相同。如果 Session 實例尚未失效，在這期間對物件的任何狀態變動，在 Session 實例關閉（close）或 Transaction 實例執行commit()之後，資料庫中對應的資料也會跟著更新。
 
     4. 如果將 Session 實例關閉（close），則 Persistent 狀態的物件會成為 Detached 狀態。
 
@@ -256,7 +317,7 @@ Hibernate中的`實體物件`可以分為三種狀態：Persistent、Detached、
 
     1. Detached 狀態的物件，其id與資料庫的主鍵值對應，但脫離 Session 實例的管理，例如在使用 load() 方法查詢到資料並封裝為物件之後，將 Session 實例關閉，則物件由 Persistent 變為 Detached，Detached 狀態的物件之任何屬性變動，不會對資料庫中的資料造成任何的影響。
 
-    2. Detached 狀態的物件可以使用 update() 方法使之與資料庫中的對應資料再度發生關聯，此時 Detached狀 態的物件會變為 Persistent 狀態。
+    2. Detached 狀態的物件可以使用 update() 方法使之與資料庫中的對應資料再度發生關聯，此時 Detached狀態的物件會變為 Persistent 狀態。
 
     3. Detached 物件，若不再被使用，則在適當的時候將被垃圾回收。
 
@@ -292,7 +353,7 @@ Hibernate中的`實體物件`可以分為三種狀態：Persistent、Detached、
 1. 為 JPA 中用來管理實體物件的類，由 EntityManger 和 PersistenceContext 一同管理，一個 PersistenceContext 可以被多個 EntityManger 同時管理，但 PersistenceContext 只有一個，唯一值。
 
     ```
-    EntityManger <---many---One---> PersistenceContext <---one---One---> Entity
+    EntityManger <---Many---One---> PersistenceContext <---One---One---> Entity
     ```
 
 2. 在 springboot 取得 EntityManager 實例，`@PersistenceContext` 是 JPA 的註解，而 @Autowired 是 Spring 的註解。由於 EntityManager 為線程不安全，@PersistenceContext 就是用來為每個線程建立一個 EntityManager，確保不會報錯。

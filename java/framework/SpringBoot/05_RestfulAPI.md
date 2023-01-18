@@ -23,6 +23,8 @@
 
 `202 Accepted`: 請求已接受，但尚未處理完成。
 
+`204 No Content`: 請求已將目標刪除，目標已不存在。
+
 `301 Moved Permanently`: 永久性重新導向。  
 
 `302 Found`: 臨時重新導向。
