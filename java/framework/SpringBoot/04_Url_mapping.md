@@ -44,7 +44,7 @@ public class DispatcherServlet extends FrameworkServlet {
 ## Request 參數解析原理 (源代碼)
 1. DispatcherServlet 類裡面的 handlerMappings(成員變數) 中找到能處理請求的 handler，即 controller 的方法。
 2. 為當前 handler 找一個 handlerAdapter(最常見為 `RequestMappingHandlerAdapter`)
-3. `參數解析器`共有26個，在 `HandlerMethodArgumentResolver`方法中，每個參數會跑迴圈遍歷26個參數解析器，找到支持該參數的參數解析器，並將參數放在緩存當中(源代碼在 `HandlerMethodArgumentResolverComposite.class`)。
+3. `參數解析器`共有26個，在 `HandlerMethodArgumentResolver`方法中，每個參數會跑迴圈遍歷26個參數解析器，找到支持該參數的參數解析器，並將參數放在緩存當中(源代碼在 `HandlerMethodArgumentResolverComposite.class` 中的 `argumentResolvers` 成員變數)。
 
 <br/>
 
@@ -373,6 +373,39 @@ public String success(@RequestAttribute("msg") String msg,
     return msg;
 }
 ```
+可以將參數設置為非必須
+```java
+@RequestAttribute(value = "msg", required = false)
+```
+
+<br/>
+
+<br/>
+
+## Map, Model 參數
+在 Map 和 Model 裡面的數據都會被放在 request 的 attribute 中，與 `request.setAttribute() `相同。
+```java
+@GetMapping("/goto")
+public String params(HttpServletRequest request,
+                     HttpServletResponse response,
+                     Map<String, Object> map,
+                     Model model) {
+    
+    // 此三種寫法是相同的
+    map.put("k1", "v1");
+    model.addAttribute("k1", "v1");
+    request.setAttribute("k1", "v1");
+
+    return "goto";
+}   
+```
+
+* 源代碼當中:
+    
+    1. 只要是 map 類型的參數(model也是map)，就會調用 `ModelAndViewContainer.getModel()` 方法。
+
+    2. 最終還是會將 map, model 中的數據跑回圈，並使用 request.setAttribute()，再將數據加到 request 屬性當中 (`AbstractView.exposeModelAsRequestAttributes()`)。
+
 
 <br/>
 
@@ -466,3 +499,10 @@ public String success(@RequestAttribute("msg") String msg,
     ```
 
 
+<br/>
+
+<br/>
+
+
+## ModelAndView 
+將所有接收的數據放在 ModelAndViewCoontainer ，此物件包含要去的地址 view 和 model 數據。

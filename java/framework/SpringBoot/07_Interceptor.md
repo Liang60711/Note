@@ -8,7 +8,7 @@
 
     * preHandle()：請求送到Controller前執行，回傳一個布林值，如果是true通過攔截器，反之則否。
     * postHandle()：Controller處理完後執行。
-    * afterCompletion()：整個請求及回應結束後執行。
+    * afterCompletion()：整個請求、回應、view渲染結束後執行，用來釋放資源，若該攔截器 preHandle 返回 false，則不會執行。
 
     ```java
     // 自定義 Interceptor
@@ -16,12 +16,33 @@
     public class MyInterceptor implements HandlerInterceptor {
 
         @Override
-        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        public boolean preHandle(HttpServletRequest request, 
+                                 HttpServletResponse response, 
+                                 Object handler) throws Exception {
             System.out.println("I am Interceptor");
-            return true;//true允許通過
+
+            // 判斷邏輯
+            if (login) {
+                return true;//true允許通過
+            } else {
+
+                // 以下二選一
+                // 1.轉導到首頁(sendRedirect是重發一個request，所以無法使用setAttribute帶參數)
+                response.sendRedirect("/");
+
+                // 2.轉導到首頁(帶參數)
+                request.setAttribute("msg", "請先登入");
+                request.getRequestDispatcher("/").forward(request, response);
+
+                return false;
+            }
         }
     }
     ```
+
+    forward 和 sendRedirect 差別: 
+    > https://ithelp.ithome.com.tw/articles/10185109
+
 
 4. 建立一個專門設定攔截器的類，並實作 `WebMvcConfigurer` 介面，先將自定義攔截器注入後，並實作`addInterceptors`方法。
 
@@ -35,7 +56,16 @@
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
             // 登記到類別為InterceptorRegistration的ArrayList中
-            registry.addInterceptor(myInterceptor).addPathPatterns("/**");
+            registry.addInterceptor(myInterceptor)
+            .addPathPatterns("/**") // 所有路徑都會攔截(連靜態資源都會攔截)
+            .excludePathPatterns(
+                "/", 
+                "/login", 
+                "/css/**", 
+                "/js/**",
+                "/fonts/**",
+                "/images/**",
+            ); // 放行的路徑
         }
     }
     ```
@@ -44,6 +74,24 @@
 
 <br/>
 
+## 攔截器規則
+1. 根據當前請求，找到 `HandlerExecutionChain` (所有攔截器鍊)。
+2. 依照順序執行所有攔截器的 `preHandle` 方法。
+
+    * 如果攔截器返回 true，則執行下一個攔截器的 preHandle。
+    * 如果攔截器返回 false，則`倒序`執行之前返回 true 的攔截器的 `afterCompletion` 方法，注意 : 返回false的攔截器不會觸發 `afterCompletion`。
+
+3. 如果任何一個攔截器返回 false，則不執行該路徑的方法(controller)。
+
+4. 如果所有攔截器返回 true，執行該路徑的方法，並且`倒序`執行`postHandle`方法。
+
+5. 以上步驟，若產生 exception，會直接觸發已經執行過的攔截器的 `afterCompletion`。
+
+6. 舉例，攔截器 1，2，3，執行到 1 的 preHandle 產生 exception，則只會觸發 1 的 afterCompletion。
+
+<br/>
+
+<br/>
 
 ## filter 和 interceptor 差別
 
