@@ -119,4 +119,18 @@
     
     ```
 
+<br/>
+
+<br/>
+
+* `@JsonFormat` : 在使用 @RequestBody 將 JSON 轉 java物件時，日期格式需特別設定，否則報405
+```java
+class TestVo {
+
+    @JsonFormat(locale = "zh", timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm")
+    private Date createTime;
+    
+}
+```
+
 
