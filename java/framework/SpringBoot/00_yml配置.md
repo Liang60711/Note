@@ -1,3 +1,11 @@
+## 配置這麼多要去哪裡看
+
+
+
+<br/>
+
+<br/>
+
 ## 靜態資源配置
 
 * 靜態資源的訪問，默認是 `/resources/**`，如果有 `webapp/WEB-INF` 目錄，則使用此路徑作為根目錄。
@@ -36,3 +44,9 @@ spring:
 
 <br/>
 
+## Log  配置
+```yml
+logging:
+    level:
+        root: info  # 預設是info級別，可調整為debug, error
+```
