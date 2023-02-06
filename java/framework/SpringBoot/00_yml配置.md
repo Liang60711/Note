@@ -1,6 +1,9 @@
 ## 配置這麼多要去哪裡看
 
 
+![Snipaste_2023-02-06_20-13-14](https://user-images.githubusercontent.com/63166397/216974852-f330faef-b621-43f2-871b-48dc6b665901.png)
+![Snipaste_2023-02-06_20-13-38](https://user-images.githubusercontent.com/63166397/216974870-9c68af6d-6881-467d-903b-37d8bc6ea089.png)
+
 
 <br/>
 
