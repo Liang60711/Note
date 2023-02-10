@@ -1,3 +1,24 @@
+## 配置這麼多要去哪裡看
+
+<img width="80%" src="https://user-images.githubusercontent.com/63166397/216974852-f330faef-b621-43f2-871b-48dc6b665901.png">
+
+<br/>
+
+yml屬性配置在第一個連結
+<img width="80%" src="https://user-images.githubusercontent.com/63166397/216974870-9c68af6d-6881-467d-903b-37d8bc6ea089.png">
+
+<br/>
+
+<br/>
+
+## 配置觀念
+* 有載入相對應的依賴包，才能使用相對應的屬性配置
+
+
+<br/>
+
+<br/>
+
 ## 靜態資源配置
 
 * 靜態資源的訪問，默認是 `/resources/**`，如果有 `webapp/WEB-INF` 目錄，則使用此路徑作為根目錄。
@@ -36,3 +57,9 @@ spring:
 
 <br/>
 
+## Log  配置
+```yml
+logging:
+    level:
+        root: info  # 預設是info級別，可調整為debug, error
+```
