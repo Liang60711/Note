@@ -13,6 +13,7 @@ yml屬性配置在第一個連結
 
 ## 配置觀念
 * 有載入相對應的依賴包，才能使用相對應的屬性配置
+* 如果 properties, yaml, yml 三個檔案同時存在，`properties`最優先，`yml`次之，`yaml`最後。
 
 
 <br/>
