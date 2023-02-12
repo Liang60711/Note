@@ -35,4 +35,7 @@
 <br/>
 
 ## JS 的 call stack 顯示 js 的執行順序
+<img src="https://user-images.githubusercontent.com/63166397/218323562-5263288c-4535-467f-bc28-e0c70c206a5c.png" width="50%">
+
+
 
