@@ -57,9 +57,8 @@
 
 <br/>
 
-##
-
-<img src="" width="50%">
+## 讓瀏覽器阻止請求某些資源
+<img src="https://user-images.githubusercontent.com/63166397/218330340-aa20a49c-ff0e-4934-9f5a-3da1d3b55c54.png" width="50%">
 
 
 
