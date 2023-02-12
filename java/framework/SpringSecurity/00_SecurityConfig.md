@@ -10,29 +10,58 @@
 
     * `WebSecurity` :
 
-        配置全域忽略的規則、是否Debug、SpringFilterChain 配置、securityInterceptor、全局的HttpFirewall
+        配置全域忽略的規則(通常只有使用此功能)、是否Debug、SpringFilterChain 配置、securityInterceptor、全局的HttpFirewall
 
     * `HttpSecurity` :
 
         配置各種具體的驗證機制規則
 
+## WebSecurity
+常用功能: 設定以下路徑不會經過 spring security 的 filter chain，代表這些路徑不用經過 spring security 的授權，直接可以讀取。
+```java
+@Override
+public void configure(WebSecurity web) throws Exception {
+    web
+        .ignoring()
+        .antMatchers("/resources/**")
+        .antMatchers("/publics/**");
+        // 此兩個路徑將不會受到spring security的驗證或授權
+}
+
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+        .authorizeRequests()
+        .antMatchers("/admin/**").hasRole("ADMIN")
+        .antMatchers("/publics/**").hasRole("USER") // 上面已設定忽略此路徑，所以這行寫不寫都沒有影響
+        .anyRequest().authenticated();
+}
+```
 
 ## HttpSecurity
 requestMatchers() : 符合以下的路徑才會進 filter chain 判斷，如果沒有包含的路徑都會直接放行。  
-authorizeRequests() : 
+authorizeRequests() : 指開始對 request 配置，後面需加上匹配器(matcher)。
 ```java
 @Override
 public void configure(HttpSecurity http) throws Exception {
+
+    // 情況1
+    http.authorizeRequests()
+            .antMatchers("/a", "/b").permitAll()  // 此兩個路徑允許訪問
+            .anyRequest().authenticated();  // 其餘路徑皆須通過驗證，才允許訪問
+
+    // 情況2
     http.requestMatchers().antMatchers(
-                "/path1",  // 符合此2路徑才會進行以下的判斷
+                "/path1",  // 符合此4路徑才會繼續進行以下的判斷，所以只有此四個路徑會進filter chain
                 "/path2",
                 "/path3",
                 "/path4"
-        ).and().authorizeRequests().antMatchers(
-                "/path1",  // 放行名單
+        )
+        .and().authorizeRequests().antMatchers(
+                "/path1",  
                 "/path4"
-        ).permitAll()
-        .anyRequest().authenticated();  // 其餘路徑皆須進行驗證
+        ).permitAll()  // 允許訪問
+        .anyRequest().authenticated();  // 其餘路徑皆須通過驗證，才允許訪問
 }
 ```
 
