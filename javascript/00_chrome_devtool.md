@@ -28,7 +28,7 @@
 3. 左邊會出現一個黃色的點(成功)。
 
 * 另一種方法:
-
+<img src="https://user-images.githubusercontent.com/63166397/218318995-aca8c4b6-35e4-47be-a7fc-bd512c090279.png" width="50%">
 
 <br/>
 
