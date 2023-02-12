@@ -37,5 +37,30 @@
 ## JS 的 call stack 顯示 js 的執行順序
 <img src="https://user-images.githubusercontent.com/63166397/218323562-5263288c-4535-467f-bc28-e0c70c206a5c.png" width="50%">
 
+<br/>
+
+<br/>
+
+## 在瀏覽器編輯，並同步到本地文件中(必備)
+<img src="https://user-images.githubusercontent.com/63166397/218325736-127219da-cb3a-4180-ae25-ca2639e179a1.png" width="50%">
+
+<br/>
+
+<br/>
+
+## 如何監控沒有使用到的JS
+
+<img src="https://user-images.githubusercontent.com/63166397/218328093-9b7397f5-f9a2-4daf-99d4-c8b9d49300d9.png" width="50%">
+<img src="https://user-images.githubusercontent.com/63166397/218328095-0989704b-ad94-4617-a50b-6acc3cd33fd6.png" width="50%">
+
+<br/>
+
+<br/>
+
+##
+
+<img src="" width="50%">
+
+
 
 
