@@ -53,3 +53,26 @@ function foo() {
 
 ## let, const 
 用此兩種方式宣告的變數，不會出現在 window 中，只有 var 宣告的變數，才會出現在 window 中。
+
+<br/>
+
+<br/>
+
+## 基本型態是傳值，物件是傳址
+
+```javascript
+var a = 10;
+var b = a;
+
+b = 20;
+console.log(a); // 還是10
+console.log(b); // 20
+```
+物件是直接指向原本物件
+```javascript
+var m = {a: 10, b: 20};
+var n = m;
+
+n.a = 15;
+console.log(m.a); // 15，因為 m, n 為同一個物件
+```
