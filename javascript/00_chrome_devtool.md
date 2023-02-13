@@ -52,6 +52,7 @@
 
 <img src="https://user-images.githubusercontent.com/63166397/218328093-9b7397f5-f9a2-4daf-99d4-c8b9d49300d9.png" width="50%">
 <img src="https://user-images.githubusercontent.com/63166397/218328095-0989704b-ad94-4617-a50b-6acc3cd33fd6.png" width="50%">
+<img src="https://user-images.githubusercontent.com/63166397/218417005-61b059c4-f666-441a-9b24-1078642e935e.png" width="50%">
 
 <br/>
 
@@ -66,8 +67,8 @@
 
 ## 性能分析 - 計算JS花費時間
 
-
 <img src="https://user-images.githubusercontent.com/63166397/218415366-bc8e4228-c07c-4803-9411-0f9dd2779432.png" width="50%">
+點選，查看檔案
 <img src="https://user-images.githubusercontent.com/63166397/218415459-2eaafa3d-1f2e-4158-a738-12db02ed0ee3.png" width="50%">
 <img src="https://user-images.githubusercontent.com/63166397/218415469-11fb1759-e585-4378-9a6d-8ec4d1f0b3e9.png" width="50%">
 
