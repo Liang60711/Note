@@ -20,6 +20,17 @@ yml屬性配置在第一個連結
 
 <br/>
 
+## 在 IntelliJ 新增配置檔案
+如果遇到 IntelliJ 在配置檔中沒有開啟 auto complete，原因是因為 IntelliJ 不認為此檔案室配置檔，所以需要去設定成配置檔案。
+<img width="80%" src="https://user-images.githubusercontent.com/63166397/218733417-4ae4d133-02ae-4271-9f42-932c23e12e02.png">
+
+<img width="80%" src="https://user-images.githubusercontent.com/63166397/218733427-2eed0a23-094b-4e02-a7fd-51ccfba16fcc.png">
+
+
+<br/>
+
+<br/>
+
 ## 靜態資源配置
 
 * 靜態資源的訪問，默認是 `/resources/**`，如果有 `webapp/WEB-INF` 目錄，則使用此路徑作為根目錄。
