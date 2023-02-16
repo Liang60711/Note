@@ -14,7 +14,51 @@ yml屬性配置在第一個連結
 ## 配置觀念
 * 有載入相對應的依賴包，才能使用相對應的屬性配置
 * 如果 properties, yaml, yml 三個檔案同時存在，`properties`最優先，`yml`次之，`yaml`最後。
+* 只允許使用空白鍵縮排，不允許使用Tab
+*  list格式範例，兩種寫法相同
 
+    ```yml
+    # 為 list<String>
+    users: >
+      apple
+      foo
+      boo
+    ```
+    ```yml
+    users: apple, foo, boo
+    ```
+
+* String[]，與 List 同格式
+    ```yml
+    functionmenu: >
+      EC01
+      EC02
+      EC03
+    ```
+    ```yml
+    functionmenu: EC01, EC02, EC03
+    ```
+
+* 以上 array 或 list 可以使用以下方式取
+
+    ```java
+    @Value("${users:}")
+    private List<String> userList;
+
+    @Value("${functionmenu:}")
+    private String[] array;
+    ```
+
+
+* 使用 `~`，表示 `null`
+
+    ```yml
+    null: ~
+    ```
+* 日期使用 `yyyy-MM-dd`格式
+    ```yml
+    date: 2023-02-15
+    ```
 
 <br/>
 
