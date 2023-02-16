@@ -75,3 +75,32 @@ logging:
     level:
         root: info  # 預設是info級別，可調整為debug, error
 ```
+
+<br/>
+
+<br/>
+
+* 取List (物件寫法)，使用物件的方式載入 yml 檔案中的 value
+    ```yml
+    cuztomize: 
+      users:
+        - apple
+        - ornage
+        - foo
+        - boo
+    ```
+    ```yml
+    # 行內寫法，與上相同
+    cuztomize: 
+      users: [apple, ornage, foo, boo]
+    ```
+    取值(需使用物件)
+    ```java
+    @Component
+    @Data
+    @ConfigurationProperties(prefix = "cuztomize.users") // 配置文件的前綴
+    public class Users {
+
+        private List<String> users;
+    }
+    ```
