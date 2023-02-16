@@ -14,6 +14,13 @@ yml屬性配置在第一個連結
 ## 配置觀念
 * 有載入相對應的依賴包，才能使用相對應的屬性配置
 * 如果 properties, yaml, yml 三個檔案同時存在，`properties`最優先，`yml`次之，`yaml`最後。
+
+<br/>
+
+<br/>
+
+## yml 格式
+
 * 只允許使用空白鍵縮排，不允許使用Tab
 *  list格式範例，兩種寫法相同
 
@@ -39,7 +46,7 @@ yml屬性配置在第一個連結
     functionmenu: EC01, EC02, EC03
     ```
 
-* 以上 array 或 list 可以使用以下方式取
+* 以上 Array 或 List 可以使用以下方式取
 
     ```java
     @Value("${users:}")
@@ -48,7 +55,30 @@ yml屬性配置在第一個連結
     @Value("${functionmenu:}")
     private String[] array;
     ```
+* 取 `List (物件寫法)`，使用物件的方式載入 yml 檔案中的 value
+    ```yml
+    cuztomize: 
+      users:
+        - apple
+        - ornage
+        - foo
+        - boo
+    ```
+    ```yml
+    # 行內寫法，與上相同
+    cuztomize: 
+      users: [apple, ornage, foo, boo]
+    ```
+    取值(需使用物件)
+    ```java
+    @Component
+    @Data
+    @ConfigurationProperties(prefix = "cuztomize.users") // 配置文件的前綴
+    public class Users {
 
+        private List<String> users;
+    }
+    ```
 
 * 使用 `~`，表示 `null`
 
@@ -124,27 +154,3 @@ logging:
 
 <br/>
 
-* 取List (物件寫法)，使用物件的方式載入 yml 檔案中的 value
-    ```yml
-    cuztomize: 
-      users:
-        - apple
-        - ornage
-        - foo
-        - boo
-    ```
-    ```yml
-    # 行內寫法，與上相同
-    cuztomize: 
-      users: [apple, ornage, foo, boo]
-    ```
-    取值(需使用物件)
-    ```java
-    @Component
-    @Data
-    @ConfigurationProperties(prefix = "cuztomize.users") // 配置文件的前綴
-    public class Users {
-
-        private List<String> users;
-    }
-    ```
