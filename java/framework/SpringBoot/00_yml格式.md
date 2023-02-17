@@ -73,6 +73,21 @@
 
 <br/>
 
+## 一次讀取 yml 全部屬性
+使用 `Environment` 類封裝所有屬性，並使用自動注入
+```java
+@Autowired
+private Environment env;
+```
+並使用 `getProperty` 取值，方式與 @Value相同
+```java
+String str = env.getProperty("spring.datasource.url");
+```
+
+<br/>
+
+<br/>
+
 ## yml 使用變數
 
 使用 `${}` 符號來變數
