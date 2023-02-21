@@ -73,6 +73,50 @@
 
 <br/>
 
+## 一次讀取 yml 全部屬性
+使用 `Environment` 類封裝所有屬性，並使用自動注入
+```java
+@Autowired
+private Environment env;
+```
+並使用 `getProperty` 取值，方式與 @Value相同
+```java
+String str = env.getProperty("spring.datasource.url");
+```
+
+<br/>
+
+<br/>
+
+## 使用物件載入指定的屬性
+使 spring 只載入指定的屬性，不全部載入
+```yml
+datasource:
+  driver-class-name: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/myjpa
+  username: root
+  password: root
+```
+直接寫一個載入類
+```java
+// 需符合三個條件
+// 1.定義屬性名稱(需和yml屬性名稱一模一樣)
+// 2.需成為 bean
+// 3.指定前綴
+@Component
+@ConfigurationProperties(prefix = "datasource")
+public class MyDataSource {
+    private String driver-class-name;
+    private String url;
+    private String username;
+    private String password;
+}
+```
+
+<br/>
+
+<br/>
+
 ## yml 使用變數
 
 使用 `${}` 符號來變數

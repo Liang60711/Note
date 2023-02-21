@@ -1,3 +1,22 @@
+## 測試檔案位置
+在 springboot 中，`測試類`和`待測試類`需要在相同的路徑下，否則需要指定路徑。
+
+舉例: 待測試類在 `com.test` 路徑下，測試類在 `com` 路徑下，測試類就要指定待測試類的路徑
+。
+
+```java
+// 加上 classes 屬性
+@SpringBootTest(classes = UserController.class)
+class UserControllerTests {
+
+}
+```
+
+
+<br/>
+
+<br/>
+
 ## 常用註解
 
 `@SpringBootTest` :  
