@@ -59,7 +59,7 @@
             Object obj = pjp.proceed(); // 呼叫proceed()，開始執行原方法
             System.out.println("I am after");
 
-            return obj
+            return obj;
         }
     }
     ```
