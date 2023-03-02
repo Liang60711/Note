@@ -261,3 +261,15 @@ public class MyConfig {
 
 <br/>
 
+## BeanFactory 和 ApplicaionContext
+兩個類都是spring容器所提供的 interface，用來操作、檢查、獲取 bean
+
+||BeanFactory|ApplicationContext|
+|--|:--:|:--:|
+|Annotation support|No|Yes|
+|BeanPostProcessor Registration|Manual|Automatic|
+|Implementation|XMLBeanFactory|ClassPath/FileSystem/WebXmlApplicationContext|
+|Internationalization|No|Yes|
+|Enterprise services|No|Yes|
+|ApplicationEvent publication|No|Yes|
+|載入方式|Lazy|Eager|

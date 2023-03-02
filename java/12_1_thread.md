@@ -21,6 +21,7 @@ public class TestThread extends Thread{
         this.name = name;
     }
 
+    @Override
     public void run(){
         System.out.println(name);
     }
@@ -57,6 +58,7 @@ public class TestRunnable implements Runnable{
         this.name = name;
     }
 
+    @Override
     public void run() {
         System.out.println(name);
     }
@@ -77,6 +79,23 @@ public static void main(String[] args){
 
 }
 ```
+
+<br/>
+
+<br/>
+
+## Runnable 和 Callable
+Runnable 雖然好用，但有個問題，就是 `run()` 方法沒有返回值，因此 Java 還提供了一個 interface，並且有`返回值`。
+```java
+class Task implements Callable<String> {
+    
+    public String call() throws Exception {
+        //...task
+        return "success";
+    }
+}
+```
+在呼叫 Task 的功能 `ExecutorService.submit()` 方法執行任務後，會返回 `Future`類型。
 
 <br/>
 
@@ -228,3 +247,17 @@ t.setDaemon(true);
 * 3種方法都是 `Object` 所提供的方法，故所有物件都有此方法。
 * 必須要在同步化(synchronized)的方法或區塊呼叫。
 * wait() 會將物件放進物件等待池(wait pool)中等待，直到時間到或是呼叫了`notify()`，才能進入 `lock pool` 中搶 lock，在 `wait pool` 中是沒有資格搶 lock 的。
+
+<br/>
+
+<br/>
+
+## Thread Pool 線程池
+
+> https://hackmd.io/@KaiChen/HyJwzDqxu
+
+1. Thread Pool 是一個可以集合 Threads，使其有序地、有限制地逐一處理，並提供許多方法得以確認、檢視、甚至定時。
+2. 類似 DB Connection Pool，Thread Pool 同樣提供設定最大執行量的管理，所有提交進來的 Thread 會被妥善分配在 Queue 當中，並等到有空位的時候執行，結束後的空位會留給排列 Queue 的下一個 Thread 使用。
+
+    <img width="80%" src="https://i.imgur.com/HMo3sFq.png">
+

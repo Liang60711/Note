@@ -38,5 +38,30 @@ OAuth2.0 依照需求及安全性，大致分為幾種流程
 
 <br/>
 
+## 常見用詞
+1. `User (Resource Owner)` 
+
+    能授予應用程式取得受保護的資料的人，通常就是終端使用者，這些人在google或facebook上面有許多資料，故也是 Resource Owner，此角色有權同意或拒絕應用程式取得這些資源。
+
+2. `Client` 
+
+    通常是指想取得受保護資源的`應用程式`。應用程式必須獲得 Resource owner 同意，才能代表使用者去取得相對應的資源。
+
+3. `Authorization Server` 
+
+    驗證 Resource owner 身分，並且在獲得同意後，發放 `Access Token` 給應用程式伺服器(Client)。
+
+4. `Resource Server` 
+
+    存放使用者受保護資訊的伺服器，應用程式(Client)需要帶著 `Access Token`，透過API去取得資料，需要保護資料被未授權的人取得。
+
+5. `Authorization Grant` 
+
+    在流程中，用來證明使用者同意賦予應用程式一定程度的授權、同意應用程式去做某些事、取得一個範圍內的資源。
+
+<br/>
+
+<br/>
+
 ## References
 > https://medium.com/%E9%BA%A5%E5%85%8B%E7%9A%84%E5%8D%8A%E8%B7%AF%E5%87%BA%E5%AE%B6%E7%AD%86%E8%A8%98/%E7%AD%86%E8%A8%98-%E8%AA%8D%E8%AD%98-oauth-2-0-%E4%B8%80%E6%AC%A1%E4%BA%86%E8%A7%A3%E5%90%84%E8%A7%92%E8%89%B2-%E5%90%84%E9%A1%9E%E5%9E%8B%E6%B5%81%E7%A8%8B%E7%9A%84%E5%B7%AE%E7%95%B0-c42da83a6015
