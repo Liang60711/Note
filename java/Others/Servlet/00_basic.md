@@ -1,8 +1,8 @@
 ## Servlet 
 1. 為 Server Applet的 簡稱，是 Server 端的程式，是一種動態網頁技術。
 2. 為 JavaEE 規範之一，規範就是 interface。
-3. 為 JavaWeb 三大組件之一，分別是 `Servlet程式`、`Filter過濾器`、`Listener監聽器`。
-4. 運行在伺服器上的一個 Java 小程序，可以接收客戶端發送過來的請求，並response數據給客戶端。
+3. 為 JavaWeb 三大組件之一，分別是 `Servlet程式`、`Filter過濾器`、`Listener監聽器`，當 request 進入 Servlet 容器後，最先碰到的是 Filter。
+4. 運行在伺服器上的一個 Java 小程序，可以處理 request 並生成 response。
 5. Tomcat 即是 servlet 容器的一種，用來產生 servlet，並控制 servlet 的生命週期，但 Tomcat 不單單只是 servlet 容器，還包括可以啟動 Spring 容器。
 6. Tomcat 容器在被啟動後， servlet 是不會被自動載入的，servlet 只會在第一次請求的時候被載入和實例化，所以更新版本後第一次請求會特別慢。
 7. servlet 在容器中被載入後，通常不會被容器刪除，直到容器被重啟、關閉、內存回收時。
@@ -38,6 +38,32 @@ CGI為一個規範，可以由任何程式語言實作所產生，當請求打�
 
 <img src='https://user-images.githubusercontent.com/8748075/86555900-d9095d00-bfa5-11ea-87f9-fac27fc6de3f.png'>
 
+request 順序: 
+0. 可能有 Apache server
+1. Servlet Container
+2. Servlet Filter
+3. Servlet
+4. Spring Container
+5. Spring Security filter chain, FilterProxy
+6. DispatcherServlet(轉發器，也繼承HttpServlet類，但是隸屬在 Spring 容器底下)
+7. Interceptor
+8. AOP
+
+
+<br/>
+
+<br/>
+
+## SpringBoot 中的嵌入式 Servlet容器自動配置、啟動原理
+
+> https://blog.csdn.net/weixin_44730681/article/details/107722759
+
+簡單來說就是
+
+1. 入口 main() 方法
+啟動 Spring IoC 容器
+2. 通過 `createWebServer()` 掃描 IoC 容器中是否有對應的 `ServletWebServerFactory` 工廠類，若有就會進行 Tomcat(預設)屬性配置。
+3. 最後創建 `TomcatWebServer` 啟動 Tomcat 容器。
 
 <br/>
 
@@ -45,19 +71,21 @@ CGI為一個規範，可以由任何程式語言實作所產生，當請求打�
 
 ## ServletContext vs. ApplicationContext
 
+> 根據上面那張圖，左邊容器為 Servlet Container，右邊容器為 Spring IoC Container。
+
 `ServletContext`:
 
-When the servlet container (like Apache Tomcat) starts up, it will deploy and load all its web applications.
+1. 當 servlet 容器(如 Apache Tomcat)啟動時，將部署和加載其所有 Web 應用程序。
 
-When a web application is loaded, the servlet container creates the ServletContext once and keeps it in the server’s memory.
+2. 當加載 Web 應用程序時，servlet 容器會創建一次 ServletContext 並將其保存在服務器的內存中，然後，cotnianer 通過調用它們的 init() 方法初始化並加載所有過濾器、servlet 和偵聽器。
 
-Then, the cotnianer initializes and loads all filters, servlets and listeners by calling their init() method.
-
-When the servlet container is finished with all of the above described initialization steps, then the ServletContextListener#contextInitialized() will be invoked.
+3. 當 servlet 容器完成上述所有初始化步驟時，將調用 ServletContextListener.contextInitialized()。
 
 
 `ApplicationContext`: 
 
-ApplicationContext represents the Spring IoC container and is responsible for instantiating, configuring, and assembling the aforementioned beans.
+1. ApplicationContext 表示 Spring IoC 容器，負責實例化、配置和組裝上述 beans。
 
-Spring Boot follows a different initialization sequence. Rather than hooking into the lifecycle of the Servlet container, Spring Boot uses Spring configuration to bootstrap itself and the embedded Servlet container. Filter and Servlet declarations are detected in Spring configuration and registered with the Servlet container. For more details, see the Spring Boot documentation.
+2. Spring Boot 是使用 Spring 配置來初始化IoC容器和嵌入式 Servlet 容器。
+
+3. 每個 Application 都會有一個 ApplicationContext。
