@@ -19,7 +19,7 @@ yml屬性配置在第一個連結
 
 <br/>
 
-## 在 IntelliJ 新增配置檔案
+## 在 IntelliJ 新增配置檔案 (輸入屬性編輯器沒有自動輸入提示)
 如果遇到 IntelliJ 在配置檔中沒有開啟 auto complete，原因是因為 IntelliJ 不認為此檔案室配置檔，所以需要去設定成配置檔案。
 <img width="80%" src="https://user-images.githubusercontent.com/63166397/218733417-4ae4d133-02ae-4271-9f42-932c23e12e02.png">
 
@@ -100,3 +100,107 @@ logging:
 
 
 * 總結: 先看路徑 `4 > 3 > 2 > 1`，再看副檔名 `properties > yml > yaml`
+
+<br/>
+
+<br/>
+
+## 多環境開發的配置文件
+要注意 : 若有相同屬性，`include` 後面載入的會蓋掉前面載入的
+```yml
+spring:
+  profiles:
+    active: dev         # 載入名為 application-dev.yml 檔案
+    include: customer   # 載入其他的配置檔案
+```
+
+通常在開發的時候，會依照功能來建立多個文件，例如 db, redis
+
+```yml
+spring:
+  profiles:
+    active: dev
+    include: devDB, debRedis, devMVC # 拆分功能，細化配置選項(若有同屬性，後面蓋前面)
+```
+
+<br/>
+
+<br/>
+
+## 多環境開發，使用 group 屬性
+
+在 springboot 2.4 後面的版本，把 `include` 屬性刪除，因為若是要更改成 `active: prod` 環境，則 devDB, debRedis, devMVC 都必須一起更改挺麻煩的，所以有一個新的屬性，名為 `group`。
+
+```yml
+# springboot 2.4 ver
+spring: 
+  profiles: 
+    active: dev
+    group: 
+      "dev": devDB,debRedis,devMVC
+      "prod": prodDB,prodRedis,prodMVC
+      "test": testDB,testRedis,testMVC
+```
+
+<br/>
+
+<br/>
+
+## Maven 設置多環境開發
+1. 其實 maven 和 springboot 都有多環境的設置，但萬一，maven 和 springboot 都設置了多環境設置，那就會產生衝突。
+2. 呈上，springboot 是依賴 maven 運行，因此應該以 maven (或 gradle) 為主，來做多環境的管理。
+
+3. 舉例，這邊自行定義兩種 profiles (環境)，並自定義屬性 `profile.active`作為變數，讓 springboot 的 yml 配置檔案去調用。
+    ```xml
+    <!-- pom.xml -->
+
+    <!-- 依賴 -->
+    <dependencies>
+        ...
+    </dependencies>
+
+
+    <!-- 配置多環境 -->
+    <profiles>
+
+        <!-- dev 環境 -->
+        <profile>
+            <id>env_dev</id>
+            <properties>
+                <profile.active>dev</profile.active>
+            </properties>
+            <!-- 預設使用此環境 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+
+        <!-- prod 環境 -->
+        <profile>
+            <id>env_prod</id>
+            <properties>
+                <profile.active>prod</profile.active>
+            </properties>
+        </profile>
+
+    </profiles>
+    ```
+
+4. 因此 yml 在調用的時候，可以使用 `@@` 符號，來調用 pom.xml 中的變數。
+
+    ```yml
+    # springboot 2.4 ver
+    spring: 
+    profiles: 
+      active: @profile.active@  # 會抓取 pom 中的變數，預設值為 dev
+        group: 
+          "dev": devDB,debRedis,devMVC
+          "prod": prodDB,prodRedis,prodMVC
+    ```
+5. 這樣就可以避免 maven 與 springboot 中的配置產生衝突，一切以 maven 中的變數為主。
+
+6. 驗證: 可以將專案 `maven clean package` 後，去觀察打包後的 yml 檔案是否有引用到 profile.active 變數。
+
+<br/>
+
+<br/>
