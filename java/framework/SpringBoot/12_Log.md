@@ -51,3 +51,54 @@ logging:
     ems: debug
 
 ```
+
+<br/>
+
+<br/>
+
+## 日誌內容
+
+<img src="../../../_image/Snipaste_2023-03-06_20-23-27.png">
+
+<br/>
+
+<br/>
+
+## 日誌輸出格式
+
+```yml
+logging:
+  pattern:
+    console: "%date{yyyy-MM-dd HH:mm:ss} - %clr(%5level) [%15.15thread] %clr(%-40.40logger{39}){cyan} : %msg%n"
+```
+
+* `%date{}` : 日期格式
+* `%level`  : 日誌級別
+* `%thread` : 線程
+* `%logger` : 類名
+* `%msg` : 訊息
+* `%n` : 換行
+* `clr(){}` : 將小括號中的內容換顏色，大括號中指定顏色，如: red, green, cyan
+* `%40logger` :  靠右對齊，最小寬度為 40，若不足 40 則左補空格，長度超出 40 則原樣輸出
+
+* `%-40logger` : `-` 表示向左對齊
+
+* `%30.50logger` : 最小寬度為 30，若長度不足 30 則左補空格靠右對齊；若長度大於 30 且不足 50 則靠左對齊；若長度大於 50 則將左邊多出的字符直接移除
+
+* 補充 : PID 是 Java 底層重寫的，沒辦法格式化
+
+<br/>
+
+<br/>
+
+## 日誌輸出檔案
+會輸出檔名為 `server.log` 的文字檔案，通常會緩存到一定量，才會輸出 IO 到檔案中
+```yml 
+logging:
+  file:
+    name: server.log
+  logback:
+    rollingpolicy:
+      max-file-size: 100KB  # 檔案最大大小
+      file-name-pattern: server.%d{yyyy-MM-dd}.%i.log # 日誌檔名，%i為循環變量從0開始
+```
