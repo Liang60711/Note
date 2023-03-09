@@ -89,6 +89,35 @@ springboot 啟動流程
     }
     ```
 
+4. 補充: `@ConfigurationProperties` 此註解除了用在 class 上，還可以運用在 @Bean 方法上，同樣是返回指定 prefix 的物件。
+
+    ```java
+    @Bean
+    @@ConfigurationProperties(prefix = "customClass")
+    public CustomClass customClass() {
+        return new CustomClass();
+    }
+    ```
+
+5. 補充2: `@EnableConfigurationProperties`，此註解可以將使用 `@ConfigurationProperties` 這個註解的類加入到 Spring 容器，用處是寫法風格不會這麼鬆散。
+
+    ```java
+    // 簡單來說，就是會將 CustomClass 建立一個 bean，並加入到Spring容器中
+    @EnableConfigurationProperties(ServerConfig.class)
+    public class DemoApplication {
+
+    }
+    ```
+    被加入的類
+    ```java
+    // 由於@EnableConfigurationProperties已經會將此類加入容器了，這邊如果再加上@Compoent就會報錯，因為容器中有兩個相同的Bean
+    @Data
+    @ConfigurationProperties(prefix = "servers")
+    public class ServerConfig {
+
+    }
+    ```
+
 <br/>
 
 <br/>

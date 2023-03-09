@@ -22,6 +22,7 @@
         <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
 
+    <!-- config 配置檔案若有報錯，需要加載此類 -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-configuration-processor</artifactId>

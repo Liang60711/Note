@@ -54,6 +54,7 @@
 2. @Bean, @Component, @Controller, @Service, @Repository
 3. @ComponentScan, @Import
 4. @Conditional
+5. @EnableConfigurationProperties
 
 <br/>
 
