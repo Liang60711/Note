@@ -83,18 +83,32 @@ Springboot 會先去找`配置文件` 和 `配置類`，如果以上兩個都沒
   @Service("userDetailsService")
   public class CustomUserDetailsService implements UserDetailsService {
 
-      @Override
-      public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+    @Autowired
+    private UserinfoRepository userRepository;
 
-          // 權限集合
-          List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("role");
-          // 從DB查詢資料
-          UserData userData = userDataRepository.findByUsername(s);
-          String username = userData.getUsername();
-          String password = userData.getPassword();
-          // 返回 User 物件 (User 是 UserDetails 的實作，class User implements UserDetails，這邊取名有點奇怪)
-          return new User(username, new BCryptPasswordEncoder().encode(password), auths);
-      }
+    @Override
+    public UserinfoDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
+        // 權限集合
+        List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("role");
+        // 從DB查詢資料
+        Userinfo userinfo = userinfoRepository.findByUsername(s);// 從s參數傳進username供查詢
+
+        // 如果用戶不存在，則抛出異常
+        if (userinfo == null) {
+            throw new UsernameNotFoundException("User not found with username: " + s);
+        }
+        
+
+        String username = userinfo.getUsername();
+        String password = userinfo.getPassword();
+        // 返回 User 物件 (User 是 UserDetails 的實作，class User implements UserDetails，這邊取名有點奇怪)
+        return new User(
+            username, 
+            new BCryptPasswordEncoder().encode(password), 
+            auths
+        );
+    }
   }
   ```
 
