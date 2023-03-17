@@ -1,5 +1,5 @@
 ## try() {} catch
-try 後面的小括號，可加入可以執行 close() 的物件，在執行 try 區塊後，會自動執行 `close()`，不用在手動 close。
+try 後面的小括號，可加入可以執行 close() 的物件(實作`Closeable`接口)，在執行 try 區塊後，會自動執行 `close()`，不用在手動 close。
 ```java
 InputStream inputStream = new StringBufferInputStream("a");
 
