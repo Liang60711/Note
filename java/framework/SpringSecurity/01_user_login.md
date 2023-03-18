@@ -125,3 +125,48 @@ Springboot 會先去找`配置文件` 和 `配置類`，如果以上兩個都沒
       boolean isEnabled();
   }
   ```
+
+  <br/>
+
+  <br/>
+
+
+## 自定義登入頁面
+自定義的登入頁面配置
+```java
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .formLogin()           // 自定義自己編寫的登入頁面
+            .loginPage("/login")   // 輸入帳號密碼的頁面
+            .loginProcessingUrl("/authenticate")  // 登入提交form表單後，會將該request提交給此路徑
+            .defaultSuccessUrl("/index")    // 驗證成功轉導路徑
+        .and()
+            .authorizeRequests()   // 設置路徑是否需要通過驗證
+            .antMatchers("/login").permitAll()   // 找匹配的路徑，並且不用驗證就可以訪問
+            .anyRequest().authenticated()  // 其餘路徑皆須通過驗證，才允許訪問
+        .and()
+            .csrf().disable();   // 關閉 CSRF 保護機制(以便客户端可以在没有 CSRF token的情况下向服務器發送 POST、PUT、DELETE)
+        
+    }
+}
+```
+
+前端 Form 的 action 屬性需要加上 `/authenticate`，Security 都會預設寫好，所以不用再去做此路徑的 Controller。
+
+這邊還有一個重點，就是 input 的名稱一定要叫做 username 和 password。
+
+```html
+<form action="/authenticate" method="post">
+    Username: <input type="text" name="username">
+    Password: <input type="password" name="password">
+    <input type="submit" value="Login">
+</form>
+```
+
+<br/>
+
+<br/>
