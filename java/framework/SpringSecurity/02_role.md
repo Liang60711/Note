@@ -152,3 +152,24 @@ UserDetailsService#loadUserByUsername()
 // 權限集合使用逗號分隔，並加上 ROLE_ 前綴
 List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("ROLE_ADMIN,ROLE_USER");
 ```
+
+
+<br/>
+
+<br/>
+
+## 自訂 "沒有權限訪問" 的頁面
+預設是用 `403 Forbidden`，自定義的話，在配置類配置
+
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+        .authorizeRequests()
+        .antMatchers("/login.html").permitAll()
+        .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+        .anyRequest().authenticated()
+    .and()
+        .exceptionHandling().accessDeniedPage("/403Page.html"); // 加上這一行即可
+}
+```
