@@ -4,7 +4,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update  # 使用entity更新資料表
-    show-sql: true      # 是否顯示SQL
+    show-sql: true      # 是否顯示SQL (logback.xml若有也要設為 level=DEBUG)
     
   datasource:
     url: jdbc:mysql://localhost:3306/myjpa
@@ -14,6 +14,7 @@ spring:
 ```
 
 <br/>
+
 ddl-auto 的選擇
 
 |||

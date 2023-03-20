@@ -27,6 +27,13 @@ Springboot 預設會在底層配置好所有的component，但如果用戶自己
 
     springboot所有的自動配置都是在啟動的時候掃描並載入，但會判斷條件是否成立，只要在pom.xml導入對應的start依賴，就可以自動配置。
 
+* `@ComponentScan` 和 `@EnableAutoConfiguration` 差別
+
+    * `@ComponentScan` : 掃描 @SpringBootApplication 所在的Application 類(即spring-boot的入口類)所在的包 (basepackage) 下所有的 @component註解 (或拓展了@component的註解) 標記的bean，並註冊到spring容器中。
+ 
+
+    * `@EnableAutoConfiguration` : 加載資源目錄 META-INF 文件下的 `spring.factories` 文件。包括所有 Jar 包下的 /META-INF/spring.factories 文件。spring.factories 文件是一个 `properties` 文件。
+
 * `@EnableAutoConfiguration` 裡面的註解 `@AutoConfigurationPackage` 補充: 
 
     1. 將指定package下(這邊指 main 方法下所在的包名稱)，的所有component導入進來
@@ -212,3 +219,15 @@ public class WebConfig {
     }
 }
 ```
+
+<br/>
+
+<br/>
+
+## spring.factories 檔案
+* 當 Springboot 要引入某個功能的時候，只需要在 maven 或 gradle 的配置中直接引入對應的 Starter，馬上就可以使用了，而不需要像傳統 Spring 應用那樣寫 xml 或 java 配置類來初始化各種 Bean。
+
+* 上述可以自動載入 Bean 的原理是 : 每當 Spring Boot 應用啟動的時候，會讀取ClassPath中的 `/META-INF/spring.factories` 文件 和每個 Jar 包中的 `/META-INF/spring.factories` 文件，就會依照所指定的配置類去加載 Bean。
+
+* factories 檔案是一種 properties 格式的檔案。
+
