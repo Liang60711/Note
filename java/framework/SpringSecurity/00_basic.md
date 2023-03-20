@@ -52,7 +52,7 @@
 ## Spring Security 過濾器種類
 有很多，這邊舉例3種常見的: 
 
-* FilterSecurityInterceptor: 為最後一個執行的 Filter，用來判斷前一個過濾器通過之後，才能繼續做下一個過濾器。
+* FilterSecurityInterceptor: 為最後一個執行的 Filter，用來判斷前一個過濾器通過之後，才能繼續做下一個過濾器 (命名有 Interceptor 但其實是 Filter)。
 
     <img src="../../../_image/Snipaste_2023-03-12_20-44-00.png">
 

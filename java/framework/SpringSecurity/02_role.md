@@ -121,8 +121,17 @@ List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityLis
         return new User(
             username,
             new BCryptPasswordEncoder().encode(password),
-            auths
+            getAuthority(userData)
         );
+    }
+
+    /** 取用戶的所有角色集合 */
+    private Set<SimpleGrantedAuthority> getAuthority(UserData userData) {
+        Set<SimpleGrantedAuthority> authorities = new HashSet<>();
+        userData.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+        });
+        return authorities;
     }
     ```
 
