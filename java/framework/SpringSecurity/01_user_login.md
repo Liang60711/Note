@@ -212,3 +212,18 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
     }
 }
 ```
+
+<br/>
+
+<br/>
+
+## 自動登入
+功能: 用戶只要登入後，可以關閉瀏覽器，下次打開瀏覽器還是在登入狀態。
+
+基本原理: 主要是透過將 Token 儲存在 `Cookie` 中和`資料庫`中，下次用戶帶 Cookie 來訪問時，就可和資料庫中的 Token 做比對。
+
+步驟: 
+1. 用戶在 `UsernamePasswordAuthenticationFilter` 做登入驗證。
+2. 驗證成功會交給 `RememberMeServices` 的實現類 `AbstractRememberMeServices` 做處理，並呼叫 `TokenRepository` 將 Token 寫入資料庫。
+3. 用戶下次帶 Cookie 來訪問，在 `RememberMeAuthenticationFilter` 做驗證，讀取 Cookie 中的 Token。
+4. `TokenRepository` 會撈取 DB 資料做比對，最後回 `UserDetailsService` 給授權。
