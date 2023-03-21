@@ -179,9 +179,9 @@ protected void configure(HttpSecurity http) throws Exception {
     http
         .logout()
         .logoutUrl("/logout")   // 執行logout的controller
-        .logoutSuccessUrl("index.html") // 成功logout後返回頁面
-        .invalidateHttpSession(true)    // 刪除 HTTP Session(預設值為true，若使用false可能導致安全問題)
-        .deleteCookies("JSESSIONID");   // 刪除 JSESSIONID cookie
+        .logoutSuccessUrl("/index.html") // 成功logout後返回頁面
+        .invalidateHttpSession(true)     // 刪除 HTTP Session(預設值為true，若使用false可能導致安全問題)
+        .deleteCookies("JSESSIONID");    // 刪除 JSESSIONID cookie
 }
 ```
 
@@ -217,13 +217,59 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
 <br/>
 
-## 自動登入
+## 自動登入 RememberMe
 功能: 用戶只要登入後，可以關閉瀏覽器，下次打開瀏覽器還是在登入狀態。
 
 基本原理: 主要是透過將 Token 儲存在 `Cookie` 中和`資料庫`中，下次用戶帶 Cookie 來訪問時，就可和資料庫中的 Token 做比對。
 
 步驟: 
 1. 用戶在 `UsernamePasswordAuthenticationFilter` 做登入驗證。
-2. 驗證成功會交給 `RememberMeServices` 的實現類 `AbstractRememberMeServices` 做處理，並呼叫 `TokenRepository` 將 Token 寫入資料庫。
+2. 驗證成功會交給 `RememberMeServices` 的實現類 `AbstractRememberMeServices` 做處理，並呼叫 `PersistentTokenRepository` 將 Token 寫入資料庫。
 3. 用戶下次帶 Cookie 來訪問，在 `RememberMeAuthenticationFilter` 做驗證，讀取 Cookie 中的 Token。
-4. `TokenRepository` 會撈取 DB 資料做比對，最後回 `UserDetailsService` 給授權。
+4. `PersistentTokenRepository` 會撈取 DB 資料做比對，最後回 `UserDetailsService` 給授權。
+
+
+<br/>
+
+程式碼
+1. 先建表(不用建entity類)，`JdbcTokenRepositoryImpl.CREATE_TABLE_SQL` 就有建資料表語句，表名為 `persistent_logins`。
+2. 配置類，需設定數據來源。
+
+    ```java
+    @Configuration
+    public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+        // 注入數據源
+        @Autowired
+        private DataSource dataSource;
+
+        // 配置 TokenRepository，用來將 token 存入 DB
+        @Bean
+        public PersistentTokenRepository persistentTokenRepository() {
+            JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+            jdbcTokenRepository.setDataSource(dataSource);
+            //jdbcTokenRepository.setCreateTableOnStartup(true);  // 自動生成表，不用手動建表
+            return jdbcTokenRepository;
+        }
+    }
+    ```
+
+3. HttpSecurity 配置
+
+    ```java
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        .rememberMe()   // 開啟功能rememberMe
+        .tokenRepository(persistentTokenRepository()) // 抓取 token 的配置
+        .tokenValiditySeconds(60)   // 設置有效時長(秒)
+        .userDetailsService(userDetailsService) // 用戶授權資訊(token匹配後，需載入授權資訊)
+    }
+    ```
+
+4. 前端參數 : 與登入相同，input 的 name 必須叫做 `remember-me`，帳號的 name 叫 `username`，密碼的 name 叫 `password`。
+
+    ```html
+    <input type="checkbox" name="remember-me">自動登入
+    ```
+
+5. 可以檢查 : 有多一個名為 `remember-me` 的 cookie，資料表 `persistent_logins` 多一筆資料。
