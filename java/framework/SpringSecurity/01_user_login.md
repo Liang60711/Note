@@ -170,3 +170,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 <br/>
 
 <br/>
+
+## 自定義登出
+簡易登出
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+        .logout()
+        .logoutUrl("/logout")   // 執行logout的controller
+        .logoutSuccessUrl("index.html") // 成功logout後返回頁面
+        .invalidateHttpSession(true)    // 刪除 HTTP Session(預設值為true，若使用false可能導致安全問題)
+        .deleteCookies("JSESSIONID");   // 刪除 JSESSIONID cookie
+}
+```
+
+使用自定義登出的 Handler
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    http
+        .logout()
+        .logoutUrl("/customLogout")
+        .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+        .invalidateHttpSession(true)
+        .deleteCookies("JSESSIONID");
+}
+```
+自定義登出處理類 CustomLogoutSuccessHandler
+
+```java
+public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
+ 
+    @Override
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
+ 
+        // add your custom logic here
+         
+        super.onLogoutSuccess(request, response, authentication);
+    }
+}
+```
