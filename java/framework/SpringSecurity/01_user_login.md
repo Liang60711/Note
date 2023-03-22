@@ -273,3 +273,8 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
     ```
 
 5. 可以檢查 : 有多一個名為 `remember-me` 的 cookie，資料表 `persistent_logins` 多一筆資料。
+
+
+<br/>
+
+<br/>

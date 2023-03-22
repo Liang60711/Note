@@ -1,6 +1,6 @@
 ## 配置 SecurityConfig
-* 在Springboot 2.3.7 版本中，使用 Spring security 5.4.x，已經不使用此 adapter 方式配置。
-1. 此類必須繼承 `WebSecurityConfigurerAdapter` 抽象類，每實作一個 adapter，就會產生一條 filterChain 。
+* 在Springboot 2.3.7 版本中，使用 Spring security 5.4.x，已經不使用 adapter 方式配置。
+1. 若使用 adapter，此類必須繼承 `WebSecurityConfigurerAdapter` 抽象類。當每實作一個 adapter，就會產生一條 filterChain 。
 2. 此類的註解必須加上 `@EnableWebSecurity` `@Configuration`，讓安全配置生效。
 3. 因繼承 `WebSecurityConfigurerAdapter`，有以下常見的3個 configure 可以覆寫。
 
