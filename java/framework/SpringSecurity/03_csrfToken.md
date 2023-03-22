@@ -16,7 +16,7 @@
     }
     ```
 
-2. 前端頁面若使用 thymeleaf，可以使用此範例
+2. 前端頁面若使用 thymeleaf，可以使用此範例， `${_csrf.parameterName}` 會在前端渲染成 `_csrf`，而 `${_csrf.token}` 會是一串 uuid。
 
     ```html
     <form method="post" action="/">
