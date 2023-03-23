@@ -23,7 +23,7 @@ spring:
 
 <br/>
 
-## 2. 通過配置類(推薦)
+## 2. 通過配置類
 
 ```java
 @Configuration
