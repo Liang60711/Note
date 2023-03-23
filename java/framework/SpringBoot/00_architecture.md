@@ -50,3 +50,19 @@
 * Repository : 
     1. 為物件之間的聚合 (aggregate)。
     2. 相對於 Dao 層，更接近物件。
+
+
+<Br/>
+
+<br/>
+
+## windows 中強制 關閉 port 號
+
+假設要關閉 8888 port
+```sh
+# 找 8888 Port
+netstat -ano | findstr :8888
+
+# 找到右側的PID (例如是18872)
+taskkill /PID 18872 /F
+```
