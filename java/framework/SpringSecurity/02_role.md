@@ -64,7 +64,7 @@
 <br/>
 
 ## hasAnyAuthority() 方法
-與上一個 `hasAuthority()` 方法用法幾乎相同，只是此方法可以使用`複數權限`，需使用逗點分隔。
+只要有任何一種權限就可以訪問，與上一個 `hasAuthority()` 方法用法幾乎相同，只是此方法可以使用`複數權限`，需使用逗點分隔。
 ```java
 @Override
 protected void configure(HttpSecurity http) throws Exception {
