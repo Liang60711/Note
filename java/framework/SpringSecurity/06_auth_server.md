@@ -1,3 +1,18 @@
+## SSO 單一登入
+因應微服務，需要有 SSO 架構來解決 SESSION-COOKIE 登入多次的缺點。
+
+<br/>
+
+<br/>
+
+> goole 登入架構圖
+
+<img src="https://img-blog.csdnimg.cn/93061090a9e64c9db46e9069782b0136.png">
+
+<br/>
+
+<br/>
+
 ## Springboot security 自建 Auth server
 
 1. 加入maven依賴

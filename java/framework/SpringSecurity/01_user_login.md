@@ -8,6 +8,10 @@
 
 <br/>
 
+<br/>
+
+<br/>
+
 ## 1.通過配置文件
 最簡單，使用 application.yml
 
@@ -24,7 +28,6 @@ spring:
 <br/>
 
 ## 2. 通過配置類
-
 ```java
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -278,3 +281,62 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 <br/>
 
 <br/>
+
+
+## BCryptPasswordEncoder
+`BCryptPasswordEncoder#encode` 方法中，採用`加隨機鹽 + SHA-256`的功能，所以每次生成的字串都不太一樣，而且說精準點，此為Hash算法，而非加密算法。
+
+<br/>
+
+<br/>
+
+
+## JWT 生成
+1. 引入 jjwt 依賴
+
+    ```xml
+    <dependency>
+        <groupId>io.jsonwebtoken</groupId>
+        <artifactId>jjwt</artifactId>
+        <version>0.9.0</version>
+    </dependency>
+    ```
+
+2. 寫一個工具類
+
+    ```java
+     public class JwtUtils {
+        private static final long EXPIRATION_TIME = 864_000_000; // 過期時間 10 days
+        private static final String SECRET_KEY = "mySecretKey"; // jwt signature，應存在配置文件中
+
+        /**創建JWT*/
+        public static String createToken(String subject) {
+            return Jwts.builder()
+                    .setSubject(subject)
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                    .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                    .compact();
+        }
+
+        /**解析JWT，並獲取subject*/
+        public static String getSubjectFromToken(String token) {
+            // 使用 Claims 物件接
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SECRET_KEY)
+                    .parseClaimsJws(token)
+                    .getBody();
+            return claims.getSubject();
+        }
+
+        /**驗證JWT是否有效*/
+        public static boolean validateToken(String token) {
+            try {
+                Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+                return true;
+            } catch (JwtException | IllegalArgumentException e) {
+                return false;
+            }
+        }
+    }
+    ```
