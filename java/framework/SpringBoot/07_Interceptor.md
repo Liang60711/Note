@@ -97,7 +97,7 @@
 
 1. `實現的原理不同`:  
 
-    * filter 是基於函數 callback 調用；interceptor 是基於 Java 反射機制實現 AOP 的效果。
+    * filter 是基於函數 `callback` 調用；interceptor 是基於 Java 反射機制實現 AOP 的效果。
 
     * filter 會實現一個 dofilter()
 
@@ -113,6 +113,9 @@
         }
         ```
 
+    * 如果直接在 doFilter 中使用 `return`，代表本過濾器的邏輯終止，依照是否繼續呼叫 chain.doFilter() 判斷是否繼續執行其他 filter chain。
+
+    
     * interceptor 會針對攔截條件的前後加上 preHandle(), postHandle(), afterCompletion()
 
 2. `依賴不同`
