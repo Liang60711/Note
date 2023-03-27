@@ -209,7 +209,13 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
  
-        // add your custom logic here
+        
+        // SecurityContext 會儲存有驗證的Authentication物件，可以去從其中取User物件
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        LoginUser loginuser = (LoginUser) authentication.getPrincipal(); // 取User物件
+        Long userid = loginUser.getUser().getId();
+        // 取消 redis 中的 token
+        redisCache.deleteObject("login:" + userid);
          
         super.onLogoutSuccess(request, response, authentication);
     }
