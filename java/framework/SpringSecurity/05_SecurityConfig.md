@@ -71,7 +71,7 @@ public void configure(HttpSecurity http) throws Exception {
 <br/>
 
 ## 配置 SecurityConfig
-新配置方式，適用 Spring Security 5.7 以上版本，捨棄 WebSecurityConfigureAdapter
+新配置方式，適用 Spring Security 5.7 以上版本，捨棄 WebSecurityConfigurerAdapter
 ```java
 @Configuration
 public class SecurityConfig {
@@ -87,11 +87,11 @@ public class SecurityConfig {
 
 }
 ```
-舊配置方式，使用 WebSecurityConfigureAdapter
+舊配置方式，使用 WebSecurityConfigurerAdapter
 ```java
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigureAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
