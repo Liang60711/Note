@@ -263,7 +263,7 @@ public class MyConfig {
 <br/>
 
 ## BeanFactory 和 ApplicaionContext
-兩個類都是spring容器所提供的 interface，用來操作、檢查、獲取 bean
+兩個類都是spring容器所提供的 interface，用來操作、檢查、獲取 bean，ApplicationContext 是 BeanFactory 的擴展，也是 Spring IOC 容器的核心接口
 
 ||BeanFactory|ApplicationContext|
 |--|:--:|:--:|
