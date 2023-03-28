@@ -5,7 +5,7 @@
 4. 運行在伺服器上的一個 Java 小程序，可以處理 request 並生成 response。
 5. Tomcat 即是 servlet 容器的一種，用來產生 servlet，並控制 servlet 的生命週期，但 Tomcat 不單單只是 servlet 容器，還包括可以啟動 Spring 容器。
 6. Tomcat 容器在被啟動後， servlet 是不會被自動載入的，servlet 只會在第一次請求的時候被載入和實例化，所以更新版本後第一次請求會特別慢。
-7. servlet 在容器中被載入後，通常不會被容器刪除，直到容器被重啟、關閉、內存回收時。
+7. Servlet 在容器中被載入後，通常不會被容器刪除，直到容器被重啟、關閉、內存回收時。
 8. Servlet 作為 HTTP Request 進入 Java 物件的一個起始點，由 Servlet 容器來管理所有的 Servlet。
 
 <br/>
@@ -65,6 +65,8 @@ request 順序:
 2. 通過 `createWebServer()` 掃描 IoC 容器中是否有對應的 `ServletWebServerFactory` 工廠類，若有就會進行 Tomcat(預設)屬性配置。
 3. 最後創建 `TomcatWebServer` 啟動 Tomcat 容器。
 
+4. 雖然 IoC 容器和 Servlet 容器是兩個不同的管理物件，但皆是由 Springboot 啟動時創建(內嵌)。
+
 <br/>
 
 <br/>
@@ -81,6 +83,8 @@ request 順序:
 
 3. 當 servlet 容器完成上述所有初始化步驟時，將調用 ServletContextListener.contextInitialized()。
 
+4. 負責HTTP請求和響應的容器，並負責Servlet的生命週期管理。
+
 
 `ApplicationContext`: 
 
@@ -89,3 +93,10 @@ request 順序:
 2. Spring Boot 是使用 Spring 配置來初始化IoC容器和嵌入式 Servlet 容器。
 
 3. 每個 Application 都會有一個 ApplicationContext。
+
+4. WebApplicationContext 接口是繼承自 ApplicationContext 接口，兩者皆是IOC容器的核心接口。ApplicationContext 通用於 Java 應用程序中，而 WebApplicationContext 專門用於 Web 應用程序。
+
+
+`總結`: 
+
+在一個Java Web應用程序中，IOC容器和Servlet容器通常是配合使用的。例如，當一個HTTP請求到達Servlet容器時，Servlet容器會創建一個Servlet實例來處理請求，並從IOC容器中獲取所需的依賴，以完成請求的處理，相反，IOC容器也可以取Servlet容器中的物件。

@@ -128,6 +128,8 @@ package com.apple.cms.vo;
 
 `ctrl` + `shift` + `向左鍵` : 跳轉上一層
 
+`Ctrl` + `Alt` + `Shift` + `U` : UML Diagram 查看(重要)。
+
 `alt` + 左右鍵 : 切換視窗
 
 `F12` : 切換回上一個開啟的視窗
