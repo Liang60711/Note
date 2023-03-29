@@ -3,8 +3,14 @@
 
 2. 自定義的攔截器會注入到`有@Configuration註解的設定類`中。
 
+3. 使用 Content-Type 為 `multipart/form-data` 的資料格式，如果要做 formData 中的參數檢核(是否有xss)，只能在 interceptor 做，不能提前到 filter 做。 
 
-3. HandlerInterceptor 介面下有三個抽象方法
+    * 原因 : 一個請求到達 filter 時還未經過 spring 的請求解析，到達 interceptor 時請求已經經過 spring 的解析，而 spring 對`multipart/form-data`方式請求已做處理。
+
+    * 此`multipart/form-data`請求，到達 interceptor 時，已經封裝成 DefaultMultipartHttpServletRequest，這個類的getParameter方法可以獲取到 multipart/form-data 和非 multipart/form-data 方法上傳的參數。
+
+
+4. HandlerInterceptor 介面下有三個抽象方法
 
     * preHandle()：請求送到Controller前執行，回傳一個布林值，如果是true通過攔截器，反之則否。
     * postHandle()：Controller處理完後執行。
@@ -44,7 +50,7 @@
     > https://ithelp.ithome.com.tw/articles/10185109
 
 
-4. 建立一個專門設定攔截器的類，並實作 `WebMvcConfigurer` 介面，先將自定義攔截器注入後，並實作`addInterceptors`方法。
+5. 建立一個專門設定攔截器的類，並實作 `WebMvcConfigurer` 介面，先將自定義攔截器注入後，並實作`addInterceptors`方法。
 
     ```java
     @Configuration
