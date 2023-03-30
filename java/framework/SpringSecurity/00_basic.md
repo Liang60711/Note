@@ -83,6 +83,30 @@
 
 <br/>
 
+## DelegatingFilterProxy 實作類
+
+> 來源: https://blog.csdn.net/qq_35067322/article/details/107096668
+
+* 原生 Servlet 的 filter chain。
+
+    <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy96dUY1c0pHUkRDdWZGeHQxbGVzTmljOEVyR0xoYVB6VVJ3aWJrUm1xU0lBeFVDcThhbzV0M0luakhFVGQ3c29wRFVCWVFrOGRQelVyM1RzVzZEa1VvRjhBLzY0MA?x-oss-process=image/format,png">
+
+* 在 Spring Security 中，我們還是希望能夠按照 Servlet 的標準來註冊到過濾器鏈中工作，但是同時也希望它能夠被 Spring IoC 管理，所以 Spring 提供了一個 `GenericFilterBean` 的實現類 `DelegatingFilterProxy`。
+
+* 可以將原生的 Servlet Filter 或者 Spring Bean Filter 委託給DelegatingFilterProxy，然後在結合到 Servlet FilterChain 中。
+
+* 所以當請求走到 DelegatingFilterProxy 時，此類會將請求轉發到 Spring Security 的 Filter Chain 中。
+
+    <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL3N6X21tYml6X3BuZy96dUY1c0pHUkRDdWZGeHQxbGVzTmljOEVyR0xoYVB6VVJpYXpOSTZiR1JPSTdMOGsxVXZlcmJhbHJmbjM0MG83aWNZd3owNG9ZR01nZVhIZVAwRGh6elRzZy82NDA?x-oss-process=image/format,png">
+
+<br/>
+
+<br/>
+
+<br/>
+
+<br/>
+
 ## UserDetailsService 接口
 當陪有任何配置時，帳號和密碼是 Spring Security 定義生成的，而在實際項目中的帳號密碼都是從 DB 查詢的，所以我們需要自定義驗證邏輯，因此需要 implements 此接口，Override 查詢 DB 的功能，並返回 `User` 物件 (User 是實作 UserDetails 接口的物件)。  
 

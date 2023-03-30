@@ -1,6 +1,9 @@
 ## MQTT(Message Queuing Telemetry Transport) 訊息序列遙測傳輸
 
-> https://ithelp.ithome.com.tw/articles/10224407
+
+> 來源1: https://ithelp.ithome.com.tw/articles/10224407
+
+> 來源2: https://swf.com.tw/?p=1002
 
 1. 為一種輕量級協議，相對於HTTP省略許多 header 資料，所以需要的網路頻寬與硬體資源是相對低的。
 
@@ -31,14 +34,16 @@
 <br/>
 
 ## 封包格式
+一個 MQTT 封包，由3種部分組成: `Header`、`topic`、`payload`。
 
-封包格式有3種
+不同於HTTP的標頭採用文字描述，MQTT的標頭採用數字編碼，整個長度只佔2位元組，等同兩個字元，後面跟著訊息的主題（topic）和內容（payload）
 
-1. Fix Header(固定格式封包)
 
-2. Variable Header(變動格式封包)
+<img src="https://swf.com.tw/images/books/IoT/MQTT/mqtt_message_format.png">
 
-3. Payload(訊息內文)
+> 圖片來源: https://swf.com.tw/?p=1002
+
+<br/>
 
 <br/>
 
@@ -63,3 +68,12 @@
    * Publisher 傳訊給 Broker 後，Broker會回應訊息給 Publisher，確認收到要發布的訊息，Publisher 收到回應時，傳送PUBREL (釋放發布訊息)，Broker收到PUBREL，將訊息發布給 Subscriber，並向Publisher回報。
    
    * 缺點是佔用頻寬與傳送時間較多
+
+
+<br/>
+
+<br/>
+
+## MQTT配置
+
+> https://blog.csdn.net/beibei3321/article/details/124187758

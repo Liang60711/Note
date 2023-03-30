@@ -44,7 +44,7 @@ request 順序:
 2. Servlet Filter
 3. Servlet
 4. Spring Container
-5. Spring Security filter chain, FilterProxy
+5. Spring Security filter chain, FilterProxy(DelegatingFilterProxy)
 6. DispatcherServlet(轉發器，也繼承HttpServlet類，但是隸屬在 Spring 容器底下)
 7. Interceptor
 8. AOP
