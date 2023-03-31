@@ -204,3 +204,16 @@ spring:
 <br/>
 
 <br/>
+
+## SpringBoot 延遲初始化
+Springboot 2.2 版本引入，當設置為 true 時，Spring Boot 將推遲初始化 application context，直到第一次需要使用它為止。這可以加快啟動時間，尤其是對於較大的應用程序來說。
+
+需要注意的是，當啟用延遲初始化時，應用程序在第一次訪問時可能會花費更長的時間來初始化。
+
+建議只在開發環境中啟用，但在生產環境中需要禁用以確保應用程序正確初始化並能夠正常運行。
+
+```yml
+spring:
+  main:
+    lazy-initialization: true
+```
