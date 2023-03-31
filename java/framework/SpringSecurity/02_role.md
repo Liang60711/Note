@@ -58,6 +58,8 @@
 
 3. 如果沒有權限訪問，會預設返回 `403 Forbidden`。
 
+4. 補充，因為安全考量，`List<GrantedAuthority>` 如果想設置為成員變數，記得需要加上 `@JSONField(serialize = false)` 註解，因為安全考量，這個類`GrantedAuthority`是無法進行序列化的。
+
 
 <br/>
 
