@@ -382,7 +382,13 @@ protected void configure(HttpSecurity http) throws Exception {
 ## 自定義登入失敗
 先自定義登入失敗類
 ```java
-
+@Component
+public class LoginFailureHandler implements AuthenticationFailureHandler {
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        System.out.println("認證失敗了");
+    }
+}
 ```
 
 在 Spring Security 配置
@@ -390,7 +396,9 @@ protected void configure(HttpSecurity http) throws Exception {
 @Override
 protected void configure(HttpSecurity http) throws Exception {
     
-    
+    http.formLogin()
+        .successHandler(loginSuccessHandler)    // 配置自定義登入成功handler
+        .failureHandler(loginFailureHandler);   // 配置自定義登入失敗handler
 }
 ```
 
