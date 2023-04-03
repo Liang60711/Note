@@ -346,3 +346,55 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         }
     }
     ```
+
+<br/>
+
+<br/>
+
+
+
+## 自定義登入成功
+先自定義登入成功類
+```java
+@Component
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        System.out.println("認證成功了");
+    }
+}
+```
+
+在 Spring Security 配置
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    
+    http.formLogin()
+        .successHandler(loginSuccessHandler);// 配置自定義登入handler
+}
+```
+
+<br/>
+
+<br/>
+
+## 自定義登入失敗
+先自定義登入失敗類
+```java
+
+```
+
+在 Spring Security 配置
+```java
+@Override
+protected void configure(HttpSecurity http) throws Exception {
+    
+    
+}
+```
+
+
+<br/>
+
+<br/>
