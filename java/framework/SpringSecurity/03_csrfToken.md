@@ -1,5 +1,7 @@
 ## CSRFToken
 
+前後端分離的專案本身就需要在 header 中加入 token，與 csrf token 的功能類似，因此前後端分離項目本身就不怕 csrf 攻擊，因此需要關閉 Spring security 功能中的 CSRF token。
+
 在 Spring Security 中設置 CSRF token 需要做以下幾個步驟：
 
 1. 在 Spring Security 的配置類別中啟用 CSRF 防護，開發時會關閉，但 SpringBoot 預設是打開的。
