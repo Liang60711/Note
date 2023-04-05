@@ -129,6 +129,46 @@ springboot 啟動流程
 
 <br/>
 
+## @configurationproperties 支持鬆散綁定
+
+`@configurationproperties` 支持鬆散綁定，讓 yml 中的不同書寫的風格都可以被讀取，只有此註解有支援，`@Value` 就沒有支援。
+
+綁定規範: 僅能使用純小寫字母、數字、底線作為合法字元
+```java
+@configurationproperties(prefix = "serverinfo")//只能全小寫，不能使用 serverInfo 
+public class ServerConfig {
+    private String ipAddress;
+}
+```
+
+可支援的寫法有
+
+```yml
+# camel case
+serverInfo:
+  ipAddress: 192.168.1.1
+```
+```yml
+# snake case
+serverInfo:
+  ip_address: 192.168.1.1
+```
+```yml
+# dash 
+serverInfo:
+  ip-address: 192.168.1.1
+```
+```yml
+# CONST
+serverInfo:
+  IP_ADDRESS: 192.168.1.1
+```
+
+
+<br/>
+
+<br/>
+
 ## FORM 表單開啟 PUT, PATCH, DELETE方法
 `注意: 只有 form 表單會經過以下的 filter，如果使用 PostMan 或 API 直接打就不會過 filter。`
 

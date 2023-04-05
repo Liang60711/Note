@@ -140,3 +140,8 @@ baseDir: c:\windows
 # \t 可以被解析
 tempDir: "${baseDir}\temp" # 取值會是 c:\windows emp
 ```
+
+<br/>
+
+<br/>
+
