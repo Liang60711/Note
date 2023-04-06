@@ -100,7 +100,7 @@ springboot 啟動流程
 
     ```java
     @Bean
-    @@ConfigurationProperties(prefix = "customClass")
+    @ConfigurationProperties(prefix = "customClass")
     public CustomClass customClass() {
         return new CustomClass();
     }
@@ -154,7 +154,7 @@ serverInfo:
   ip_address: 192.168.1.1
 ```
 ```yml
-# dash 
+# dash 這種寫法是最推薦的官方寫法
 serverInfo:
   ip-address: 192.168.1.1
 ```

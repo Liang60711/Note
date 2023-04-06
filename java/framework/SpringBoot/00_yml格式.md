@@ -52,8 +52,8 @@
     ```java
     @Component
     @Data
-    @ConfigurationProperties(prefix = "cuztomize.users") // 配置文件的前綴
-    public class Users {
+    @ConfigurationProperties(prefix = "cuztomize") // 配置文件的前綴
+    public class Cuztomize {
 
         private List<String> users;
     }
