@@ -109,7 +109,7 @@ springboot 啟動流程
 5. 補充2: `@EnableConfigurationProperties`，此註解可以將使用 `@ConfigurationProperties` 這個註解的類加入到 Spring 容器，用處是寫法風格不會這麼鬆散。
 
     ```java
-    // 簡單來說，就是會將 CustomClass 建立一個 bean，並加入到Spring容器中
+    // 簡單來說，就是會將 ServerConfig 建立一個 bean，並加入到Spring容器中
     @EnableConfigurationProperties(ServerConfig.class)
     public class DemoApplication {
 

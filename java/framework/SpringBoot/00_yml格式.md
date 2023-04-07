@@ -145,3 +145,15 @@ tempDir: "${baseDir}\temp" # 取值會是 c:\windows emp
 
 <br/>
 
+## yml 支持隨機數字
+使用 `${random}`
+```yml
+my:
+  secret: "${random.value}"
+  number: "${random.int}"
+  bignumber: "${random.long}"
+  uuid: "${random.uuid}"
+  number-less-than-ten: "${random.int(10)}"
+  number-in-range: "${random.int[1024,65536]}"
+```
+
