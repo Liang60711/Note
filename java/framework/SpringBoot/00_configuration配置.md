@@ -164,6 +164,57 @@ serverInfo:
   IP_ADDRESS: 192.168.1.1
 ```
 
+<br/>
+
+<br/>
+
+## @ConfigurationProperties 常用單位換算 @DurationUnit
+在 yml 中使用的單位，例如毫秒，可以在配置類中切換成其他單位
+
+```yml
+servers:
+  serverTimeout: 3
+```
+配置類中設置單位
+
+```java
+@Data
+@ConfigurationProperties(prefix = "servers")
+public class ServerConfig {
+
+    @DurationUnit(ChronoUnit.HOURS) // 自定義單位
+    private Duration serverTimeout;
+}
+```
+
+<br/>
+
+<br/>
+
+## @ConfigurationProperties 容量單位換算 @DataSizeUnit
+同上，容量也可以換算
+```yml
+servers:
+  dataSize: 10  # 預設單位是Byte
+```
+配置類中設置單位
+```java
+@Data
+@ConfigurationProperties(prefix = "servers")
+public class ServerConfig {
+
+    @DataSizeUnit(DataUnit.GIGABYTES) // 自定義單位
+    private DataSize dataSize;
+}
+```
+
+另一種方式是在 yml 直接寫單位，但是打印出來還是用 Byte 為單位
+
+```yml
+servers:
+  dataSize: 10MB # 打印出來會是 10485760B，相當於 1024*1024*10 B，不會打印出 10MB
+```
+
 
 <br/>
 
