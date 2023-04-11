@@ -41,7 +41,7 @@
     }
     ```
 
-4. `@Validated`，加在class上。
+4. `@Validated`，加在class上，針對 Bean 去做校驗。
  
     ```java
     /**
@@ -84,3 +84,16 @@
 <br/>
 
 6. package名稱為 `javax.validation.constraints`。
+
+7. 常使用在 @Configuration 的校驗上，是針對 yml 的值做校驗，這樣啟動 springboot 就會報錯，並提示錯在哪。
+
+    ```java
+    @Configuration
+    @ConfigurationProperties(prefix = "servers")
+    @Validated
+    public class ServletConfig {
+
+        @Max(8888)
+        private int port;
+    }
+    ```
