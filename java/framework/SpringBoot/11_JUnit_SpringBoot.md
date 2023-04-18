@@ -23,6 +23,19 @@ class UserControllerTests {
 只要加上在測試的 class 上此註解，運行單元測試時，Spring Boot，
 1. 會去啟動 Spring 容器，創建所有的 bean。
 2. 也會去啟動所有的 `@Configuration`，相當於直接運行 Spring Boot 程式。
+3. 此註解中可以額外添加臨時屬性，可以蓋過 application.yml 中的屬性層級。
+
+    ```java
+    // 優先級: 方法2 > 方法1 > yml配置
+    // 方法1
+    @SpringBootTest(properties = "server.port=8080")
+    // 方法2
+    @SpringBootTest(args = {"--server.port=8080"})
+    public class SecurityApplicationTest {
+
+    }
+    ```
+
 
 <br/>
 
