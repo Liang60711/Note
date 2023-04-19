@@ -86,9 +86,13 @@ public class ReflectionTest {
         Field age = clazz.getDeclaredField("age");
         Field[] fields = clazz.getDeclaredFields();
 
-        // 4. 取指定方法
+        // 4. 取指定方法(包含此類的public/protected/default/private方法)
         Method test1 = clazz.getDeclaredMethod("test1");
         test1.invoke(p);
+
+        // 5. 取所有public方法(包含父類繼承來的)，沒找到會回傳null
+        Method test2 = clazz.getMethod("test2");
+        test2.invoke(p);
 
         // 以下為調用private的結構
         // 1.建構子

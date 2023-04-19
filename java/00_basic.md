@@ -126,6 +126,8 @@ package com.apple.cms.vo;
 
 `ctrl` + `shift` + `F` : 全域搜尋關鍵字
 
+`ctrl` + `shift` + `U` : 大寫轉小寫
+
 `ctrl` + `shift` + `向左鍵` : 跳轉上一層
 
 `Ctrl` + `Alt` + `Shift` + `U` : UML Diagram 查看(重要)。
