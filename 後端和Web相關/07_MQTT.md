@@ -258,7 +258,7 @@
       }
 
 
-      /** 入站 */
+      /** 入站channel */
       @Bean
       public MessageChannel mqttInputChannel() {
          return new DirectChannel();
@@ -272,7 +272,7 @@
          MqttPahoMessageDrivenChannelAdapter adapter = new MqttPahoMessageDrivenChannelAdapter(
                clientId + "-consume",
                mqttClientFactory(),
-               "/test/pub/#"  // 從Broker訂閱主題，可以訂閱複數
+               "test/pub/#"  // 從Broker訂閱主題，可以訂閱複數(重點)
          );
          adapter.setCompletionTimeout(5000);
 
@@ -298,7 +298,8 @@
 
                // 匹配.* 任意字符
                // 設備上報主題 /test/ + 設備編號
-               if (topic.matches("/test/(.*)")) {
+               // 測試: 在broker上發送消息時，會在springboot server端打印出以下資訊
+               if (topic.matches("test/pub/(.*)")) {
                   String deviceCode = topic.split("/")[2];
                   System.out.println("獲取設備編碼為：" + deviceCode);
                   System.out.println("Payload：" + payload);
@@ -308,6 +309,7 @@
          };
       }
 
+      /** 出站channel */
       @Bean
       public MessageChannel mqttOutboundChannel() {
          return new DirectChannel();
@@ -336,6 +338,44 @@
 
    }
    ```
+
+4. Postman + Mosquitto + MQTTX 測試
+
+   測試 outbound : 
+   
+   Postman -> Springboot `outbound`(Publisher) -> Broker -> Springboot `inbound` (如果有訂閱test/inbound主題的話)
+   
+   <img width="75%" src="../_image/Snipaste_2023-04-20_17-20-34.png">
+
+   <img width="75%" src="../_image/Snipaste_2023-04-20_17-22-01.png">
+
+   <img width="75%" src="../_image/Snipaste_2023-04-20_17-31-40.png">
+
+
+   <br/>
+
+   <br/>
+
+   測試 inbound : 
+
+   Broker -> Springboot `inbound`
+
+   <img width="75%" src="../_image/Snipaste_2023-04-20_17-38-48.png">
+
+   <img width="75%" src="../_image/Snipaste_2023-04-20_17-39-21.png">
+
+
+
+
+   <br/>
+
+   <br/>
+
+   測試 斷線時會發出的的WILL_TOPIC : 
+
+   <img width="75%" src="../_image/Snipaste_2023-04-20_17-19-37.png">
+
+   
 
 <br/>
 
