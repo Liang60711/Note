@@ -48,3 +48,14 @@
 <br/>
 
 ## 空間複雜度
+
+
+<br/>
+
+<br/>
+
+## 參考資料
+
+> 資結 https://clu.gitbook.io/data-structure-note/heap-tree
+
+> 排序 https://clu.gitbook.io/data-structure-note/x-time-complexity-cheat-sheet
