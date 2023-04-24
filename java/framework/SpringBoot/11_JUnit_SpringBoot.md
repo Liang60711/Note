@@ -36,6 +36,24 @@ class UserControllerTests {
     }
     ```
 
+4. 其中的 `webEnvironment` 屬性，可以讓測試類啟動 server
+
+    ```java
+    // 
+    @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+    class DemoApplicationTests {
+
+        @Test
+        void contextLoads() {
+        }
+    }
+    ```
+
+
+
+<br/>
+
+<br/>
 
 <br/>
 
@@ -43,7 +61,7 @@ class UserControllerTests {
 
 ## Dao層測試
 
-crud範例
+crud範例，要記得加上 `@Transactional`，否則會有垃圾數據
 
 ```java
 @SpringBootTest // 建立bean, 載入configuration
