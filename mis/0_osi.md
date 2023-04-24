@@ -121,10 +121,15 @@ UDP: 同樣分為Head和Data，Head包含發出端口 (Port) 和接收端口，�
 
 <br>
 
-### TCP 3 way handshake
+### TCP 3次握手 / 4次揮手
+
+> https://blog.csdn.net/qzcsu/article/details/72861891
+
+> https://ithelp.ithome.com.tw/articles/10280652
+
 TCP header 中，有兩個欄位，分別是:
-* <code>Sequence Number</code> ，簡稱 <code>SEQ</code> ，表示請求方送出資料的序號。
-* <code>Acknowledgement Number </code>，簡稱<code>ACK</code>，表示接收方送出資料的序號。
+* `Sequence Number` ，簡稱 `SEQ` ，表示請求方送出資料的序號。
+* `Acknowledgement Number`，簡稱`ACK`，表示`確認`，表示接收方送出資料的序號。
 
 * 機制，兩種情況: 
     1. SEQ-100 發出後，必須等到序號相同的 ACK-100 回復(等待時間超過)，否則會重送。
@@ -137,8 +142,18 @@ TCP header 中，有兩個欄位，分別是:
 
 <br>
 
-### SSL 協定
-* 發生在 TCP 三次握手之後，
+### SSL/TLS 握手
+
+> https://blog.csdn.net/weixin_43113679/article/details/124311474
+
+重點: 
+
+* HTTPS 協議，需要先經歷 `TCP 3次握手` + `SSL/TLS 握手`。
+* 發生在 TCP 三次握手之後，才會做TLS握手，所以 HTTPS 連線速度會比 HTTP 還久，主要是在做 public key 的交換。
+* 新版本 `TLSv1.3` 開啟了 TCP Fast Open 功能，TCP 三次握手和 TLS 同步執行。
+
+
+補充: 
 
 * 對稱加密: 連線雙方都知道密碼，一方輸入，一方驗證。
 * 非對稱加密: 連線雙方各有公鑰與私鑰(共4把)，使用對方給的公鑰加密，讓對方使用私鑰解密。公鑰只能加密而沒有解密的功能，所以是可以被公布的。私鑰因為要解密用，不能公布。

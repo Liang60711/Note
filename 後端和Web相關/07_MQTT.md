@@ -381,6 +381,13 @@
 
 <br/>
 
-## MQTT配置
+## MQTT over WebSocket 協議
+此協議允許在瀏覽器中使用MQTT，從而使Web應用程序能夠與服務器進行實時通信。
+
+<br/>
+
+<br/>
+
+## 參考
 
 > https://blog.csdn.net/beibei3321/article/details/124187758
