@@ -304,12 +304,17 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
 
 ## H2資料庫
 1. 目的: 為了提升單元測試的穩定性，不會受到外部資料庫的影響，可以在 Spring Boot 啟動時被生成，運行結束時銷毀。
-2. 是一種嵌入式資料庫，常用在單元測試，降低程式對實體資料庫的依賴。
+2. 是一種嵌入式資料庫，使用Java開發的，常用在單元測試，降低程式對實體資料庫的依賴。
 
 3. 設定: 
     * `pom.xml` 添加 dependency
 
-        > https://mvnrepository.com/artifact/com.h2database/h2
+        ```xml
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+        ```
     
     * 建立設定檔 `test\resources\application.properties`，跑測試都會使用這個設定檔
 
@@ -354,4 +359,10 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
     INSERT INTO student (name, score, graduate, create_date) VALUES ('Rom', 34.6, false, '2021-08-10 17:21:14');
     INSERT INTO student (name, score, graduate, create_date) VALUES ('Judy', 100.0, true, '2021-09-05 12:19:48');
     INSERT INTO student (name, score, graduate, create_date) VALUES ('Mike', 87.2, true, '2021-09-03 15:01:15');
+    ```
+
+5. 啟動 H2 後，可以開啟此網址開啟控制台
+
+    ```html
+    http://localhost:8080/h2-console/
     ```
