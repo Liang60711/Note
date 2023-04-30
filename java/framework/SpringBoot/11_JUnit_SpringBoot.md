@@ -305,8 +305,8 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
 ## H2資料庫
 1. 目的: 為了提升單元測試的穩定性，不會受到外部資料庫的影響，可以在 Spring Boot 啟動時被生成，運行結束時銷毀。
 2. 是一種嵌入式資料庫，使用Java開發的，常用在單元測試，降低程式對實體資料庫的依賴。
-
-3. 設定: 
+3. 開發時測試使用，正是環境請記得關閉。
+4. 設定: 
     * `pom.xml` 添加 dependency
 
         ```xml
@@ -321,18 +321,28 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
     * 若 `main\resources\application.properties` 有添加其他設定，也要全部複製到測試的設定檔，`兩個設定檔各自獨立，內容不互通`。
 
     
-        ```properties
+        ```yml
         # H2 db 設定資訊
-        spring.datasource.driver-class-name=org.h2.Driver
-        spring.datasource.url=jdbc:h2:mem:testdb
-        spring.datasource.username=sa
-        spring.datasource.password=sa
+        spring:
+          h2:
+            console:
+              enabled: true # 是否開啟瀏覽器console，正式環境一定要關閉，因為是安全隱患
+              path: /h2 # console 的網址，如果不設定預設為 /h2-console
+          datasource:
+            url: jdbc:h2:~/test # 將數據存在硬碟中，路徑在家目錄下 /test
+            #url: jdbc:h2:mem:testdb # 將數據儲存在 memory 中
+            driver-class-name: org.h2.Driver
+            username: sa
+            password:
 
         # 使用jpa時，避免自動根據 @Entity類自動建表
-        spring.jpa.hibernate.ddl-auto=none
+        spring:
+          jpa: 
+            hibernate: 
+              ddl-auto: none
         ```
 
-4. 建立 `schema.sql` 和 `data.sql`，若 h2資料庫已連線，會檢查是否有此二檔案，有的話就自動載入。
+5. 建立 `schema.sql` 和 `data.sql`，若 h2資料庫已連線，會檢查是否有此二檔案，有的話就自動載入。
 
     ```
     resources
@@ -361,7 +371,7 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
     INSERT INTO student (name, score, graduate, create_date) VALUES ('Mike', 87.2, true, '2021-09-03 15:01:15');
     ```
 
-5. 啟動 H2 後，可以開啟此網址開啟控制台
+6. 啟動 H2 後，可以開啟此網址開啟控制台，可由 `spring.h2.console.path` 屬性設定路徑
 
     ```html
     http://localhost:8080/h2-console/
