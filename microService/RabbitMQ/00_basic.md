@@ -2,6 +2,15 @@
 * MQ，消息隊列，儲存消息的中間件。
 * 實現中間件的前提: 需要遵守相同的協議(如:AMQP)或規範，才能達成通信。
 
+* 優點: 
+
+    1. 將 Producer 和 Consumer 解耦。
+    2. Producer 和 Consumer 不需要知道雙方的實際的位置(如：IP address)，只要將資料往 MQ 送就好。
+    3. 即使 Consumer 短暫的無法提供服務也沒關係，MQ 可以將資料暫存起來，等待 Consumer 重新上線時再送過去。
+    4. 比起持續 Polling 的方式相對有效率的多。
+    5. 提供了一個可靠的方式，讓訊息傳遞 & 工作處理兩件事情可以用非同步的方式進行。
+    6. 當單一 Consumer 不足以完成所有工作時，可以很容易的增加 Consumer 數量進行水平擴展。
+
 <br/>
 
 <br/>
@@ -36,3 +45,14 @@
 4. 消費者 Consumer
 
     * 負責接收來自 Queue 的訊息
+
+
+<br/>
+
+<br/>
+
+## Reference
+
+> 安裝 https://kucw.github.io/blog/2020/11/rabbitmq/
+
+> 各種參數 https://godleon.github.io/blog/ChatOps/message-queue-concepts/

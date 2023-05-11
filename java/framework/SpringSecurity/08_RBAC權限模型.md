@@ -1,4 +1,4 @@
-## RBAC 權限模型
+## RBAC 權限模型 (Role-based access control)
 目前常用的權限管理， Table schema 共會建立5張表
 1. user
 2. role
