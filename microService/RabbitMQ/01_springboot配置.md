@@ -149,6 +149,46 @@ public void producerCode() {
 
 <br/>
 
+## 消費者程式碼
+```java
+public static void  consumerCode() throws Exception {
+
+    ConnectionFactory factory = new ConnectionFactory();
+    factory.setHost("localhost");
+    factory.setUsername("root");
+    factory.setPassword("admin1234");
+
+    // 建立 Connection
+    Connection connection = factory.newConnection();
+    // 從 Connection 中建立 Channel
+    Channel channel = connection.createChannel();
+
+    // 用於聲明一個consumer，此方法有很多overload，寫個大概
+    // 參數1: 消費的Queue名稱
+    // 參數2: autoAck，boolean，是否自動確認消費消息，如果設置為false，則需要顯式地調用channel.basicAck()方法來手動確認消息的消費。
+    // 參數3: DeliverCallback 接收消息成功的 callback
+    // 參數4: CancelCallback 接收消息失敗的 callback
+
+    // 其他參數
+    // 參數: consumerTag，消費者標籤，用於唯一標識消費者。如果未指定標籤，則會由消息代理為其分配一個唯一標識。
+    // 參數: noLocal，是否禁止消費者接收自己發布的消息，默認為false，改為true可禁止該行為。
+    // 參數: exclusive，是否將隊列設置為獨占模式。如果將其設置為true，則只有當前連接的消費者可以訪問該隊列。
+
+    DeliverCallback deliverCallback = (consumerTag, delivery) -> { // Delivery 類包含了 _envelope, _properties, _body
+        System.out.println(Arrays.toString(delivery.getBody()));
+    };
+    CancelCallback cancelCallback = consumerTag -> {
+        System.out.println("消息消費中斷");
+    };
+
+    channel.basicConsume(QUEUE_NAME, true, deliverCallback, cancelCallback);
+}
+```
+
+<br/>
+
+<br/>
+
 ## Reference
 
 > 配置檔案 https://matthung0807.blogspot.com/2020/08/spring-boot-rabbitmq-rabbitlistener-simple.html
