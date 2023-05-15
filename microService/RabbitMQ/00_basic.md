@@ -24,16 +24,6 @@
 2. Exchange 
     
     * 用來決定 Producer 給的資料要丟給哪一個 Queue
-    * 主要有這四種方式
-
-        `direct`: 直接丟給指定的 Queue
-
-        `topic`: 類似 regular expression，設定 binding 規則，丟給符合的 Queue
-
-        `headers`: 透過傳送資料的 header 來特別指定所要的 Queue
-
-        `fanout`: 一次丟給全部負責的 Queue
-
     * 與 Queue 的關係為一對多
 
 3. 隊列 Queue
@@ -46,6 +36,63 @@
 
     * 負責接收來自 Queue 的訊息
 
+
+<br/>
+
+<br/>
+
+## MQ 模式
+
+主要有以下幾種方式，第3種開始有交換機加入。
+
+1. `Direct(Hello world)`: 最簡單的模式，只會有一個 Producer 負責發送 message 到 Queue 裡、而也只有一個 Consumer 去 Queue 裡消費 message。
+
+    <img width="50%" src="https://www.rabbitmq.com/img/tutorials/python-one.png">
+
+    <br/>
+
+2. `Work Queues`: 跟 Direct 模式很像，但是差別是 Worker 模式中會同時有多個 Consumer 會去消費 Queue 裡的 message，增加 message 消化的速率。
+
+    <img width="50%" src="https://www.rabbitmq.com/img/tutorials/python-two.png">
+
+    <br/>
+
+3. `Publish/Subscribe`:  Producer 把 message 丟給 Exchange，再交由 Exchange 去決定要把這個 message 丟給哪個 Queue
+
+
+    <img width="50%" src="https://www.rabbitmq.com/img/tutorials/python-three.png">
+
+    <br/>
+
+    此模式底下就有3種類型，用來表示`交換機要用什麼樣的規則把 message 丟到想要丟的 Queue 裡面`。
+
+    - direct: 把消息交給符合指定 routing key 的 Queue
+    - fanout: 廣播，將消息交給所有綁定到交換機的 Queue
+    - topic: 把消息交給符合 routing pattern（路由模式） 的 Queue
+
+    <br/>
+
+4. `Routing`: 當 Producer 把 message 丟給 Exchange 時，同時要在這個 message 上面帶上一個 routing key，而 Exchange 就會根據這個 routing key，將 message 丟到指定的 Queue 上。
+
+    同一個 routing key 可以綁到 n 個 Queue 上，一對多綁定。
+
+    <img width="50%" src="https://www.rabbitmq.com/img/tutorials/python-four.png">
+
+    <br/>
+
+5. `Topic`: 用到了 Exchange 的 topic type，用法基本上跟 Routing 模式一樣，只是 routing key 進化成可以使用模糊綁定(類似 regular expression)而已，設定 binding 規則，丟給符合的 Queue。
+
+    <img width="50%" src="https://www.rabbitmq.com/img/tutorials/python-five.png">
+
+    <br/>
+
+<br/>
+
+<br/>
+
+## 後台應用程式
+
+<img src="../../_image/Snipaste_2023-05-15_15-29-26.png">
 
 <br/>
 
