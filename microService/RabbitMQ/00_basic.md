@@ -16,12 +16,15 @@
 <br/>
 
 ## 角色
+
+以下四種角色都包含在 RabbitMq 的消息實體中 (a.k.a. Broker)
+
 1. 生產者 Producer
 
     * 負責丟訊息到 Queue 中
     * 若有定義 Exchange，則丟給 Exchange 決定要給誰
     
-2. Exchange 
+2. 交換機 Exchange 
     
     * 用來決定 Producer 給的資料要丟給哪一個 Queue
     * 主要有這四種方式
@@ -46,6 +49,28 @@
 
     * 負責接收來自 Queue 的訊息
 
+
+<br/>
+
+<br/>
+
+## 其他名詞解釋
+
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6287e063337847c1b0ec40018c3f7d02~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp">
+
+* Connection 
+    * Connection 是指客戶端與 RabbitMQ 服務器之間的 TCP 連接。
+    * 由於 `應用程式` 和 `Broker` 之間是以物理TCP的方式進行連接，且每次連接花費的開銷很大，故每次初始化應用程式時只會做一次 Connection，並在同一條 Connection 中設立許多的 `Channel`。
+    * 一個 Connection 可以支持多個 Channel，每個 Channel 可以在 Connection 上打開一個或多個消息隊列，進行消息的發送和接收。
+    * 真正向 Broker 發送消息的是 Channel 而不是 Connection。
+
+* Virtual Host
+    * 一個 Broker 中有許多的 Virtual Host，每個 Virtual Host 都有獨立的 Exchange 和 Queue。
+    * Virtual Host 是一個完全獨立的消息代理環境，每個 Virtual Host 可以有自己的用戶、權限、策略等。
+
+* Binding
+
+    * 指 Exchange 和 Queue 之間的連線。
 
 <br/>
 

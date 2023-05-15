@@ -1,10 +1,8 @@
-## RabbitMq 啟動
+## RabbitMq 安裝/啟動
 * 使用 docker 中的 `rabbitmq:management` 開啟在本地端後，會啟動兩個服務: `RabbitMQ服務`、`RabbitMQ web 管理介面`
 
     ```sh
-    docker run --name rabbitmq -d -p 15672:15672 -p 5672:5672 \
-    -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=admin1234 \
-    rabbitmq:management
+    docker run --name rabbitmq -d -p 15672:15672 -p 5672:5672 -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=admin1234 rabbitmq:management
     ```
 
 * Port: 
@@ -106,6 +104,44 @@ public class DemoController {
         messageService.send(message);
     }
 
+}
+```
+
+<br/>
+
+<br/>
+
+## Producer 生產者程式碼
+
+```java
+public void producerCode() {
+
+    ConnectionFactory factory = new ConnectionFactory();
+    factory.setHost("localhost");
+    factory.setUsername("root");
+    factory.setPassword("admin1234");
+
+    // 建立 Connection
+    Connection connection = factory.newConnection();
+    // 從 Connection 中建立 Channel
+    Channel channel = connection.createChannel();
+
+    // 用於聲明一個新的消息隊列，或獲取一個已經存在的消息隊列
+    // 參數1: Queue名稱
+    // 參數2: durable，預設為 False。設置隊列是否持久化，如果設置為 True，當 RabbitMQ 服務器重啟後，該隊列依然存在，否則隊列只存在於當前 RabbitMQ 會話中。
+    // 參數3: exclusive，預設為 False，設置是否為獨佔隊列，如果設置為 True，只有該連接可以訪問該隊列，並且在該連接關閉後隊列會被自動刪除。該選項通常用於實現訂閱模式。
+    // 參數4: auto_delete，預設為 False。設置隊列是否在沒有任何消費者連接時自動刪除。該選項通常用於臨時隊列。
+    // 參數5: arguments，其他的參數，如消息過期時間、隊列最大長度等。該參數是一個字典類型，其中鍵值對的具體含義取決於具體應用場景。
+
+    channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+
+    // 用於將消息發布到指定的交換機中
+    // 參數1: exchange，交換器名稱，指定消息要發布到哪個交換器上。
+    // 參數2: routing_key，路由鍵，交換器根據該路由鍵將消息發送到相應的隊列中。
+    // 參數3: properties，其他的消息屬性，如消息的優先級、過期時間等。該參數是一個字典類型，其中鍵值對的具體含義取決於具體應用場景。
+    // 參數4: body，消息主體，二進制類型。需要發送的消息的內容。
+    String message = "message";
+    channel.basicPublish(null, QUEUE_NAME, null, message.getBytes());
 }
 ```
 
