@@ -72,13 +72,15 @@
 
 主要有以下幾種方式，第3種開始有交換機加入。
 
-1. `Direct(Hello world)`: 最簡單的模式，只會有一個 Producer 負責發送 message 到 Queue 裡、而也只有一個 Consumer 去 Queue 裡消費 message。
+1. `Direct(Hello world)`: 最簡單的模式，只會有一個 Producer 負責發送 message 到 Queue 裡。一個 message 只會有一個 Consumer 去處理，否則會造成重複處理。
 
     <img width="50%" src="https://www.rabbitmq.com/img/tutorials/python-one.png">
 
     <br/>
 
-2. `Work Queues`: 跟 Direct 模式很像，但是差別是 Worker 模式中會同時有多個 Consumer 會去消費 Queue 裡的 message，增加 message 消化的速率。
+2. `Work Queues`: 跟 Direct 模式很像，但是差別是 Worker 模式中會同時有多個 Consumer 會去消費 Queue 裡的 message，增加 message 消化的速率，同 Direct 模式，一個 message 只會有一個 Consumer 去處理。
+
+    如圖，每一個 consumer 是競爭關係，第一條消息是C1消費，第二條就會輪到C2，輪流消費。
 
     <img width="50%" src="https://www.rabbitmq.com/img/tutorials/python-two.png">
 
