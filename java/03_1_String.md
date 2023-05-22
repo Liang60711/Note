@@ -129,7 +129,7 @@ str1.equals(str2)   // true
 str1.equals(str3)   // true
 ```
 解釋: 
-1. `str1` 和 `str2` 指向相同的物件，擁有相同的address。
+1. `str1` 和 `str2` 指向相同的物件，擁有相同的address(指向常數池)。
 2. `str1` 和 `str2`，會指向相同物件的原因為，兩者在常數池(constant pool)中，為相同數值。
 
 
@@ -186,6 +186,8 @@ private static String getString(){
     return "He";
 }
 ```
+
+<img src="https://www.jyt0532.com/public/jvm2-1.png">
 
 
 常數池運作方式:
