@@ -1,3 +1,94 @@
+
+## IntelliJ 快捷鍵
+`alt`+ `1` 定位目前檔案在目錄位置
+
+`alt`+ `7` 顯示此class大綱 [stack overflow](https://stackoverflow.com/questions/31752352/eclipses-outline-window-equivalent-in-intellij)
+
+`ctrl` + `E` : 顯示最近打開的檔案
+
+`ctrl` + `R` : 替換 replace
+
+`ctrl` + `D` : 等於 ctrl c + ctrl v
+
+`ctrl` + `W` : 選取該程式區塊，可往區塊外擴增
+
+`ctrl` + `Q` : 查看[方法/變數/類]的詳細資料
+
+`ctrl` + `H` : 查看此類的繼承層級Hierarchy
+
+`ctrl` + `+` : 展開程式碼
+
+`ctrl` + `-` : 摺疊程式碼
+
+`ctrl` + `tab` : 切換當前視窗
+
+`ctrl` + `F9` : 使用dev-tool後直接進行熱部屬刷新
+
+`雙擊 shift`: 找文件、類、方法名稱
+
+`ctrl` + `shift` + `O` : 刪除沒用到的 import class
+
+`ctrl` + `shift` + `I` : 優化縮排
+
+`ctrl` + `shift` + `L` : 格式化程式的排版
+
+`ctrl` + `shift` + `F` : 全域搜尋關鍵字
+
+`ctrl` + `shift` + `U` : 大寫轉小寫
+
+`ctrl` + `shift` + `向左鍵` : 跳轉上一層
+
+`Ctrl` + `Alt` + `Shift` + `U` : UML Diagram 查看(重要)。
+
+`alt` + 左右鍵 : 切換視窗
+
+`F12` : 切換回上一個開啟的視窗
+
+> https://www.gushiciku.cn/pl/pom2/zh-tw
+
+<br/>
+
+<br/>
+
+## IntelliJ 功能
+* 檢視資料庫 : `Database`功能中，在檢視table頁面，可點選右上角眼睛 `view as`-> `transpose` 倒置table。
+
+* 查詢路由 : 若要查詢此class中，所有 route list，可以點選下方 `endpoint` tab。
+
+* 外掛套件 : File >> Settings >> Plugins
+
+<br/>
+
+<br/>
+
+## debug 功能
+
+1. 上排工具: 
+
+    * `show excecution point` : 跳回斷點檔案。
+    * `step over` : 逐行執行。
+    * `step into` : 跳進function。
+    * `evaluate expression` : 執行功能(好用)。
+    * `trace current stream chain` : 追蹤stream、追蹤lambda(好用)。
+
+
+2. 左排工具:
+
+    * `view breakpoint` : 查看所有斷點、是否開啟exception斷點。
+    * `mute breakpoint` : 打開 / 關掉所有斷點。
+
+3. 斷點上按右鍵 : 可設定觸發斷點條件。
+
+    ```java
+    // condition 
+    i == 3
+    ```
+
+
+<br/>
+
+<br/>
+
 ## 使用 IDEA IntelliJ 配置熱部署
 * 前因後果 : 因為 springboot 的 server 是內嵌的，所以不能從外部去監控，應該要去 Spring IoC 容器中添加監控程式，而這個程式就是 `devtools`，負責監控是否程式碼有更動。
 

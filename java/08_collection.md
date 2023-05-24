@@ -195,7 +195,7 @@ LinkedList<String> list = new LinkedList<>();
 
     }
     ```
-7. 呈上，自定義物件(Cat)需要判斷各屬性都相同時為同一個物件(c1和c3)，若有這樣的需求時，需要重寫物件的`hashCode()`和`equals()`方法。
+7. 呈上，自定義物件(Cat)需要判斷各屬性都相同時為同一個物件(c1和c3)，若有這樣的需求時，需要重寫物件的`hashCode()`和`equals()`方法，或是加入 lombok 中的註解 `@EqualsAndHashCode`。
 
 
 HashSet方法

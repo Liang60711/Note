@@ -106,3 +106,18 @@ At least one of these environment variable is needed to run this program
 
 </web-app>
 ```
+
+<br/>
+
+<br/>
+
+## 修改啟動 Server 的 banner
+
+1. 新增 `src/main/resources/banner.txt`
+
+2. 在以下連結找喜歡的圖案
+   
+   > https://devops.datenkollektiv.de/banner.txt/index.html
+   
+   > https://www.bootschool.net/ascii
+

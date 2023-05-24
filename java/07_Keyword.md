@@ -38,10 +38,10 @@ volatile 和 synchronized 比較:
     * 僅此類別(class)內有效。
 
 2. (default)
-    * 只可用在同 class 和 package，即`此套件 package 內有效`。
+    * 只可用在同 class 和 package，即`此 package 內有效`。
 
 3. protected
-    * 此套件 package 內有效。
+    * 此 package 內有效。
     * 不同 package 繼承 class 後，也可以使用。
 
 4. public  
@@ -65,7 +65,7 @@ volatile 和 synchronized 比較:
 <br/>
 
 ## fianl
-final 即最後，修飾後即不可繼承或更改值
+final 即最後，修飾後即不可繼承或被重新賦值
 1. class  
     * final class 的類別不能被 extends。
 
@@ -82,6 +82,23 @@ final 即最後，修飾後即不可繼承或更改值
         // 通常會加上static
         static final int NUM = 10;
         ```
+
+5. 注意: List 被定義了 final，還是可以 add() 其他元素。
+
+    ```java
+    final List<String> list = new ArrayList<>();
+    list.add("test");
+
+    System.out.print(list); // ["test"]
+    ```
+
+    代表說 final 只是限制 List 不能被重新賦值(記憶體位址改變)，不代表不能改變本身的值，所以 List 的任何方法都是被允許調用的。
+
+    ```java
+    // 呈上，若要改變位址指向一個新的物件時，這樣就會報錯
+    list = new ArrayList<>();
+    ```
+
 
 <hr>
 
@@ -134,7 +151,7 @@ IntelliJ編輯器需要在 `add VM options` 加入參數，才能使用。
 <br/>
 
 
-## 函式參數 (parameters) vs 函式引數 (arguments)
+## 參數 (parameters) vs 引數 (arguments)
 * 參數是在函式定義中所列出的變數
 * 引數是呼叫函式時傳遞給它的值
 

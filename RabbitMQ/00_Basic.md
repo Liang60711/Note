@@ -127,6 +127,16 @@
 
 <br/>
 
+## Terminal指令
+```sh
+# 查看狀態
+rabbitmqctl status
+```
+
+<br/>
+
+<br/>
+
 ## Reference
 
 > 安裝 https://kucw.github.io/blog/2020/11/rabbitmq/
