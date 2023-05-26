@@ -27,12 +27,13 @@ class Computer implements Product{
 // 建立工廠類
 class ProductFactory{
     public Product getProduct(String name){
-        if("phone".equals(name)){
-            return new Phone();
-        }else if("computer".equals(name)){
-            return new Computer();
-        }else{
-            return null;
+        switch(name) {
+            case "phone":
+                return new Phone();
+            case "computer":
+                return new Computer();
+            default:
+                return null;
         }
     }
 }
@@ -40,9 +41,9 @@ class ProductFactory{
 使用
 ```java
 public static void main(String[] args){
-    Product phone = ProductFactory.getProduct("phone");
-    if(phone != null){
-        phone.work();
+    Product product = ProductFactory.getProduct("phone");
+    if(product != null){
+        product.work();
     }
 }
 ```
