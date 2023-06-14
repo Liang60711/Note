@@ -385,6 +385,7 @@ Hibernate中的`實體物件`可以分為三種狀態：Persistent、Detached、
 * commit() :
 
     1. 在 commit() 中，會先執行 flush()。
+    2. 當 commit 後，資料才會持久化。
 
 <br/>
 

@@ -38,6 +38,8 @@
 
 `ctrl` + `shift` + `向左鍵` : 跳轉上一層
 
+`ctrl` + `shift` + `F8` : 中斷點列表
+
 `Ctrl` + `Alt` + `Shift` + `U` : UML Diagram 查看(重要)。
 
 `alt` + 左右鍵 : 切換視窗
@@ -208,3 +210,23 @@ public class DemoApplication {
 可以參考官網的屬性優先級別(有更新過，以前版本順序相反)，系統屬性排在第9
 
 <img src="../../_image/Snipaste_2023-03-08_21-10-14.png">
+
+<br/>
+
+<br/>
+
+## 自定義 註解格式
+註解可以自定義縮排
+```java
+class Test {
+
+    // 這是預設的註解格式
+//  private String name;
+
+
+    // 改成這樣比較美觀
+    // private Integer age;
+}
+```
+
+<img src="../_image/Snipaste_2023-06-14_11-48-07.png">
