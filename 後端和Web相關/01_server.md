@@ -50,7 +50,7 @@ Apache is a car that can load static objects (HTML static web pages, etc.); but 
     * 反向代理也可以是負載平衡器
 
 
-* 上網的訪問順序為 1 >> 2 >> 3 >> 4 >> 5(可能沒有) >> 6 >> Application，並原路返回。
+* 一個request的順序為 1 >> 2 >> 3 >> 4 >> 5(可能沒有) >> 6 >> Application，並原路返回。
 
 
 

@@ -49,14 +49,13 @@
 
     <br/>
     
-    <img src="https://ohdear.app/img/blogs/http-basic-authentication-monitoring/http-basic-auth-prompt.png" width=70%>
 
 <br/>
 
 * 使用情境: 通常使用在內部系統，只需要擋住沒有權限的人，但又不想額外建立一個會員登入系統時，就非常適合使用 basic authentication，與一般會員登入系統的 JWT 和 Session-Cookie 認證方式還是有所區別。
 
 
-* 缺點: 密碼因為只用 base64 編碼並放在 header 中，代表密碼式暴露在外，相較之下沒這麼安全。
+* 缺點: 密碼因為只用 base64 編碼並放在 header 中，代表密碼是暴露在外，相較之下沒這麼安全。
 
 <br/>
 

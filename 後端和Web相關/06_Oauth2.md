@@ -31,6 +31,13 @@ OAuth2.0 依照需求及安全性，大致分為幾種流程
 
     5. 授權伺服器會返回 Access Token，而 Application 就可以使用此 Token 去存取第三方登入平台所提供的的相關資訊 (會有 scope 限制存取範圍)。
 
+    * 補充: 為何第4步不直接發 access token，而需要到第5步才拿到 access token? 
+    
+        考量的是「安全性」問題，原因是第4步是授權伺服器轉導到 Application 前端，經過前端不安全，故使用一個 grand code，由第5步中的 Application 向授權伺服器要 access token (後端對後端)。
+
+
+<br/>
+
 
 * 其他3種流程，可見參考連結。
 
@@ -58,6 +65,35 @@ OAuth2.0 依照需求及安全性，大致分為幾種流程
 5. `Authorization Grant` 
 
     在流程中，用來證明使用者同意賦予應用程式一定程度的授權、同意應用程式去做某些事、取得一個範圍內的資源。
+
+<br/>
+
+<br/>
+
+## OAuth2.0 4種類型
+1. Authorization Code Grant
+
+    上述的類型，最為常見，`Server-side Application` 後端渲染的應用程式最為適用。
+
+2. Implicit Grant
+
+    適合 `Client-side applications` 的類型，通常會是整個應用程式都在前端運行，依需求向後端 API 取得資料。如單純的靜態網站或 Single Page Application(SPA) 都適用。
+
+    由於整個應用程式都在前端運行，所以會缺少「後端伺服器透過 Authorization Code Grant 交換 Access Token 」的步驟。取而代之的是請 Authorization Server 直接核發 Access Token。
+
+    所以相對於 Authorization Code Flow，沒有這麼安全。
+
+3. Resource Owner Password Credentials Grant
+
+    此流程是由使用者提供帳號與密碼等資訊給應用程式，由應用程式直接向 Authorization Server 交換 Access Token，和以往的帳號密碼登入雷同。
+
+    帳號與密碼等機密資訊（credentials）可能會被應用程式儲存起來，作為往後交換 Access Token 使用。因此「必須是使用者高度信賴的應用程式」才適合使用，且唯有前兩種皆不可行時，才會考慮使用當前類型的流程。因此，適用的情境，可能像公司內部的系統。
+
+4. Client Credentials Grant
+
+    通常是由應用程式向 Authourization Server 請求取得 Access Token 以獲取「自己」的相關資源，而非使用者的資源，有點類似 Basic 授權。
+
+    這個流程已經跳脫使用者，因此，使用者身份驗證的流程將不再需要。取而代之的，是應用程式必須向 Authorization Server 提供驗證所需的自身資訊。
 
 <br/>
 

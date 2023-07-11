@@ -81,7 +81,7 @@ stream.map((s)->{
 ```
 
 ## flatMap
-將多維stream降至一維
+將多維stream降至一維，白話說就是`將元素轉換為流，再將流合併為一個大的流`
 ```java
 // 泛型一定要加
 Stream<List<Integer>> ss = Stream.of(Arrays.asList(1,2,3), Arrays.asList(4,5,6));

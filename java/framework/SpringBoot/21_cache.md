@@ -67,7 +67,7 @@ public String getSmsCache(String tele) {
 }
 ```
 
-`特別需要注意`:  
+#### `特別需要注意`:  
 此兩個註解的方法`一定要使用 @Bean 來調用，否則Cache不會生效`，原因是 Cache 功能必須使用 Spring 容器的方法調用，如果不使用 @Bean 來調用，就等於不走 Spring 容器，而是普通方法的調用(同一個Bean內部調用不會經過Spring容器)，建議可以寫在獨立的一個 @Component 中，以達到使用@Bean 來調用。
 
 ```java

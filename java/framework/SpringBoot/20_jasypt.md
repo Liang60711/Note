@@ -1,7 +1,7 @@
 ## 用途
 用來加密 yml 中的密碼字串，並使用 `ENC()` 作為標記，在springboot啟動載入密碼時會自動解密。
 
-進入 maven repo
+進入 maven repo (windows在家目錄下)
 
 `cd .m2/repository/org/jasypt/jasypt/1.9.3`
 

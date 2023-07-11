@@ -195,13 +195,16 @@ Completable 可以分成四種特性
 
 2. Work Stealing: 工作竊取是指當某個線程的任務隊列(Deque)中沒有可執行任務的時候，從其他的線程的任務隊列中竊取任務來執行。
 
-3. Java8 的 `parallelstream()` 方法也是使用 ForkJoinPool
+3. Java8 的 `parallelstream()`、`CompletableFuture.runAsync()` 方法也是預設使用 ForkJoinPool
 
 > https://blog.csdn.net/dhaibo1986/article/details/108737347
 
 
+<br/>
 
+<br/>
 
+## Mono / Flux
 
-
+[Mono筆記](./Framework/SpringBoot/23_WebFlux_Reactor.md/#mono)
 

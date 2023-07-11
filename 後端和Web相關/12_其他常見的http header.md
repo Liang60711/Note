@@ -20,3 +20,14 @@
     5. 進行內容協商的最佳匹配媒體類型。
     6. 用 converter 將物件進行轉化。
 
+<br/>
+
+<br/>
+
+## Connection
+
+1. 有鑑於每次HTTP連線時，都會經過 TCP 3次握手，才能傳輸 HTTP，傳輸結束後又要經歷 4次揮手，傳輸消耗巨大，因此產生此 header，讓伺服器不會自動關閉連線。
+
+2. `Connection: keep-alive` 這個 header 在 http 1.1 預設就是會自動帶，也就是說在 1.1 預設是長連線，但不代表這個連線會永久存在，通常會有一個 keep-alive timeout 參數會設置一段時間沒有用後，就自動關閉，即 `Connection: close`。
+
+3. 最新的 Tomcat 容器，預設長連接的時間為20秒。

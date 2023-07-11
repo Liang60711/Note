@@ -1,3 +1,14 @@
+## 幾個重點
+1. RestTemplate 是 Spring3 開始的類，新版的 WebClient 是 Spring5 新加入的類，如果要寫新版本，`建議使用 WebClient`。
+2. RestTemplate 和 WebClient 差異: 
+
+    WebClient 是基於 Reactive Streams 的非阻塞式 HTTP 客戶端，支持異步請求和響應處理。它使用 Java 8 的 CompletableFuture 或者 Reactor 的 Mono 和 Flux 來處理異步操作。相比之下，RestTemplate 是基於傳統的 Servlet API 的同步阻塞式客戶端，它在發送請求時會一直等待響應返回，所以使用 RestTemplate，必須要設定 Timeout，以免阻塞。
+3. RestTemplate 的底層是 HttpClient。
+
+<br/>
+
+<br/>
+
 ## RestTemplate 發起 HTTP request / 打 API
 `RestTemplate` : GET 請求外部 API
 
