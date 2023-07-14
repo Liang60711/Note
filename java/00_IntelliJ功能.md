@@ -209,7 +209,7 @@ public class DemoApplication {
 
 可以參考官網的屬性優先級別(有更新過，以前版本順序相反)，系統屬性排在第9
 
-<img src="../../_image/Snipaste_2023-03-08_21-10-14.png">
+<img src="../_image/Snipaste_2023-03-08_21-10-14.png">
 
 <br/>
 
