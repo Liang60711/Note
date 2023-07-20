@@ -47,12 +47,6 @@
     <VirtualHost *:443>
         ServerName  demo.example.com
 
-        # RewriteEngine On
-        # RewriteCond %{HTTP:Upgrade} =websocket [NC]
-        # RewriteRule /(.*)           ws://localhost:8080/$1 [P,L]
-        # RewriteCond %{HTTP:Upgrade} !=websocket [NC]
-        # RewriteRule /(.*)           http://localhost:8080/$1 [P,L]
-
         ProxyPassReverse / http://localhost:8080/
 
         SSLEngine On    #開啟SSL
