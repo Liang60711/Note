@@ -123,11 +123,11 @@
 
 ## SecurityContext 接口
 1. 用於存儲和管理當前用戶安全信息的容器
-2. SecurityContext对象通常包含两个重要的组件：  
+2. SecurityContext物件通常包含兩個重要的组件：  
 
     * `Authentication`：用於表示用戶的身份認證信息，包括用戶名、密碼、角色等。在Spring Security中，Authentication是一個接口，具體實現可以是 `UsernamePasswordAuthenticationToken`、`RememberMeAuthenticationToken`等。
 
-    * `Authorization`：用於表示用戶的授權信息，包括用戶有權訪問哪些資源、執行哪些操作等。在Spring Security中，授權信息通常由 `AccessDecisionManager` 組件來判斷和管理。
+    * `Authorization`： 此類包含在 Authentication 類之中，用於表示用戶的授權信息，包括用戶有權訪問哪些資源、執行哪些操作等。在Spring Security中，授權信息通常由 `AccessDecisionManager` 組件來判斷和管理。
 
 3. 獲取 SecurityContext 實作物件
 

@@ -85,9 +85,9 @@ OAuth2.0 依照需求及安全性，大致分為幾種流程
 
 3. Resource Owner Password Credentials Grant
 
-    此流程是由使用者提供帳號與密碼等資訊給應用程式，由應用程式直接向 Authorization Server 交換 Access Token，和以往的帳號密碼登入雷同。
+    此流程是由使用者提供帳號與密碼等資訊給應用程式，應用程式會將帳號密碼儲存，並直接向 Authorization Server 交換 Access Token，和以往的帳號密碼登入雷同。
 
-    帳號與密碼等機密資訊（credentials）可能會被應用程式儲存起來，作為往後交換 Access Token 使用。因此「必須是使用者高度信賴的應用程式」才適合使用，且唯有前兩種皆不可行時，才會考慮使用當前類型的流程。因此，適用的情境，可能像公司內部的系統。
+    帳號與密碼等機密資訊（credentials）可能會被應用程式儲存起來，作為往後交換 Access Token 使用。因此必須是「`使用者高度信賴的應用程式`」才適合使用，且唯有前兩種皆不可行時，才會考慮使用當前類型的流程。因此，適用的情境，可能像公司內部的系統。
 
 4. Client Credentials Grant
 

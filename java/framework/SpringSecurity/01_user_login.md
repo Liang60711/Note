@@ -60,60 +60,60 @@ Springboot 會先去找`配置文件` 和 `配置類`，如果以上兩個都沒
 
 1. 第一步，建立配置類，指定使用哪個 `UserDetailsService` 實現類。
 
-  ```java
-  @Configuration
-  public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    ```java
+    @Configuration
+    public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-      @Autowired
-      private UserDetailsService userDetailsService;
+        @Autowired
+        private UserDetailsService userDetailsService;
 
-      // 配置: 指定使用哪個 userDetailsService 物件，順便密碼encoder
-      @Override
-      protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-          auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-      }
+        // 配置: 指定使用哪個 userDetailsService 物件，順便密碼encoder
+        @Override
+        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+            auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+        }
 
-      @Bean
-      PasswordEncoder passwordEncoder() {
-          return new BCryptPasswordEncoder();
-      }
-  }
-  ```
+        @Bean
+        PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+        }
+    }
+    ```
 
 2. 編寫 `UserDetailsService` 實現類，返回的 User 物件需有用戶密碼和操作權限。
 
-  ```java
-  @Service("userDetailsService")
-  public class CustomUserDetailsService implements UserDetailsService {
+    ```java
+    @Service("userDetailsService")
+    public class CustomUserDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UserinfoRepository userRepository;
+        @Autowired
+        private UserinfoRepository userRepository;
 
-    @Override
-    public UserinfoDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        @Override
+        public UserinfoDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
-        // 權限集合
-        List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("role");
-        // 從DB查詢資料
-        Userinfo userinfo = userinfoRepository.findByUsername(s);// 從s參數傳進username供查詢
+            // 權限集合
+            List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList("role");
+            // 從DB查詢資料
+            Userinfo userinfo = userinfoRepository.findByUsername(s);// 從s參數傳進username供查詢
 
-        // 如果用戶不存在，則抛出異常
-        if (userinfo == null) {
-            throw new UsernameNotFoundException("User not found with username: " + s);
+            // 如果用戶不存在，則抛出異常
+            if (userinfo == null) {
+                throw new UsernameNotFoundException("User not found with username: " + s);
+            }
+            
+
+            String username = userinfo.getUsername();
+            String password = userinfo.getPassword();
+            // 返回 User 物件 (User 是 UserDetails 的實作，class User implements UserDetails，這邊取名有點奇怪)
+            return new org.springframework.security.core.userdetails.User( // 可縮寫
+                username, 
+                new BCryptPasswordEncoder().encode(password), 
+                auths
+            );
         }
-        
-
-        String username = userinfo.getUsername();
-        String password = userinfo.getPassword();
-        // 返回 User 物件 (User 是 UserDetails 的實作，class User implements UserDetails，這邊取名有點奇怪)
-        return new User(
-            username, 
-            new BCryptPasswordEncoder().encode(password), 
-            auths
-        );
     }
-  }
-  ```
+    ```
 
 
   ```java
@@ -208,8 +208,7 @@ public class CustomLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
- 
-        
+
         // SecurityContext 會儲存有驗證的Authentication物件，可以去從其中取User物件
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         LoginUser loginuser = (LoginUser) authentication.getPrincipal(); // 取User物件

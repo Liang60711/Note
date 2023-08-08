@@ -44,7 +44,6 @@
         }
     }
     ```
-
 <br/>
 
 <br/>
@@ -155,7 +154,7 @@ public class User {
 
 <br/>
 
-## @Import Resource
+## @ImportResource
 老專案會使用 xml 檔案來配置 bean，就可以用此方法導入
 ```java
 // 檔案路徑為src/main/Resources/beans.xml

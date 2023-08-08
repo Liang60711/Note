@@ -87,6 +87,7 @@
    
    * 缺點是佔用頻寬與傳送時間較多
 
+      <img width="80%" src="https://i.imgur.com/l1I1jCn.png">
 
 <br/>
 
@@ -375,14 +376,6 @@
 
    <img width="75%" src="../_image/Snipaste_2023-04-20_17-19-37.png">
 
-   
-
-<br/>
-
-<br/>
-
-## MQTT over WebSocket 協議
-此協議允許在瀏覽器中使用MQTT，從而使Web應用程序能夠與服務器進行實時通信。
 
 <br/>
 

@@ -30,7 +30,7 @@ Springboot 預設會在底層配置好所有的component，但如果用戶自己
 
 * `@ComponentScan` 和 `@EnableAutoConfiguration` 差別
 
-    * `@ComponentScan` : 掃描 @SpringBootApplication 所在的Application 類(即spring-boot的入口類)所在的包 (basepackage) 下所有的 @component註解 (或拓展了@component的註解) 標記的bean，並註冊到spring容器中。
+    * `@ComponentScan` : 掃描 @SpringBootApplication 所在的 Application 類 (即spring-boot的入口類) 所在的包 (basepackage) 下所有的 @component註解 (或拓展了@component的註解) 標記的bean，並註冊到spring容器中。
  
 
     * `@EnableAutoConfiguration` : 加載資源目錄 META-INF 文件下的 `spring.factories` 文件。包括所有 Jar 包下的 /META-INF/spring.factories 文件。spring.factories 文件是一个 `properties` 文件。
@@ -323,3 +323,23 @@ public class WebConfig {
 
 * factories 檔案是一種 properties 格式的檔案。
 
+<br/>
+
+<br/>
+
+## Configuration 內部類
+當外部類和內部類都加上 @Configuration 的原因，原因是內部類中的 @Bean 如果要生效，就必須加上 @Configuration，而外部類的 @Configuration 不會延伸到內部類中，故需要在內部類中再加上一次。
+```java
+@Configuration
+public class Outter {
+
+    @Configuration
+    public static class Inner {
+        
+        @Bean
+        public User getUser() {
+            //...
+        }
+    }
+}
+```

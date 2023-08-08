@@ -87,6 +87,6 @@
     ```yml
     security:
       oauth2:
-          resource:
-            user-info-uri: http://127.0.0.1:9999/auth/userinfo # 路徑自己設定，9999Port 為 auth server
+        resource:
+          user-info-uri: http://127.0.0.1:9999/auth/userinfo # 路徑自己設定，9999Port 為 auth server
     ```
