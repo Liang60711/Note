@@ -75,13 +75,15 @@ OAuth2.0 依照需求及安全性，大致分為幾種流程
 
     上述的類型，最為常見，`Server-side Application` 後端渲染的應用程式最為適用。
 
+    資源擁有者、授權服務器、應用程式，三者互相不信任，有不斷確認的流程。
+
 2. Implicit Grant
 
     適合 `Client-side applications` 的類型，通常會是整個應用程式都在前端運行，依需求向後端 API 取得資料。如單純的靜態網站或 Single Page Application(SPA) 都適用。
 
     由於整個應用程式都在前端運行，所以會缺少「後端伺服器透過 Authorization Code Grant 交換 Access Token 」的步驟。取而代之的是請 Authorization Server 直接核發 Access Token。
 
-    所以相對於 Authorization Code Flow，沒有這麼安全。
+    所以相對於 Authorization Code Flow，沒有這麼安全；換句話說，應用程式和授權伺服器是信任的，可以直接在前端傳遞Token。
 
 3. Resource Owner Password Credentials Grant
 
