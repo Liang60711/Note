@@ -39,19 +39,6 @@ At least one of these environment variable is needed to run this program
 
 7. 找到 tomcat 目錄，右鍵—>內容—>安全性—>編輯，找到Users，將`完全控制`選項打勾。
 
-<br/>
-
-<br/>
-
-## 修改 port
-`conf/server.xml` 中
-```xml
-<Connector 
-    port="8080" 
-    protocol="HTTP/1.1"
-    connectionTimeout="20000"
-    redirectPort="8443" />
-```
 
 <br/>
 

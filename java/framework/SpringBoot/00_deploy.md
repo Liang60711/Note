@@ -21,7 +21,7 @@
     anon_upload_enable=YES
     # 允許匿名用戶執行其他寫入操作，如删除
     anon_other_write_enable=YES
-    # 設置匿名用户根目录
+    # 設置匿名用户根目錄
     anon_root=/opt
     ```
     設定完成後，開啟 vsftpd 服務

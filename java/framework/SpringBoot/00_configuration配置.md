@@ -1,6 +1,6 @@
 ## Springboot 自動配置原理
 
-Springboot 預設會在底層配置好所有的component，但如果用戶自己配置了，則以用戶的優先(底層用了大量的 `@ConditionOnMissingBean`，代表如果用戶沒有配置則底層會自動配置。)
+Springboot 預設會在底層配置好所有的component，但如果用戶自己配置了，則以用戶的優先 (底層用了大量的 `@ConditionOnMissingBean`，代表如果用戶沒有配置則底層會自動配置)。
 
 <br/>
 
