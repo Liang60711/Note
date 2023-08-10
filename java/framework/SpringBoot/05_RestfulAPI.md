@@ -33,9 +33,9 @@
 
 `400 Bad Request`: 前端請求的參數有誤。
 
-`401 Unauthorized`: authorization失敗。
+`401 Unauthorized`: 用戶提供的驗證資訊有誤，用戶身份驗證後可以允許訪問資源。
 
-`403 Forbidden`: authentication失敗。
+`403 Forbidden`: 用戶沒有權限訪問，伺服器理解該請求但拒絕核准。
 
 `404 Not Found`: 網頁不存在，可能是url錯誤或資源不見。
 
@@ -46,6 +46,7 @@
 `503 Service Unavailable`: 臨時維護或流量太大，後端目前沒辦法處理請求。
 
 `504 Gateway Timeout`: 請求超時。
+
 
 <br/>
 

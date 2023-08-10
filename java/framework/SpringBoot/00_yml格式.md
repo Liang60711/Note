@@ -119,7 +119,7 @@ public class MyDataSource {
 
 ## yml 使用變數
 
-使用 `${}` 符號來變數
+使用 `${}` 符號來表示變數
 
 ```yml
 baseDir: c:\windows

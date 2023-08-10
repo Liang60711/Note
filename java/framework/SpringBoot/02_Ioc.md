@@ -138,13 +138,13 @@ public class XXXXXXDataConfiguration0 {
 在某條件下建立Bean
 ```java
 // 當有名為 Person  的 Bean，才去建立 User Bean
-@ConditionOnBean(name = "Person")
+@ConditionalOnBean(name = "person")
 public class User{
 
 }
 
 // 與上相反，沒有 Person Bean 時，才去建立 User Bean
-@ConditionOnMissingBean(name = "Person")
+@ConditionalOnMissingBean(name = "person")
 public class User {
 
 }
