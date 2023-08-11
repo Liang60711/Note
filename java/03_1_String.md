@@ -140,7 +140,7 @@ str1.equals(str3)   // true
 ## *常數池 constant pool
 >http://zake7749.github.io/2015/11/08/constantPool/
 
-Java存在一個特殊空間(記憶體Heap中)，把編譯時期就已經確定的常數(constant)包進.class，執行時再從這個空間統一拿出。這個特殊空間稱作常數池或(constant pool)，它主要保管這兩種東西：
+Java存在一個特殊空間(記憶體Heap中)，把編譯時期就已經確定的常數(constant)包進.class，執行時再從這個空間統一拿出。這個特殊空間稱作常數池(constant pool)，它主要保管這兩種東西：
 
 1. `字面量(Literal)`: 包含了常數以及既定字串。
 

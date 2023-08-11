@@ -121,7 +121,7 @@
 
 ## 後台應用程式
 
-<img src="../../_image/Snipaste_2023-05-15_15-29-26.png">
+<img src="../_image/Snipaste_2023-05-15_15-29-26.png">
 
 <br/>
 
