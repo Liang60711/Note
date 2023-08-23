@@ -62,3 +62,6 @@
 <br/>
 
 
+## Reference 
+
+> IN 和 EXISTS 比較 https://segmentfault.com/a/1190000023825926
