@@ -108,3 +108,14 @@ TTL name
 <br/>
 
 <br/>
+
+## Key 的層級格式
+由於有時會因為 key 的名稱相同而造成管理上的麻煩，故在建立 key 時，可以使用 `:` 將 key 進行層級管理。
+
+```sh
+# key格式可參考以下，也可自定義
+# 專案名:業務名稱:id
+set inpark:user:id '{"id":"1", "name":"Jack"}'
+```
+
+在 redis GUI 工具上，就可以看到 key 就會有階層。
