@@ -331,6 +331,7 @@ RequestBuilder requestBuilder = MockMvcRequestBuilders
           datasource:
             url: jdbc:h2:~/test # 將數據存在硬碟中，路徑在家目錄下 /test
             #url: jdbc:h2:mem:testdb # 將數據儲存在 memory 中
+            #url: jdbc:h2:mem:testdb;MODE=MySQL # 使用Mysql語法來寫schema.sql和data.sql檔案
             driver-class-name: org.h2.Driver
             username: sa
             password:
