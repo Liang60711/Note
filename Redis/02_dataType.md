@@ -245,3 +245,78 @@ BLPOP users 10 # 單位為秒
 # BRPOP key timeout
 BRPOP users 10
 ```
+
+<br/>
+
+<br/>
+
+
+## Set
+Redis 的 Set 結構與 Java 的 HashSet 類似，可以看做是一個 value 為 null 的 HashMap，因為也是一個 Hash表，因此具備與 HashSet 類似的幾個特徵。
+
+1. 無序
+2. 元素不可重複
+3. 查找快
+4. 支持交集、聯集、差集 (Redis Set 才有)
+
+
+<hr>
+
+`SADD key member...` : 向 Set 中添加一個或多個元素
+
+`SREM key member...` : 移除(Remvoe) Set 中的指定元素
+
+`SCARD key` : 返回 Set 中元素的個數
+
+`SISMEMBER key member` : 判斷一個元素是否存在於 Set 中 (is member)，返回 1 或 0
+
+`SMEMBERS key` : 獲取 Set 中所有元素。
+
+```sh
+# SADD
+SADD set1 a b c
+
+# SREM
+SREM set1 a b
+
+# SCARD
+SCARD set1
+
+# SISMEMBER
+SISMEMBER set1 a
+
+# SMEMBERS
+SMEMBERS set1 # 返回的是無序的集合
+```
+
+<hr>
+
+以下為集合之間的命令，返回的也都是 Set
+
+`SINTER key1 key2...` : 返回 key1 與 key2 兩個 Set 的交集
+
+`SDIFF key1 key2...` : 返回 key1 與 key2 兩個 Set 的差集 (圖中的A)，`key1 key2 順序不可錯`
+
+`SUNION key1 key2...` : 返回 key1 與 key2 兩個 Set 的聯集，會自動去除重複的元素。
+
+<img width='70%' src='../_image/Snipaste_2023-09-11_21-50-59.png'>
+
+```sh
+# 舉例
+# Set1 = {a, b, c}
+# Set2 = {b, c, d, e, f}
+SADD set1 a b c
+SADD set2 b c d e f
+
+# set1 set2 交集
+SINTER set1 set2
+
+# set1有，但set2沒有的元素(即 set1 與 set2 差集)
+SDIFF set1 set2
+
+# set1和set2，總共有哪些元素(聯集)
+SUNION set1 set2
+
+# 判斷 c 是否為 set1 的元素
+SISMEMBER set1 c
+```
