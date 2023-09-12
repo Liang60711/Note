@@ -74,7 +74,7 @@ taskkill /PID 18872 /F
 ## Linux 中強制關閉服務
 ```sh
 # 找服務名稱中的PID
-ps -aux | grep edge
+ps -ef | grep edge
 
 # 強制終止服務
 kill -9 {PID}
