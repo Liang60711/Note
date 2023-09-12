@@ -68,7 +68,7 @@ incrby age -2
 
 <hr>
 
-`INCRBYFLOAT`，只適用於 float，其他類型使用會報錯
+`INCRBYFLOAT`，只適用於 integer, float。當已經變成浮點數，就無法再用 INCR, INCRBY 等方法。
 
 ```sh
 set f1 1.14

@@ -105,6 +105,14 @@ TTL name
     ```
 
 
+`TYPE` 查詢指定 key 的資料型別
+```sh
+SET Str1 test
+# TYPE key
+TYPE Str1   # 返回string
+```
+
+
 <br/>
 
 <br/>
