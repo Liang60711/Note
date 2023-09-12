@@ -71,3 +71,17 @@ taskkill /PID 18872 /F
 
 <br/>
 
+## Linux 中強制關閉服務
+```sh
+# 找服務名稱中的PID
+ps -aux | grep edge
+
+# 強制終止服務
+kill -9 {PID}
+```
+
+`ps -au` : 顯示較詳細的資訊
+
+`ps -aux` : 顯示所有包含其他使用者的進程
+
+`ps -ef | grep {keyword}` : 查找指定進程格式
