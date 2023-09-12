@@ -320,3 +320,77 @@ SUNION set1 set2
 # 判斷 c 是否為 set1 的元素
 SISMEMBER set1 c
 ```
+
+<br/>
+
+<br/>
+
+## SortedSet
+Redis SortedSet 是一個可排序的集合，與 Java 中的 TreeSet 類似，但底層資料結構差異卻很大。
+
+SortedSet 中的每一個元素都帶有一個 `Score` 屬性，可基於此屬性對元素排序，底層的實作是一個`跳表(SkipList)` 加 `Hash表`。
+
+具有以下特性:
+
+1. 可排序。
+2. 元素不重複。
+3. 查詢速度快(Hash Table)。
+
+<br/>
+
+<br/>
+
+以下為 SortedSet 指令: 
+
+`ZADD key score member [score member...]` : 添加一格或多個元素到 SortedSet，如果已存在則改為更新其score值。
+
+`ZREM key member [member...]` : 刪除 SortedSet 中的一個指定元素。
+
+`ZSCORE key member` : 獲取 SortedSet 中指定元素的 score。
+
+`ZRANK key member` : 獲取 SortedSet 中指定元素的排名。
+
+`ZCARD key` : 獲取 SortedSet 中的元素總數。
+
+`ZCOUNT key min max` : 統計 score 值在範圍內的元素總數。
+
+`ZINCRBY key increment member` : 讓 SortedSet 中的指定元素自增，increment 為增加大小。
+
+`ZRANGE key min max` : 按照 score 排序後，獲取指定`排名範圍`內的元素。
+
+`ZRANGEBYSCORE key min max` : 按照 score 排序後，獲取指定 `score範圍`內的元素。
+
+`ZDIFF` / `ZINTER` / `ZUNION` : 差集 / 交集 / 聯集。
+
+`注意1` : 所有排名默認都是升序，如果要降序則在命令的 `Z` 改成 `ZREV`；例如 ZRANGE 改成 ZREVRANGE。
+
+`注意2` : ZCOUNT是查個數；ZRANGE是查元素。
+
+```sh
+# ZADD
+ZADD sortedset1 85 Jack 89 Lucy 82 Rose 95 Tom 78 Jerry 92 Amy 76 Miles
+
+# ZREM
+ZREM sortedset1 Tom
+
+# ZSCORE 獲取 Amy 的 score
+ZSCORE sortedset1 Amy
+
+# ZREVRANK 獲取 Rose 的排名(排名記得+1)
+ZREVRANK sortedset1 Rose
+
+# ZCARD 獲取總學生數
+ZCARD sortedset1
+
+# ZCOUNT 獲取80分以下的學生有幾個
+ZCOUNT sortedset1 0 80
+
+# ZINCRBY 幫 Amy 分數+2
+ZINCRBY sortedset1 2 Amy
+
+# ZREVRANGE 查出成績前3名的同學
+ZREVRANGE sortedset1 0 2 # 降序取index 0~2
+
+# ZRANGEBYSCORE 查分數80以下的所有同學
+ZRANGEBYSCORE sortedset1 0 80
+```
