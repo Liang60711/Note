@@ -137,3 +137,14 @@
     // 執行更新
     int count = userdataMapper.updateByExampleSelective(newData, userdataExample);
     ```
+
+5. 查詢 `selectByExample`
+
+    ```java
+    // 條件
+    UserdataExample userdataExample = new UserdataExample();
+    userdataExample.createCriteria().andUsernameEqualTo("newUser");
+
+    // 執行查詢
+    List<Userdata> userdataList = userdataMapper.selectByExample(userdataExample);
+    ```
