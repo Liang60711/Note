@@ -293,7 +293,7 @@ SMEMBERS set1 # 返回的是無序的集合
 
 以下為集合之間的命令，返回的也都是 Set
 
-`SINTER key1 key2...` : 返回 key1 與 key2 兩個 Set 的交集
+`SINTER key1 key2...` : 返回 key1 與 key2 兩個 Set 的交集，也可以多個集合去做交集。
 
 `SDIFF key1 key2...` : 返回 key1 與 key2 兩個 Set 的差集 (圖中的A)，`key1 key2 順序不可錯`
 
@@ -356,9 +356,11 @@ SortedSet 中的每一個元素都帶有一個 `Score` 屬性，可基於此屬�
 
 `ZINCRBY key increment member` : 讓 SortedSet 中的指定元素自增，increment 為增加大小。
 
-`ZRANGE key min max` : 按照 score 排序後，獲取指定`排名範圍`內的元素。
+`ZRANGE key start stop [WITHSCORES]` : 按照 score 排序後，獲取指定`排名範圍`內的元素，WITHSCORES表示是否顯示 score。
 
-`ZRANGEBYSCORE key min max` : 按照 score 排序後，獲取指定 `score範圍`內的元素。
+`ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]` : 按照 score 排序後，獲取指定 `score範圍`內的元素。
+
+`ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]` : 與上相同，但 min max 順序顛倒。
 
 `ZDIFF` / `ZINTER` / `ZUNION` : 差集 / 交集 / 聯集。
 
@@ -393,4 +395,20 @@ ZREVRANGE sortedset1 0 2 # 降序取index 0~2
 
 # ZRANGEBYSCORE 查分數80以下的所有同學
 ZRANGEBYSCORE sortedset1 0 80
+```
+
+常用命令補充
+
+`ZRANGE`
+```sh
+# 顯示集合所有元素並顯示score
+ZRANGE ss 0 -1 WITHSCORES     # ASC
+ZREVRANGE ss 0 -1 WITHSCORES  # DESC
+```
+
+`ZRANGEBYSCORE`
+```sh
+# 依照score取元素，並指定取的數量
+ZRANGEBYSCORE ss 0 100 LIMIT 0 9 # ASC 取前10
+ZREVRANGEBYSCORE ss 100 0 LIMIT 0 9 # DESC 取前10
 ```
