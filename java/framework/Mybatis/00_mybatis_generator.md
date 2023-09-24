@@ -1,3 +1,13 @@
+## 概述
+1. MyBatis Generator 是一個獨立的程式碼產生器，主要用於根據資料庫表產生 MyBatis 的 Mapper 介面、XML 映射檔案以及模型類別（POJO）等。
+
+2. 產生的代碼是標準的 MyBatis 代碼，沒有額外的功能。需要手動編寫複雜的查詢或使用 MyBatis 外掛擴充功能。
+
+<br/>
+
+<br/>
+
+
 ## 配置
 1. 加入依賴
 
@@ -19,12 +29,12 @@
             com.example.demo: debug
     ```
 
-3. 啟動類加上 MapperScan 註解，告訴spring掃描指定包下的Mapper接口。
+3. 啟動類加上 MapperScan 註解，告訴spring掃描指定包下Bean。
 
     ```java
     @SpringBootApplication
     @EnableCaching
-    @MapperScan(basePackages = {"com.example.demo.mapper"})
+    @MapperScan(basePackages = {"com.example.demo.generator"})
     public class DemoApplication {
 
         public static void main(String[] args) {
@@ -34,6 +44,12 @@
     }
     ```
 
+4. Bean 注入方式，有鑑於是使用 xml，所以使用 @Resource 注入 Bean。
+
+    ```java
+    @Resource
+    protected UserdataMapper userdataMapper;
+    ```
 
 <br/>
 
