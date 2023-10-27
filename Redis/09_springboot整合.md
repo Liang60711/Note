@@ -72,4 +72,4 @@
 
 5. 需要哪種數據類型，就選擇哪一種API
 
-    <img width="75%" src="../../../_image/Snipaste_2023-04-30_02-12-27.png">
+    <img width="75%" src="../_image/Snipaste_2023-04-30_02-12-27.png">

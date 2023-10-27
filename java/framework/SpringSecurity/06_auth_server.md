@@ -5,7 +5,7 @@
 
 <br/>
 
-> goole 登入架構圖
+> google 登入架構圖
 
 <img src="https://img-blog.csdnimg.cn/93061090a9e64c9db46e9069782b0136.png">
 

@@ -68,6 +68,16 @@ EXPIRE name 20
 TTL name
 ```
 
+<br/>
+
+### 刪除所有數據
+
+`flushdb` : 刪除當前db中所有數據，無法撤銷，所以使用時要非常小心。
+
+```sh
+FLUSHDB
+```
+
 <hr>
 
 <br/>

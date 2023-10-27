@@ -79,6 +79,16 @@ merge 或 rebase 的 reset (不能用 git reset HEAD^，分支不會復原)
 $ git reflog
 $ git reset --hard <HASH>
 ```
+
+# revert
+刪除 commit，但會留下一個刪除的 commit 紀錄，因為團隊中有可能不能使用 reset。
+
+與 reset 不同的是，reset 刪除 commit 不會再留下一筆 commit 紀錄。
+
+<br/>
+
+<br/>
+
 # 清除快取
 ```
 $ git rm -r --cached .

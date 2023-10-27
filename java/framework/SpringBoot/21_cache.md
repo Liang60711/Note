@@ -34,13 +34,30 @@
     }
     ```
 
+<br/>
 
+<br/>
+
+## Spring Cache 緩存框架
+
+### 緩存框架解決了什麼問題
+
+本地緩存和遠程緩存都有各自的缺點。
+
+`本地緩存`: 如 Caffeine，優點是速度快，但是無法共享數據。
+
+`遠程緩存`: 如 Redis，優點是可以共享數據，但是因為遠程連線、共享數據讀取量大，所以速度慢。
+
+而 Spring Cache 集大成，同時提供本地緩存和遠程緩存，類似的框架還有 JetCache。
 
 <br/>
 
 <br/>
 
 ## @Catchable / @Cacheput 差別
+
+這兩個註解是一個 interface，可以使用不同的套件來實現這兩個功能，如 Caffeine、EhCache、Redis 等等，需要在yml配置緩存套件。
+
 `@Catchable` 當這個方法被調用時，Spring 會先檢查緩存中是否已經有了這個方法的結果，如果有就直接返回緩存中的結果(`不執行方法`)，否則才執行方法體並將結果存入緩存中。
 
 `@Cacheput` 當這個方法被調用時，Spring 會直接執行方法並將結果存入緩存中。不會檢查緩存中是否已經有此 #key 的緩存(`每次皆執行方法`)。
@@ -84,4 +101,22 @@ public class CacheUtils {
         return null;
     }
 }
+```
+
+
+<br/>
+
+<br/>
+
+## SpringBoot 預設緩存
+
+SpringBoot 預設使用的快取實作是基於 `ConcurrentHashMap` 的本機快取。這意味著如果在SpringBoot應用程式中使用了spring-boot-starter-cache依賴，但沒有進行任何特定的配置，Spring會預設使用ConcurrentHashMap作為快取提供者。這是一種簡單的本地緩存，資料儲存在應用的記憶體中。
+
+
+若想要切換不同的緩存套件，可以使用以下配置:
+
+```yml
+spring:
+    cache:
+        type: caffeine
 ```
