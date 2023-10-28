@@ -20,7 +20,23 @@ public class XXXSchedule {
 <br/>
 
 ## @Schedule 異步配置
-Springboot 中的 @Schedule 預設會使用同一個線程來處理所有的排程，故一個排程若處理太久，會導致後續的排程阻塞(等待的任務會加入到queue中)。
+Springboot 中的 @Schedule 預設會使用一個線程來處理所有的排程，故一個排程若處理太久，會導致後續的排程阻塞(等待的任務會加入到queue中)，因為 Springboot 預設的 Scheduler 線程池大小為 1，算是一個坑，可能是因為開新線程的資源消費巨大。
+
+### 解法1: 使用 yml 配置
+
+```yml
+spring:
+  task:
+    scheduling:
+      pool:
+        size: 1 # 任務線程池大小預設為1，可在此調整
+```
+
+<br/>
+
+<br/>
+
+### 解法2: 使用配置類
 
 使用 @Async 註解，會將此註解方法使用新的線程執行，不會阻塞線程池的主線程。
 
