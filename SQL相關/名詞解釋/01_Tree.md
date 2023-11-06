@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## Tree
 
 1. 二元樹: 任何節點左子節點數值較該節點小，右子節點數值較該節點大。
@@ -31,11 +30,14 @@
 > 各種Tree-csdn https://blog.csdn.net/yin767833376/article/details/81511377
 
 > 各種Tree-ithome https://ithelp.ithome.com.tw/articles/10221111
-=======
+
+<br/>
+
+<br/>
+
 ## B+ Tree
 
 > https://ithelp.ithome.com.tw/articles/10221111
->>>>>>> 0ad8398cb164bcf2ee17f88ef2c407716959e8cd
 
 <br/>
 

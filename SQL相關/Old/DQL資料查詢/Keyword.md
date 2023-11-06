@@ -133,7 +133,9 @@ GROUP BY author;
 ```
 
 # HAVING
-HAVING(函數條件)；WHERE 和 HAVING 的區別在於與 GROUP BY 子句一起使用時，WHERE 用於在分組之前過濾 column，HAVING 用於在分組後排除記錄。
+HAVING(函數條件)；WHERE 和 HAVING 的區別在於與 GROUP BY 子句一起使用時，WHERE 用於在分組之前過濾 column，HAVING 用於在分組後過濾數據，與聚合函數一起使用。
+
+WHERE 和聚合函數一起使用會報錯
 ```sql
 SELECT item, cost
 FROM shop
