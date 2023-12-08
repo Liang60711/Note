@@ -57,7 +57,7 @@ SELECT email_by_name();
 
 ### Store Procedure 和 Function 比較
 
-||關鍵字|調用語法|返回值|應用場景|是否可用在query查詢|
-|--|--|--|--|--|--|
-|Store Procedure|PROCEDURE|CALL + SP名稱()|理解為有0個或多個|一般用於更新|否(因為沒有返回值)|
-|Function|FUNCTION|SELECT + 函數名稱()|只能是一個|一般用於查詢結果為一個值的時候|是|
+||關鍵字|調用語法|返回值|應用場景|是否可用在query查詢|Transaction控制|
+|--|--|--|--|--|--|--|
+|Store Procedure|PROCEDURE|CALL + SP名稱()|理解為有0個或多個|一般用於更新|否(因為沒有返回值)|允許使用 Commit、Rollback|
+|Function|FUNCTION|SELECT + 函數名稱()|只能是一個|一般用於查詢結果為一個值的時候|是|一般情況下不允許使用|
