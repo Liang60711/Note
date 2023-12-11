@@ -103,7 +103,7 @@
 
 1. `實現的原理不同`:  
 
-    * filter 是基於函數 `callback` 調用；interceptor 是基於 Java 反射機制實現 AOP 的效果。
+    * filter 是基於函數 `callback` 調用；interceptor 是基於 spring mvc 機制實現。
 
     * filter 會實現一個 dofilter()
 
@@ -126,13 +126,13 @@
 
 2. `依賴不同`
 
-    * filter 是存在於 `javax.servlet.Filter`，此 interface 是 Servlet 規範中定義的，所以 filter 是依賴於 Tomcat 容器，導致只能在 web 中使用。
-    * interceptor 是由 Spring 容器管理，不依賴 Tomcat，可以單獨使用，不僅用在 web 中，也可以用在其他 Application 中。
+    * filter 是存在於 `javax.servlet.Filter`，此 interface 是 Servlet 規範中定義的，所以 filter 是依賴於 Servlet 容器，導致只能在 web 中使用。
+    * interceptor 是由 Spring 容器管理，不依賴 Servlet，可以單獨使用，不僅用在 web 中，也可以用在其他 Application 中。
 
 3. `觸發順序`
 
-    * filter 觸發在 request 進入容器後，在 servlet 前。
-    * interceptor 觸發在 request 進入 servlet 後，在 controller 前。
+    * filter 觸發在 request 進入容器後，在 servlet 前執行。
+    * interceptor 觸發在 request 進入 servlet 後，在 controller 前執行。
 
     <img src="https://img-blog.csdnimg.cn/20200602173814901.png?#pic_center" width="50%">
 
