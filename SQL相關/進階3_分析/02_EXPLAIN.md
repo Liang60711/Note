@@ -441,6 +441,11 @@ select * from s1 where key1 > 'z' and key2 = 'a';
     explain select * from s1 order by not_key;
     ```
 
+<br/>
+
+#### `Using index condition`
+* 使用了索引下推(ICP，Index Condition Pushdown)
+
 `Using temporary`
 * 使用了臨時表，如去重複、排序等。當使用 distinct、group by、union 等子句來查詢時，如果不能有效利用索引，就會透過臨時表來執行查詢。
 
