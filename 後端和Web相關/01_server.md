@@ -15,7 +15,7 @@
     * 無法透過 HTTP 協定直接與 client 溝通，他只能接受從 Web Server 傳過來的 request 並回傳執行後的結果。
 
 
-3. Web Server 與 Application Server 的溝通也需要一個傳輸協定，`CGI` (Common Gateway Interface) 是其中一個技術。
+3. Web Server 與 Application Server 的溝通也需要一個傳輸協定，`CGI` (Common Gateway Interface) 是其中一個技術，CGI 在早期的 Web 開發中得到廣泛應用，但由於它的執行方式可能導致性能瓶頸，現代的 Web 開發中更常使用其他技術，如FastCGI、Java Servlets、ASP.NET 等，來實現類似的功能並提高效能。
 
 <br/>
 

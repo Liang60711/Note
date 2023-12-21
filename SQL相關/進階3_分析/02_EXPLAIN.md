@@ -7,6 +7,19 @@
 
 * 部分統計資訊是估算的，非精確值。
 
+* 普通格式無法查看成本，需使用 `json格式`
+    ```sql
+    explain format=json
+    select * from goods;
+    ```
+
+<br/>
+
+<br/>
+
+### SHOW WARNINGS 查看
+使用 explain 查看後，可緊接著使用 `SHOW WARNINGS` 查看此SQL語句中的資訊，尤其是 message，裡面有優化器將SQL重寫後的語句，例如 LEFT JOIN 優化成 JOIN；IN 優化成 EXISTS。
+
 <br/>
 
 <br/>
@@ -359,10 +372,7 @@ select * from s1 where key1 > 'z' and key2 = 'a';
 
 若沒有使用索引，則此欄位為 NULL。
 
-```sql
-explain
-select * from s1 where
-```
+`主要是用來判斷聯合索引中，用了幾個欄位`，例如聯合索引為 (col1, col2, col3)。因為 key 欄位只會顯示整個聯合索引名稱，故不知道實際上使用了哪幾個欄位，所以用 key_len 來加以判斷。
 
 <br/>
 
@@ -479,3 +489,26 @@ select * from s1 where
 <br/>
 
 <br/>
+
+
+### 在 DBeaver 中查看 EXPLAIN (PostgreSQL)
+使用 EXPLAIN 按鈕
+
+<img src='../../_image/Snipaste_2023-08-21_10-25-26.png'>
+
+<br/>
+
+是否有使用索引，有使用索引會顯示 `Index Scan`，若是掃全表會顯示 `Seq Scan`
+
+<img src='../../_image/Snipaste_2023-08-21_10-27-04.png'>
+
+
+<br/>
+
+<br/>
+
+`Cost` : 搜尋成本，非秒數，左邊的數值為 startup cost/time，代表該節點取到第一行資料所花的時間/開銷，右邊的則是該節點執行完畢所需的時間/開銷。
+
+`Rows` : 預估的回傳的行數，使用 ANALYSE 分析後，為實際回傳的行數。
+
+<img width='60%' src='../../_image/Snipaste_2023-08-22_09-20-32.png'>
