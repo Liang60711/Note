@@ -435,3 +435,41 @@ echo '$SHELL'       # $SHELL
 # {} 變數正規符號
 echo ${SHELL}
 ```
+
+<br/>
+
+<br/>
+
+## tar
+
+選項
+
+* -c : 建立新的檔案
+* -x : 從tar檔案中提取檔案
+* -v : 顯示詳細資訊
+* -f : 指定輸出tar檔案的名稱
+* -z : 使用 gzip 壓縮目標文件
+* -j : 使用 bzip2 壓縮目標文件
+* -J : 使用 xz 壓縮目標文件
+* -C : 指定解壓縮的目標路徑
+
+### 創建 tar 包
+
+```sh
+# 創建不壓縮的 tar 包
+tar -cvf new_test.jar.tar /tmp/test.jar
+
+# 創建壓縮的 tar 包
+tar -czvf new_test.jar.tar.gz /tmp/test.jar
+```
+
+<br/>
+
+### 解開 tar 包
+```sh
+# 解開不壓縮的 tar 包，並指定路徑
+tar -xvf new_test.jar.tar -C /path/to/new_test.jar
+
+# 解開gzip壓縮的 tar 包，並指定路徑
+tar -xzvf new_test.jar.tar.gz -C /path/to/new_test.jar
+```
