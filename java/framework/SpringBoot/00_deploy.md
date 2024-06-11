@@ -58,6 +58,11 @@
     java -version
     ```
 
+<br/>
+
+<br/>
+
+補充: SSH 和 SFTP 預設都走 22 port；FTP 預設是 21 port。
 
 <br/>
 

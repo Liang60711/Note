@@ -130,7 +130,28 @@ sudo passwd root
 ```sh
 # 切換
 su -l USERNAME
+
+# 切換成root用戶
+su -
 ```
+```sh
+# 進入sudo權限
+sudo -i
+```
+
+<br/>
+
+<br/>
+
+`su -` 和 `sudo -i` 差異:
+* `su -` 是當前用戶直接切換成 root 用戶，需要輸入 `root 用戶密碼`。
+
+* `sudo -i` 進入當前用戶的 sudo 權限，需要輸入`當前用戶密碼`，前提是`當前用戶要被加入 sudo 權限的群組`。
+
+<br/>
+
+<br/>
+
 ```sh
 # 退出
 exit
@@ -142,30 +163,11 @@ exit
 passwd
 ```
 
-
-## useradd
-
-```sh
-# 新增使用者
-useradd [username]
-
-# 查看使用者
-id [username]
-```
-
-使用 `--shell` 選項來指定 shell 類型
-```sh
-# 新增使用者並指定 shell
-useradd -s /bin/tcsh [username]
-
-# 查看使用者 shell 類型
-tail -1 /etc/passwd
-```
-
-
 <br/>
 
 <br/>
+
+
 
 
 # 網路功能指令
