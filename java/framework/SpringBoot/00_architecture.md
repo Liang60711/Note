@@ -85,3 +85,17 @@ kill -9 {PID}
 `ps -aux` : 顯示所有包含其他使用者的進程
 
 `ps -ef | grep {keyword}` : 查找指定進程格式
+
+
+<br/>
+
+<br/>
+
+## Linux 中使用端口號查詢PID，並關閉該服務
+
+```sh
+# 先找出PID，並用字串剪貼的方式找到PID
+PID=netstat -tunpl | grep 8080 | awk '{printf $7}' | cut -d/ -f1
+
+KILL $PID
+```
