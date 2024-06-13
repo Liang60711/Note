@@ -35,7 +35,7 @@
 <br/>
 
 ## 群組
-* 群組 (group): 為一個容器，可將有權限相同的用戶歸類至此群組，此群組內的所有用戶彼此權限相同。
+* 群組 (group): 為一個容器，可將有權限相同的用戶歸類至此群組，此群組內的所有用戶彼此權限相同，類似 RBAC 權限架構的`角色`。
 * 種類:
     1. 管理員群組
     2. 普通用戶群組: 分為**系統群組**及**登錄群組**
@@ -177,9 +177,11 @@ useradd -D -s /bin/sh
 usermod -u 1234 USER_NAME
 
 # -g --gid 修改用戶的基本組
+# 基本組只能單選
 usermod -g NEW_GROUP USER_NAME
 
 # -G --groups 指定 用戶附加組ID，可多選，此組若事先存在(會覆蓋)
+# 附加組可以多選
 usermod -G GROUP_01, GROUP_02 USER_NAME
 
 # -a --append 與-G一同使用，用戶追加新的附加組(不會覆蓋)
@@ -191,3 +193,62 @@ usermod -d /tmp USER_NAME
 # -m --move-home 與-d一同使用，修改用戶的家目錄，並將所屬文件一同轉移至新位置
 usermode -m -d /tmp USER_NAME
 ```
+
+<br/>
+
+<br/>
+
+## 新增用戶流程
+
+```sh
+# 新增使用者
+useradd {username}
+
+# 查看使用者
+id {username}
+
+# 幫用戶新增密碼
+passwd {username}
+
+# 幫用戶新增組別(附加組)
+# usermod 設定結束後，需要重新登入該用戶才會生效
+usermod -aG {groupname} {username}
+```
+
+使用 `--shell` 選項來指定 shell 類型
+```sh
+# 新增使用者並指定 shell
+useradd -s /bin/tcsh [username]
+
+# 查看使用者 shell 類型
+tail -1 /etc/passwd
+```
+
+<br/>
+
+<br/>
+
+## 刪除用戶流程
+
+一般實際情況下，不會將家目錄刪除，會保留該用戶以前產生的資料。
+
+```sh
+# 刪除用戶，但保留家目錄
+sudo userdel {username}
+
+# 刪除用戶，一併刪除家目錄
+sudo userdel -r {username}
+```
+
+<br/>
+
+<br/>
+
+## 修改用戶組
+```sh
+sudo usermod -g {group} {username}
+```
+
+<br/>
+
+<br/>

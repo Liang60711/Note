@@ -68,7 +68,7 @@ stat FILE
 * `/sbin`: 供系統管理使用的工具程式。
 * `/boot`: Linux 核心和開機相關檔案，如 kernel、initramfs(initrd)、grub。
 * `/dev`: 設備(裝置)檔案或特殊檔案。
-* `/etc`: 系統程式的配置檔案。
+* `/etc`: 系統程式的配置檔案，如nginx配置、mysql配置檔案。
 * `/home`: 普通用戶家目錄的集中位置；預設路徑 `/home/USERNAME`。
 * `/root`: root 的家目錄。
 * `/lib`: 為系統啟動或根檔案系統上的應用程式提供共享 lib，以及為 kernel 提供 kernel model。
@@ -84,8 +84,9 @@ stat FILE
 
 * `/tmp`: 臨時檔案；所有用戶都可以使用。
 * `/usr`: 此目錄包括許多子目錄，用來存放系統指令、安裝程式及套件。
-    * `/usr/local`: 讓系統管理員安裝應用程式、安裝第三方程式(舊版本會安裝在 `/opt`)。
-* `/var`: 系統執行中，常態性變動的檔案。
+    * `/usr/local`: 讓系統管理員安裝應用程式、安裝第三方程式(舊版本會安裝在 `/opt`)，例如: 安裝 mysql 會安裝在 /usr/local/mysql 下。
+* `/var`: 系統執行中，常態性變動的檔案；日誌檔案也會放這。
+* `selinux`: 指 security enhanced linux，為一種安全子系統，能控制程序只能訪問特定文件。
 
 <br/>
 
