@@ -50,6 +50,38 @@ public class DispatcherServlet extends FrameworkServlet {
 
 <br/>
 
+## 如何在沒有參數的情況下取 HttpServletRequest
+
+一般在 Controller 中添加參數，缺點是會整個 Service 的方法都需要添加此參數，容易雜亂
+```java
+@GetMapping("/")
+public String list(HttpServletRequest request) {
+    //...
+}
+```
+
+方法一
+
+```java
+直接注入bean
+
+public class test {
+
+    @Autowired
+    private HttpServletRequest request;
+}
+```
+
+
+方法二：可以用以下靜態方法取得當前 request 物件
+```java
+HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+```
+
+<br/>
+
+<br/>
+
 ## @RequestMapping
 1. 加在`class`或`方法`上，可以註冊url的相對路徑。
 2. 相應的class必須加上`@Controller`或`@RestController`，url才會生效。
