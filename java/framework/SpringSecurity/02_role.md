@@ -27,7 +27,7 @@
         http
             .authorizeRequests()
             .antMatchers("/login.html").permitAll()
-            .antMatchers("/read/**").hasAnyAuthority("READ") // 需要有 READ 權限，才能訪問 /read/** 路徑
+            .antMatchers("/read/**").hasAuthority("READ") // 需要有 READ 權限，才能訪問 /read/** 路徑
             .anyRequest().authenticated()
     }
     ```
