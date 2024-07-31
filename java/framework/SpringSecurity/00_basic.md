@@ -141,3 +141,11 @@
     ```java
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     ```
+
+<br/>
+
+<br/>
+
+## 當請求來時的順序
+
+<img src='../../../_image/spring_security_image.png'>
