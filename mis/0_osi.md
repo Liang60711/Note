@@ -93,7 +93,7 @@ IP封包(Packet): 分為 Head、Data，Head包含版本、長度、IP地址；Da
 <br/>
 
 ## 4. 傳輸層 Transport Layer
-協定: 傳輸控制協定（Transmission Control Protocol，TCP）、使用者資料報協定（User Datagram Protocol，UDP)
+協定: 傳輸控制協定(Transmission Control Protocol，TCP)、使用者資料報協定(User Datagram Protocol，UDP)
 
 相較網路層(Network Layer)，是主機對主機的傳遞，傳輸層(Transport Layer)則是端口(Port)對端口的傳遞。  
 
