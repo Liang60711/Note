@@ -1,9 +1,11 @@
 # Mapping 屬性
 
 ## 概述
-Elasticsearch 的 Mapping 是用來定義索引中，文件的結構，包括字段的類型、格式及分析方式。類似於關聯數據庫中的 `schema` 定義。
+Elasticsearch 的 Mapping 是用來定義索引中，文件的結構，包括欄位的類型、格式及分析方式。類似於關聯數據庫中的 `schema` 定義。
 
+<br/>
 
+<br/>
 
 ## mapping 常見屬性(非所有)
 
@@ -47,7 +49,7 @@ Elasticsearch 的 Mapping 是用來定義索引中，文件的結構，包括字
     "age": 21, // integer
     "weight": 52.1, //double
     "isMarried": false, // boolean
-    "info": "黑馬程序員Java", // test
+    "info": "我好帥我愛Java", // test
     "email": "test@hpicorp", // keyword
     "score": [99.1, 99.5, 98.9], // double[]
     "name": { // object
