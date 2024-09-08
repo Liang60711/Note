@@ -51,12 +51,12 @@ PUT /users // index名稱
 
 點選此按鈕，可以 format json
 
-<img src='../_image/Snipaste_2024-09-04_20-55-59.png'>
+<img src='../../_image/Snipaste_2024-09-04_20-55-59.png'>
 
 
 送出，可以看到建立完成
 
-<img src='../_image/Snipaste_2024-09-04_20-57-02.png'>
+<img src='../../_image/Snipaste_2024-09-04_20-57-02.png'>
 
 <br/>
 
@@ -125,7 +125,7 @@ POST /users/_doc/1
 ```
 
 若不填寫 document id，ES會自動產生一組。
-<img src='../_image/Snipaste_2024-09-04_21-44-25.png'>
+<img src='../../_image/Snipaste_2024-09-04_21-44-25.png'>
 
 <br/>
 

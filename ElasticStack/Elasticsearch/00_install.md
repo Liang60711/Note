@@ -78,7 +78,7 @@
 
 1. 需要先啟動 ES 服務，第一次啟動 ES 時，並會產生以下認證訊息，等一下會用到。
 
-    <img src='../_image/Snipaste_2023-09-14_16-52-34.png'>
+    <img src='../../_image/Snipaste_2023-09-14_16-52-34.png'>
 
     <br>
 
@@ -95,23 +95,23 @@
 
 3. 啟動 Kibana 後，連線至 `http://localhost:5601` ，把剛剛 ES 服務產生的 token 貼過來認證，並按下 Configure Elastic。
 
-    <img src='../_image/Snipaste_2023-09-14_17-04-20.png'>
+    <img src='../../_image/Snipaste_2023-09-14_17-04-20.png'>
 
     <br/>
 
 4. 需要再輸入一次驗證碼，驗證碼會顯示在 Kibana 服務的 LOG 上。
 
-    <img src='../_image/Snipaste_2023-09-14_17-06-18.png'> 
+    <img src='../../_image/Snipaste_2023-09-14_17-06-18.png'> 
 
     <br/>
 
-    <img src='../_image/Snipaste_2023-09-14_17-06-45.png'> 
+    <img src='../../_image/Snipaste_2023-09-14_17-06-45.png'> 
 
     <br/>
 
 5. 此時跳轉到登入畫面，把步驟1的帳號密碼貼入
 
-    <img src='../_image/Snipaste_2023-09-14_17-12-34.png'> 
+    <img src='../../_image/Snipaste_2023-09-14_17-12-34.png'> 
 
     <br/>
 

@@ -19,7 +19,7 @@
 
 將 mysql 中的資料表，轉為 es 的索引庫
 
-<img src='../_image/Snipaste_2024-09-05_21-17-02.png'>
+<img src='../../_image/Snipaste_2024-09-05_21-17-02.png'>
 
 <br/>
 
@@ -85,7 +85,7 @@ PUT /hotel
 
 補充: ES 的地理座標數據類型有2種
 
-<img width='50%' src='../_image/Snipaste_2024-09-05_21-39-11.png'>
+<img width='50%' src='../../_image/Snipaste_2024-09-05_21-39-11.png'>
 
 <br/>
 
@@ -97,7 +97,7 @@ ES 提供了一個特殊用法 `copy_to`
 
 * 舉例: 因為多個欄位一起做動態搜尋時，會比較有效率，所以可以將 `name`、`address`、`brand` 等欄位複製到 `all` 欄位中，這樣搜尋 `all` 時，就可以搜尋到此3個欄位的內容。
 
-    <img width='50%' src='../_image/Snipaste_2024-09-05_21-45-02.png'>
+    <img width='50%' src='../../_image/Snipaste_2024-09-05_21-45-02.png'>
 
     ```json
     # 完整寫法
