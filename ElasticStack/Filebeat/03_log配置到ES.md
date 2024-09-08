@@ -66,7 +66,7 @@ setup.ilm.enabled: false
 
 ## 輸出配置到 Elasticsearch，依照 tags 拆成不同的索引
 
-上面的範例只能建立單個索引，若需要依照條件建立不同索引，需要使用 `fields` 或 `tags` 配置，以下使用 `tags` 作範例。
+上面的範例只能建立單個索引，若需要依照條件建立不同索引，需要使用 `fields` 或 `tags` 配置，以下使用 `fields` 作範例。
 
 
 ```yml
