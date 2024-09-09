@@ -70,3 +70,7 @@ Elasticsearch 的 Basic Security 是在免費基礎授權（Basic License）下�
     systemctl restart filebeat
     systemctl restart kibana
     ```
+
+<br/>
+
+<br/>
