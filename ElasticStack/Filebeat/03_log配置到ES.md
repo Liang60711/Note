@@ -142,7 +142,6 @@ setup.template.pattern: "uat-nginx*"
 # 關閉索引的生命週期管理
 setup.ilm.enabled: false
 ```
-```
 
 <br/>
 
