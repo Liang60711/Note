@@ -146,3 +146,17 @@ setup.ilm.enabled: false
 <br/>
 
 <br/>
+
+## 索引模板 其他配置
+
+```yml
+# 是否覆蓋已有的索引模板
+setup.template.overwrite: false
+
+# 配置索引模板
+setup.template.settings:
+  # 設置分片數量
+  index.number_of_shards: 3
+  # 設置副本數量
+  index.number_of_replicas: 0
+```
