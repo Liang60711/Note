@@ -1,7 +1,7 @@
 # 名詞解釋
 
 
-|ES|RDS|說明|
+|RDS|ES|說明|
 |--|--|--|
 |Table|Index| document 的集合類似資料表 |
 |Row| Document| 一筆筆的數據，都是 JSON 格式 |
