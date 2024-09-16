@@ -26,7 +26,7 @@ output.console:
 
 接著 shell 輸入以下指令
 ```sh
-# -e，將日誌輸出到標準輸出（stdout），即直接在命令行或終端中顯示日誌信息，而不是寫入到日誌文件中。
+# -e，將日誌輸出到標準輸出（stdout），即直接在命令行或終端中顯示filebeat的日誌信息，而不是寫入到filebeat自己的日誌中；但是還是會將數據流拋給ES。
 
 # -c，config，使用哪一個配置檔
 filebeat -e -c /etc/filebeat/filebeat.yml

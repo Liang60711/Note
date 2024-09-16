@@ -1,6 +1,6 @@
 # Systemd
 
-啟動服務模板
+### 啟動服務模板
 
 ```sh
 [Unit]
@@ -15,4 +15,16 @@ SuccessExitStatus=143
 
 [Install]
 WantedBy=multi-user.target
+```
+
+<br/>
+
+<br/>
+
+### 查看類
+直接查看 filebeat.service 的配置內容，就不用再去 `find / -name 'filebeat.service'`
+
+```sh
+# 直接查看配置內容
+systemctl cat filebeat.service
 ```

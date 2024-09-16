@@ -410,6 +410,21 @@ echo -e "123\n123"
 echo -n "123"
 ```
 
+清除文件內所有內容
+```sh
+echo > /tmp/app.log
+
+# 以上 echo 可以簡寫
+> /tmp/app.log
+```
+
+將新的文字append進文件
+```sh
+echo >> /tmp/app.log
+```
+
+
+
 ## printf
 與 ehco 相比，不會自動換行
 ```sh
@@ -475,3 +490,19 @@ tar -xvf new_test.jar.tar -C /path/to/new_test.jar
 # 解開gzip壓縮的 tar 包，並指定路徑
 tar -xzvf new_test.jar.tar.gz -C /path/to/new_test.jar
 ```
+
+<br/>
+
+<br/>
+
+### 查看系統上監聽的 TCP 連接埠的命令
+```sh
+ss -ntl
+```
+* ss: 顯示套接字（sockets）資訊的指令，通常用於查看網路連線。 
+
+* -n: 不解析主機名稱或連接埠名稱（顯示數字形式的 IP 位址和連接埠號碼），提高輸出速度。 
+
+* -t: 僅顯示 TCP 連線。 
+
+* -l: 只顯示正在監聽的連接埠（Listening sockets）。
