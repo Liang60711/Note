@@ -25,144 +25,147 @@
     /opt/openresty/nginx/update-hpiweb-prod.sh
     ```
 
-* 配置，後端使用 springboot / java 11
+<br/>
 
-    ```yml
-    stages:
-    - build
-    - deploy
+配置，後端使用 springboot / java 11
 
-    before_script:
-    - echo "Start hpiweb_be cicd process..."
+```yml
+stages:
+  - build
+  - deploy
 
-    build_main:
-    tags:
-        - prod-hpiweb
-    cache:
-        paths:
-        - .m2/repository
-        key: "$CI_BUILD_REF_NAME"  # keep cache across branch
-    variables:
-        MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=.m2/repository"
-        MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
+before_script:
+  - echo "Start hpiweb_be cicd process..."
 
-    stage: build
-    script:
-        - mvn clean package -DskipTests
-    artifacts:
-        paths:
-        - target/web.jar
-        expire_in: 3 days
-    only:
-        - main
-
-    build_develop:
-    tags:
-        - uat
-    cache:
-        paths:
-        - .m2/repository
-        key: "$CI_BUILD_REF_NAME"  # keep cache across branch
-    variables:
-        MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=.m2/repository"
-        MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
-
-    stage: build
-    script:
-        - mvn clean package -DskipTests
-    artifacts:
-        paths:
-        - target/web.jar
-        expire_in: 3 days
-    only:
-        - develop
-
-    deploy_main:
-    tags:
-        - prod-hpiweb
-    stage: deploy
-    script:
-        - cp target/web.jar /tmp
-        - sudo /opt/web/update.sh /tmp/web.jar
-    only:
-        - main
-
-    deploy_develop:
-    tags:
-        - uat
-    stage: deploy
-    script:
-        - sudo cp target/web.jar /tmp
-        - sudo /opt/web/update.sh /tmp/web.jar
-    only:
-        - develop
-    ```
-
-* 配置 前端使用 vue / nvm (切換 node 版本的工具)
-
-    ```yml
-    stages:
-    - build
-    - deploy
-
-    before_script:
-    - echo "Start hpiweb_fe cicd process..."
-    - export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-    - nvm use v12.22.12
-
-    build_master:
-    tags:
+build_main:
+  tags:
     - prod-hpiweb
-    cache:
-        paths:
-        - node_modules/
-    stage: build
-    script:
-        - which npm
-        - npm install
-        - npm run build
-    artifacts:
-        paths:
-        - dist/
-        expire_in: 1 days
-    only:
-        - master
+  cache:
+    paths:
+      - .m2/repository
+    key: "$CI_BUILD_REF_NAME"  # keep cache across branch
+  variables:
+    MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=.m2/repository"
+    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
 
-    build_develop:
-    tags:
+  stage: build
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/web.jar
+    expire_in: 3 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+build_develop:
+  tags:
     - uat
-    cache:
-        paths:
-        - node_modules/
-    stage: build
-    script:
-        - which npm
-        - npm install
-        - npm run build
-    artifacts:
-        paths:
-        - dist/
-        expire_in: 1 days
-    only:
-        - develop
+  cache:
+    paths:
+      - .m2/repository
+    key: "$CI_BUILD_REF_NAME"  # keep cache across branch
+  variables:
+    MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=.m2/repository"
+    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
 
-    deploy_master:
-    tags:
+  stage: build
+  script:
+    - mvn clean package -DskipTests
+  artifacts:
+    paths:
+      - target/web.jar
+    expire_in: 3 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+
+deploy_main:
+  tags:
     - prod-hpiweb
-    stage: deploy
-    script:
-        - cp -rf dist/ /tmp/ && cd /opt/openresty/nginx/html
-        - sudo /opt/openresty/nginx/update-hpiweb-prod.sh /tmp/dist
-    only:
-        - master
+  stage: deploy
+  script:
+    - cp target/web.jar /tmp
+    - sudo /opt/web/update.sh /tmp/web.jar
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
-    deploy_develop:
-    tags:
+deploy_develop:
+  tags:
     - uat
-    stage: deploy
-    script:
-        - sudo cp -rf dist/ /tmp/ && cd /usr/share/nginx/html
-        - sudo /usr/share/nginx/html/update-hpiweb.sh /tmp/dist
-    only:
-        - develop
-    ```
+  stage: deploy
+  script:
+    - sudo cp target/web.jar /tmp
+    - sudo /opt/web/update.sh /tmp/web.jar
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+
+```
+
+配置 前端使用 vue / nvm (切換 node 版本的工具)
+
+```yml
+stages:
+  - build
+  - deploy
+
+before_script:
+  - echo "Start hpiweb_fe cicd process..."
+  - export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  - nvm use v12.22.12
+
+build_master:
+  tags:
+    - prod-hpiweb
+  cache:
+    paths:
+      - node_modules/
+  stage: build
+  script:
+    - which npm
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+build_develop:
+  tags:
+    - uat
+  cache:
+    paths:
+      - node_modules/
+  stage: build
+  script:
+    - which npm
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+
+deploy_master:
+  tags:
+    - prod-hpiweb
+  stage: deploy
+  script:
+    - cp -rf dist/ /tmp/ && cd /opt/openresty/nginx/html
+    - sudo /opt/openresty/nginx/update-hpiweb-prod.sh /tmp/dist
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+deploy_develop:
+  tags:
+    - uat
+  stage: deploy
+  script:
+    - sudo cp -rf dist/ /tmp/ && cd /usr/share/nginx/html
+    - sudo /usr/share/nginx/html/update-hpiweb.sh /tmp/dist
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+```
