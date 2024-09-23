@@ -10,6 +10,8 @@
 
 * 客戶端的本質就是組裝 DSL 語句，通過 HTTP 發送給 ES。
 
+* 目前已經 deprecated，取代的工具是 Elasticsearch `Java API Client`。
+
 
 <br/>
 

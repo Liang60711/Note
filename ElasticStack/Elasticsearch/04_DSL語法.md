@@ -139,6 +139,10 @@ GET /users/_doc/1
 
 若要查詢所有的 document，使用 `_search` 
 ```json
+# 新寫法
+GET /users/_search
+
+# 已棄用
 GET /users/_doc/_search
 ```
 
