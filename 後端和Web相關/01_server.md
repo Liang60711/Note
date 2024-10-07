@@ -89,7 +89,7 @@ Cache: 為了增加處理速度跟效率，server 會將一些 request 的內容
 * DELETE：刪除 (Delte)。
 * HEAD：同GET，但 response 中不回傳主體 (response body)，用來測試連線或更新cache。
 * TRACE：迴路返回測試。
-* OPTIONS：跨來源資源共用 (CORS)。
+* OPTIONS：跨來源資源共用 (CORS)，預檢用。
 
 <br/>
 

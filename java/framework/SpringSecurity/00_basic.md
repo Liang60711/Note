@@ -56,6 +56,10 @@
 
     <img src="../../../_image/Snipaste_2023-03-12_20-44-00.png">
 
+    <br/>
+
+    * `addFilter()` 方法加入的 filter 會預設在 `FilterSecurityInterceptor` 之前；除非使用 addFilterBefore 或 addFilterAfter。
+
 
 * ExceptionTranslationFilter: 用來處理驗證授權中拋出的異常。
 
