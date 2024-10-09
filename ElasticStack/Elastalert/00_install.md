@@ -91,9 +91,9 @@ elastalert
     # 安裝工具模組
     pip install "setuptools>=11.3"
 
-    # 安裝 elastalert2
+    # 安裝 elastalert2 ()
     cd /opt/elastalert2 &&
-    python setup.py install
+    pip install .
     ```
 
 5. 設定 /opt/elastalert2/examples/config.yaml
