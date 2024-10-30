@@ -167,6 +167,16 @@
 
 <br/>
 
+## 進入 redis 服務器
+
+```sh
+redis-cli -p 6379
+```
+
+<br/>
+
+<br/>
+
 ## 命令查詢
 
 > https://redis.io/commands/?group=hash

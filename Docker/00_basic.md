@@ -209,6 +209,10 @@ apt-get install curl
 ```sh
 exit
 ```
+
+或是可以使用 `ctrl + P + Q`，不會導致容器關閉。
+
+
 若想要再次開啟此 container 執行命令。使用 `start`
 ```sh
 docker container start -ai ubuntu
@@ -240,6 +244,74 @@ docker stop container <container id>
 ```
 
 <br/>
+
+<br/>
+
+## 比較 exec 和 attach
+在容器啟動後，可以使用 `exec` 和 `attach` 進入容器中，但兩者有所區別。
+
+* `exec` : 在容器中打開新的終端，並且啟動新的 process，`用 exit 退出，不會導致容器停止`。
+
+* `attach` : 直接進入容器打開終端，不會啟動新的 process，`用 exit 退出，會導致容器停止`。
+
+所以基本上都會使用 docker exec，避免容器被關閉。
+
+```sh
+docker exec -it e5bb7a82ffe3 /bin/bash
+
+docker attach e5bb7a82ffe3
+```
+
+
+<br/>
+
+<br/>
+
+## docker cp
+
+將容器內的文件複製到主機上，可以備份容器中的檔案
+
+```sh
+# docker cp 容器ID:容器路徑 主機路徑
+docker cp e5bb7a82ffe3:/tmp/a.txt /tmp
+```
+
+<br/>
+
+<br/>
+
+## docker export
+
+將整個容器打包做備份，打包在當前目錄
+
+```sh
+# docker export 容器ID > 打包的檔名
+docker export 43041a1cbdce > redis.tar
+```
+
+可以壓縮成 .gz 檔案
+
+```sh
+docker export 43041a1cbdce | gzip > redis.tar.gz
+```
+
+
+<br/>
+
+<br/>
+
+## docker import
+
+將打包的容器，再重新 import 成 image。
+
+```sh
+# cat redis.tar | docker import - 鏡像用戶/鏡像名稱:版本號
+cat redis.tar | docker import - img-user/img-name:0.0.1
+```
+
+使用 docker images 查看
+
+<img width='60%' src='../_image/Snipaste_2024-10-30_17-22-07.png'>
 
 <br/>
 
