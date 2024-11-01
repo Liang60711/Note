@@ -69,7 +69,8 @@ sudo docker run hello-world
 <br/>
 
 ## Docker 各種 command 用途
-https://miro.medium.com/max/4800/1*DkIQGsv9YsPgB0dQpIfikA.png
+
+<img src='../_image/docker指令.png'>
 
 <br/>
 
@@ -312,6 +313,49 @@ cat redis.tar | docker import - img-user/img-name:0.0.1
 使用 docker images 查看
 
 <img width='60%' src='../_image/Snipaste_2024-10-30_17-22-07.png'>
+
+<br/>
+
+<br/>
+
+## docker commit
+
+將客製化的 container，重新建立成一個新的 image。
+
+```sh
+# docker commit -m='提交的信息' -a='作者' 容器ID 要創建的鏡像名稱:[tag號]
+
+docker commit -m='add vim cmd' -a='rico' b686a03fe078 rico/nginx-new:1.3
+```
+
+<img src='../_image/Snipaste_2024-11-01_11-25-23.png'>
+
+<br/>
+
+<br/>
+
+## docker push / pull
+
+ 1. 登入 docker hub，使用瀏覽器驗證
+
+    ```sh
+    docker login
+    ```
+
+2. 建立 docker tag，必須要使用 `username/repository:tag` 這個格式，若沒有符合格式，需要做這個步驟。
+
+    ```sh
+    # 前面是本地 image:tag，後面是遠端
+    # docker tag image_name:tag username/repository:tag
+
+    docker tag nginx:1.3 ricoliang/nginx:1.3
+    ```
+
+3. 推送至 docker hub，不可簡寫。
+
+    ```sh
+    docker push ricoliang/nginx:1.3
+    ```
 
 <br/>
 
