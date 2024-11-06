@@ -361,6 +361,25 @@ docker commit -m='add vim cmd' -a='rico' b686a03fe078 rico/nginx-new:1.3
 
 <br/>
 
+## docker search
+用於在 Docker Hub 上搜索公開的 Docker 映像。
+
+```sh
+# 搜尋全部
+docker search tomcat
+
+# 查詢官方認證的image
+docker search  --filter=is-official=true tomcat
+
+# 查詢星星數大於100的image
+docker search --filter=stars=100 mysql
+```
+
+
+<br/>
+
+<br/>
+
 # 系統指令
 ## 查看當前佔用 port 
 ```sh
