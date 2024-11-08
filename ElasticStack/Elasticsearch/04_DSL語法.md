@@ -7,7 +7,7 @@
 |Row| Document| 一筆筆的數據，都是 JSON 格式 |
 |Column| Field| 欄位的名稱|
 |Schema|Mapping| document中的約束 |
-|SQL|DSL|是ES提供的JSON風個的請求語句，用來操作ES，實現CRUD|
+|SQL|DSL|是ES提供的JSON風格的請求語句，用來操作ES，實現CRUD|
 
 <br/>
 
