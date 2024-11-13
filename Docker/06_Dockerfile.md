@@ -121,9 +121,9 @@ java -jar another-app.jar
 
 ```Dockerfile
 FROM centos
-MAINTAINER rico<ricoliang@hpicorp.com.tw>
+LABEL MAINTAINER=ricoliang@hpicorp.com.tw
 
-ENV MYPATH /usr/local
+ENV MYPATH=/usr/local
 WORKDIR $MYPATH
 
 # centos 已停止維護，故重新指定源
@@ -138,16 +138,16 @@ RUN mkdir /usr/local/java
 # Dockerfile 位置和 openjdk 檔案位置需要相同
 ADD OpenJDK11U-jdk_x64_linux_hotspot_11.0.25_9.tar.gz /usr/local/java/
 # 配置 java 環境變數
-ENV JAVA_HOME /usr/local/java/jdk-11.0.25+9/bin
-ENV JRE_HOME $JAVA_HOME/jre
-ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH
-ENV PATH $JAVA_HOME/bin:$PATH
+ENV JAVA_HOME=/usr/local/java/jdk-11.0.25+9
+ENV JRE_HOME=$JAVA_HOME/jre
+ENV CLASSPATH=$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 EXPOSE 80
 
-CMD echo $MYPATH
-CMD echo "Success --------------- ok"
-CMD /bin/bash
+# 只能使用一個CMD，因為只會執行最後一個CMD命令
+# 當 docker run 時，預設的命令，啟動容器時才會執行
+CMD ["/bin/bash"]
 ```
 
 寫好之後，需要輸入以下命令
