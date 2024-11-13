@@ -138,7 +138,7 @@ RUN mkdir /usr/local/java
 # Dockerfile 位置和 openjdk 檔案位置需要相同
 ADD OpenJDK11U-jdk_x64_linux_hotspot_11.0.25_9.tar.gz /usr/local/java/
 # 配置 java 環境變數
-ENV JAVA_HOME /usr/local/java/jdk-11.0.25+9
+ENV JAVA_HOME /usr/local/java/jdk-11.0.25+9/bin
 ENV JRE_HOME $JAVA_HOME/jre
 ENV CLASSPATH $JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH
 ENV PATH $JAVA_HOME/bin:$PATH
