@@ -56,6 +56,7 @@ WORKDIR $APP_HOME
 USER ubuntu:ubuntu
 
 # 先定義掛載點，之後 docker run 再指定宿主主機的路徑即可 -v /host/path:/opt/web/logs
+# 此路徑是容器的路徑
 VOLUME [ "/opt/web/upload" ]
 VOLUME [ "/opt/web/logs" ]
 
@@ -155,4 +156,24 @@ CMD ["/bin/bash"]
 ```sh
 # repo名字一定要全部小寫
 docker build -t centosjava:11.0.25 .
+```
+
+<br/>
+
+<br/>
+
+## 虛懸鏡像 dangling image
+
+就是 REPOSITORY 和 TAG 都是顯示為 `<none>` 的 image，是一種錯亂的配置。
+
+<img src='../_image/Snipaste_2024-11-15_10-51-08.png'>
+
+虛懸鏡像已經失去存在價值，可以刪除。
+
+```sh
+# 查看虛懸鏡像
+docker image ls -f dangling=true
+
+# 刪除虛懸鏡像
+docker image prune
 ```
