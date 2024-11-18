@@ -375,6 +375,23 @@ docker search  --filter=is-official=true tomcat
 docker search --filter=stars=100 mysql
 ```
 
+<br/>
+
+<br/>
+
+## --restart=always
+當 docker daemon 重啟服務時，有添加此參數的容器也會自動啟動，不用再手動啟動。類似 `systemctl enable xxxx`
+
+```sh
+# Portainer 服務，當啟動 docker daemon 時，自動啟動此服務。
+docker run -d -p 8000:8000 -p 9443:9443 \
+--name portainer \
+--restart=always \
+-v /var/run/docker.sock:/var/run/docker.sock \
+-v portainer_data:/data \
+portainer/portainer-ce:2.21.4
+```
+
 
 <br/>
 
