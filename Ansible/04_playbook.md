@@ -123,3 +123,44 @@ ansible-playbook --start-at-task "Install nginx" playbook.yml
 ```sh
 ansible-playbook --become playbook.yml
 ```
+
+<br/>
+
+<br/>
+
+## 舉例
+
+安裝 MySQL 的 playbook
+
+```yaml
+- name: Install and configure MySQL
+  hosts: uatservers
+  remote_user: root
+  tasks:
+    - name: install MySQL repository
+      yum: 
+        name: https://repo.mysql.com/mysql80-community-release-el8.rpm
+        state: present
+    - name : Install MySQL server
+      yum:
+        name: mysql-server
+        state: present
+    - name: Ensure MySQL is started and enabled
+      service:
+        name: mysqld
+        state: started
+        enabled: true
+    # 執行 MySQL 的安全性設置
+    - name: Secure MySQL installation
+      expect:
+        command: mysql_secure_installation
+        responses:
+          'Enter current password for root (enter for none):': ''
+          'Set root password? \[Y/n\]': 'Y'
+          'New password:': 'YourRootPassword'
+          'Re-enter new password:': 'YourRootPassword'
+          'Remove anonymous users? \[Y/n\]': 'Y'
+          'Disallow root login remotely? \[Y/n\]': 'Y'
+          'Remove test database and access to it? \[Y/n\]': 'Y'
+          'Reload privilege tables now? \[Y/n\]': 'Y'
+```

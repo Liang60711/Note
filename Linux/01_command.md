@@ -495,10 +495,12 @@ tar -xzvf new_test.jar.tar.gz -C /path/to/new_test.jar
 
 <br/>
 
-### 查看系統上監聽的 TCP 連接埠的命令
+### 查看系統上監聽的 TCP 連接埠的命令 (重要)
+
 ```sh
 ss -ntl
 ```
+
 * ss: 顯示套接字（sockets）資訊的指令，通常用於查看網路連線。 
 
 * -n: 不解析主機名稱或連接埠名稱（顯示數字形式的 IP 位址和連接埠號碼），提高輸出速度。 
