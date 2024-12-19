@@ -520,3 +520,35 @@ ss -ntl
 ```sh
 rpm -qi nginx
 ```
+
+<br/>
+
+<br/>
+
+### 切換 java 版本
+
+在系統中切換多個已安裝的 Java 版本的命令。例如需要在 Java 11 和 Java 17 之間切換。
+
+```sh
+alternatives --config java
+```
+
+選擇 1 或 2，可以切換版本，是以切換軟連結為切換的邏輯。
+
+```sh
+There are 2 programs which provide 'java'.
+
+  Selection    Command
+-----------------------------------------------
+*+ 1           /usr/lib/jvm/java-11-openjdk/bin/java
+   2           /usr/lib/jvm/java-17-openjdk/bin/java
+
+Enter to keep the current selection[+], or type selection number:
+
+```
+
+查看版本
+
+```sh
+java -verion
+```
