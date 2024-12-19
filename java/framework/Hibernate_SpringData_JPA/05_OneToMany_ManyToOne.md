@@ -65,3 +65,29 @@ public class Course {
     private Teacher teacher;
 }
 ```
+
+<br/>
+
+<br/>
+
+## 坑
+
+當使用 @OneToMany 和 @ManyToOne 時，有時會產生無限遞迴問題，造成 StackOverFlowError。
+
+> https://stackoverflow.com/questions/17445657/hibernate-onetomany-java-lang-stackoverflowerror
+
+
+解決方式可以使用 `@JsonManagedReference` 和 `@JsonBackReference`
+
+```java
+// group
+@JsonManagedReference
+@OneToMany(mappedBy = "group")
+private List<Device> devices;
+
+// device
+@JsonBackReference
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)
+private group group;
+```
