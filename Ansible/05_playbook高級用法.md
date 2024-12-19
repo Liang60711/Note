@@ -227,3 +227,143 @@ service_name: vsftpd
     - name: Run a simple command
       command: echo "Hello, world!"
 ```
+
+<br/>
+
+<br/>
+
+## with_items 循環 (loop) 功能
+
+使用 yum 模組來安裝多個套件，並透過 with_items 遍歷 nginx, git, curl 這三個套件名稱。
+
+```yml
+- name: Install multiple packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nginx
+    - git
+    - curl
+```
+
+建立多個使用者，元素可以使用 dict 類型。
+
+```yml
+- name: Create multiple users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    shell: "{{ item.shell }}"
+  with_items:
+    - { name: 'alice', shell: '/bin/bash' }
+    - { name: 'bob', shell: '/bin/zsh' }
+    - { name: 'charlie', shell: '/bin/bash' }
+```
+
+<br/>
+
+<br/>
+
+## when 
+設定條件，使任務 (task) 根據特定條件執行或跳過。
+
+參考以下範例
+
+1. 根據變數執行
+
+    ```yml
+    - name: Install Nginx when the OS is Ubuntu
+      yum:
+        name: nginx
+        state: present
+      when: ansible_facts['os_family'] == "Debian"
+    ```
+
+2. 根據自定義變數執行
+
+    ```yml
+    - name: "Create a user if 'create_user' is true"
+      user:
+        name: alice
+        state: present
+      when: create_user | default(false)
+    ```
+
+3. 結合 with_items 
+
+    ```yml
+    - name: Install multiple packages if they are not excluded
+      yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - nginx
+        - mysql
+        - redis
+      when: item != "mysql"
+    ```
+
+4. 可以使用多個條件
+
+    ```yml
+    - name: Remove a file if it exists
+      file:
+        path: /tmp/tempfile.txt
+        state: absent
+      when: ansible_facts['distribution'] == "Ubuntu" and 
+            ansible_facts['distribution_version'] == "20.04"
+    ```
+
+
+<br/>
+
+<br/>
+
+## register 
+
+捕獲任務執行的輸出結果，並將其儲存到一個變數中，此變數有5個屬性。
+
+輸出屬性: 
+
+1. stdout：命令標準輸出的內容。
+
+2. stderr：命令標準錯誤的內容。
+
+3. rc：命令的返回碼 (Return Code)，成功時為 0，失敗時非 0。
+
+4. stdout_lines：將 stdout 按行拆分成清單。
+
+5. stderr_lines：將 stderr 按行拆分成清單。
+
+--- 
+
+捕獲命令的輸出
+
+```yml
+- name: Check the disk usage
+  command: df -h /
+  register: disk_usage
+
+- name: Show the output
+  debug:
+    var: disk_usage.stdout # 標準輸出
+```
+
+--- 
+
+根據命令的返回碼做判斷
+
+```yml
+- name: Check if a user exists
+  command: id alice
+  register: user_check
+  ignore_errors: true
+
+- name: Create user if not exists
+  user:
+    name: alice
+    state: present
+  when: user_check.rc != 0 
+  # 若 rc != 0 (命令失敗，表示使用者不存在)，則執行建立使用者的任務
+```
