@@ -31,7 +31,7 @@ sonarqube 安裝，需要2個資料庫
         unzip sonarqube-12.10.xxxxxx.zip -d /opt/
         ```
 
-3. 創建 SonarQube 用戶，要使用 sonar.sh 的用戶不可為 root。
+3. 創建 SonarQube 用戶，要使用 sonar.sh 的用戶不可為 root (大坑，一定要建立用戶)。
 
     ```sh
     sudo useradd sonar
@@ -127,3 +127,26 @@ sonarqube 安裝，需要2個資料庫
     ```sh
     cd /opt/sonarqube/logs
     ```
+
+12. 登入帳號密碼預設
+
+    * admin/adnin
+
+<br/>
+
+<br/>
+
+## 報錯
+
+如果報以下錯誤
+
+```
+bootstrap check failure [1] of [1]: max virtual memory areas vm.max_    map_count [65530] is too low, increase to at least [262144]; for mor    e information see [https://www.elastic.co/guide/en/elasticsearch/ref    erence/8.14/_maximum_map_count_check.html]
+```
+
+需要修改記憶體配置。
+
+```sh
+# 臨時修改記憶體配置(立即生效，但vm重啟後失效)
+sysctl -w vm.max_map_count=262144
+```
