@@ -163,3 +163,17 @@ MVCC 只能在 READ COMMITTED 和 REPEATABLE READ 兩種隔離級別下使用，
 <br/>
 
 <br/>
+
+### MVCC 是否能徹底解決幻讀
+
+不行，只能部份解決。
+
+幻讀的兩種情況：
+
+1. 快照讀（普通 SELECT）：MVCC 確實可以避免幻讀
+
+2. 當前讀（SELECT FOR UPDATE/LOCK IN SHARE MODE）：仍然會出現幻讀，因為當前讀是加鎖並獲取最新資料，故剛好產生幻讀。
+
+    * 對於當前讀的場景，需要依靠鎖機制來解決幻讀問題。
+
+    * 在 REPEATABLE READ 隔離級別下，InnoDB 默認使用 Next-Key Lock 來防止幻讀。
