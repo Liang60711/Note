@@ -88,7 +88,7 @@ sonarqube 安裝，需要2個資料庫
     exit
     ```
 
-7. 配置 postgreSQL 允許外部連接
+7. 配置 postgreSQL 允許外部連接(依照安裝版本，路徑會不同)
 
     ```sh
     vim /var/lib/pgsql/data/postgresql.conf
@@ -102,6 +102,8 @@ sonarqube 安裝，需要2個資料庫
 
     ```sh
     vim /var/lib/pgsql/data/pg_hba.conf
+
+    vim /var/lib/pgsql/16/data/pg_hba.conf
     ```
 
     <img src='../_image/Snipaste_2024-12-20_00-09-38.png'>
