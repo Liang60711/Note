@@ -2,7 +2,7 @@
 
  * 分成 develop 和 main 分支，依照 `tags` 去區分要去觸發哪一個 gitlab-runner。
 
- * 如果有權限管理上的問題，需要在 gitlab-runner 上的 vm 上設定 gitlab-runner 這個用戶的 sudo 權限。
+ * (選擇配置) 如果有權限管理上的問題，需要在 gitlab-runner 上的 vm 上設定 gitlab-runner 這個用戶的 sudo 權限。
 
     ```sh
     # 設置用戶的 sudo 權限，以免權限過大。
@@ -29,143 +29,152 @@
 
 配置，後端使用 springboot / java 11
 
+```conf
+# build 階段，使用掛載的方式，將 maven 依賴持久化在 vm 主機上，否則每次 build 階段都會去下載依賴
+[runners.docker]
+  volumes = ["/cache", "/home/gitlab-runner/.m2/repository:/root/.m2/repository"]
+```
+
 ```yml
-stages:
+stages: 
   - build
+  - scan    # sonar-scanner 掃描原始碼
   - deploy
 
-before_script:
-  - echo "Start hpiweb_be cicd process..."
-
-build_main:
+build:
+  image: maven:3.9.6-eclipse-temurin-11
   tags:
-    - prod-hpiweb
-  cache:
-    paths:
-      - .m2/repository
-    key: "$CI_BUILD_REF_NAME"  # keep cache across branch
-  variables:
-    MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=.m2/repository"
-    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
-
+    - shared-docker
   stage: build
-  script:
-    - mvn clean package -DskipTests
   artifacts:
     paths:
-      - target/web.jar
+      - target/eip.jar
     expire_in: 3 days
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
-
-build_develop:
-  tags:
-    - uat
-  cache:
-    paths:
-      - .m2/repository
-    key: "$CI_BUILD_REF_NAME"  # keep cache across branch
-  variables:
-    MAVEN_OPTS: "-Djava.awt.headless=true -Dmaven.repo.local=.m2/repository"
-    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version"
-
-  stage: build
   script:
     - mvn clean package -DskipTests
-  artifacts:
-    paths:
-      - target/web.jar
-    expire_in: 3 days
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-
-deploy_main:
-  tags:
-    - prod-hpiweb
-  stage: deploy
-  script:
-    - cp target/web.jar /tmp
-    - sudo /opt/web/update.sh /tmp/web.jar
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
 
-deploy_develop:
+scan:
+  image: sonarsource/sonar-scanner-cli:latest
   tags:
-    - uat
-  stage: deploy
+    - shared-docker
+  stage: scan
+  dependencies:
+    - build
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
+    paths:
+      - "${SONAR_USER_HOME}/cache"
   script:
-    - sudo cp target/web.jar /tmp
-    - sudo /opt/web/update.sh /tmp/web.jar
+    - sonar-scanner
+      -Dsonar.host.url=$SONAR_HOST_URL
+      -Dsonar.projectKey=$EIP_BE_PROJECT_KEY
+      -Dsonar.token=$EIP_BE_TOKEN
+      -Dsonar.java.binaries=target
+      -Dsonar.java.source=11
+      -Dsonar.sources=src/main
+      -Dsonar.sourceEncoding=UTF-8
+      -Dsonar.exclusions=src/test/**
+  allow_failure: true
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+# deploy 階段，將 build 階段建構的 artifacts，複製到
+deploy:
+  tags:
+    - shared-shell
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - cp -rf target/eip.jar /opt/ansible/artifacts/eip/eip.jar;
+    - if [[ "$CI_COMMIT_BRANCH" == "develop" ]]; then
+        ansible-playbook /opt/ansible/deploy/eip/uat-eip-be.yml;
+      elif [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
+        ansible-playbook /opt/ansible/deploy/eip/prod-eip-be.yml;
+      fi
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
 
 ```
 
-配置 前端使用 vue / nvm (切換 node 版本的工具)
+配置 前端使用 vue + node 22
 
 ```yml
-stages:
+stages: 
+  - scan
   - build
   - deploy
 
-before_script:
-  - echo "Start hpiweb_fe cicd process..."
-  - export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-  - nvm use v12.22.12
-
-build_master:
+scan:
+  image: sonarsource/sonar-scanner-cli:latest
   tags:
-    - prod-hpiweb
+    - shared-docker
+  stage: scan
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
   cache:
+    key: "sonar-cache-$CI_COMMIT_REF_SLUG"
     paths:
-      - node_modules/
-  stage: build
+      - "${SONAR_USER_HOME}/cache"
   script:
-    - which npm
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - dist/
-    expire_in: 1 days
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "master"'
-
-build_develop:
-  tags:
-    - uat
-  cache:
-    paths:
-      - node_modules/
-  stage: build
-  script:
-    - which npm
-    - npm install
-    - npm run build
-  artifacts:
-    paths:
-      - dist/
-    expire_in: 1 days
+    - sonar-scanner
+      -Dsonar.host.url=$SONAR_HOST_URL
+      -Dsonar.projectKey=$EIP_FE_PROJECT_KEY
+      -Dsonar.token=$EIP_FE_TOKEN
+      -Dsonar.sources=.
+      -Dsonar.exclusions=**/node_modules/**,**/*.spec.js,**/__tests__/**
+      -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+      -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+  allow_failure: true
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
-
-deploy_master:
-  tags:
-    - prod-hpiweb
-  stage: deploy
-  script:
-    - cp -rf dist/ /tmp/ && cd /opt/openresty/nginx/html
-    - sudo /opt/openresty/nginx/update-hpiweb-prod.sh /tmp/dist
-  rules:
     - if: '$CI_COMMIT_BRANCH == "master"'
 
-deploy_develop:
+build:
+  image: node:22
   tags:
-    - uat
-  stage: deploy
+    - shared-docker
+  stage: build
+  cache:
+    key: "$CI_BUILD_REF_NAME"
+    paths:
+      - node_modules/
+      - dist/
   script:
-    - sudo cp -rf dist/ /tmp/ && cd /usr/share/nginx/html
-    - sudo /usr/share/nginx/html/update-hpiweb.sh /tmp/dist
+    - npm install
+    - npm run build:dev
+    - ls
+  artifacts:
+    paths:
+      - dist
+    expire_in: 3 days
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "master"'
+
+deploy:
+  tags:
+    - shared-shell
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - cp -rf dist /opt/ansible/artifacts/eip/;
+    - if [[ "$CI_COMMIT_BRANCH" == "develop" ]]; then 
+        ansible-playbook /opt/ansible/deploy/eip/uat-eip-fe.yml; 
+      elif [[ "$CI_COMMIT_BRANCH" == "master" ]]; then
+        ansible-playbook /opt/ansible/deploy/eip/prod-eip-fe.yml;
+      fi
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+    - if: '$CI_COMMIT_BRANCH == "master"'
 ```
