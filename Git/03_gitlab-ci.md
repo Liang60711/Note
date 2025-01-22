@@ -31,14 +31,15 @@
 
 ```conf
 # build 階段，使用掛載的方式，將 maven 依賴持久化在 vm 主機上，否則每次 build 階段都會去下載依賴
+# 這邊沒有寫冒號路徑，指的就是容器內的路徑
 [runners.docker]
-  volumes = ["/cache", "/home/gitlab-runner/.m2/repository:/root/.m2/repository"]
+  volumes = ["/cache", "/root/.m2/repository"]
 ```
 
 ```yml
 stages: 
   - build
-  - scan    # sonar-scanner 掃描原始碼
+  - scan
   - deploy
 
 build:
@@ -48,7 +49,7 @@ build:
   stage: build
   artifacts:
     paths:
-      - target/eip.jar
+      - target/web.jar
     expire_in: 3 days
   script:
     - mvn clean package -DskipTests
@@ -73,8 +74,8 @@ scan:
   script:
     - sonar-scanner
       -Dsonar.host.url=$SONAR_HOST_URL
-      -Dsonar.projectKey=$EIP_BE_PROJECT_KEY
-      -Dsonar.token=$EIP_BE_TOKEN
+      -Dsonar.projectKey=$WEB_BE_PROJECT_KEY
+      -Dsonar.token=$WEB_BE_TOKEN
       -Dsonar.java.binaries=target
       -Dsonar.java.source=11
       -Dsonar.sources=src/main
@@ -85,7 +86,6 @@ scan:
     - if: '$CI_COMMIT_BRANCH == "develop"'
     - if: '$CI_COMMIT_BRANCH == "main"'
 
-# deploy 階段，將 build 階段建構的 artifacts，複製到
 deploy:
   tags:
     - shared-shell
@@ -93,16 +93,15 @@ deploy:
   dependencies:
     - build
   script:
-    - cp -rf target/eip.jar /opt/ansible/artifacts/eip/eip.jar;
+    - cp -rf target/web.jar /opt/ansible/artifacts/web/web.jar;
     - if [[ "$CI_COMMIT_BRANCH" == "develop" ]]; then
-        ansible-playbook /opt/ansible/deploy/eip/uat-eip-be.yml;
+        ansible-playbook /opt/ansible/deploy/web/uat-web-be.yml;
       elif [[ "$CI_COMMIT_BRANCH" == "main" ]]; then
-        ansible-playbook /opt/ansible/deploy/eip/prod-eip-be.yml;
+        ansible-playbook /opt/ansible/deploy/web/prod-web-be.yml;
       fi
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
     - if: '$CI_COMMIT_BRANCH == "main"'
-
 ```
 
 配置 前端使用 vue + node 22
@@ -126,7 +125,7 @@ scan:
     paths:
       - "${SONAR_USER_HOME}/cache"
   script:
-    - sonar-scanner
+    - sonar-scanner 
       -Dsonar.host.url=$SONAR_HOST_URL
       -Dsonar.projectKey=$EIP_FE_PROJECT_KEY
       -Dsonar.token=$EIP_FE_TOKEN
@@ -145,17 +144,15 @@ build:
     - shared-docker
   stage: build
   cache:
-    key: "$CI_BUILD_REF_NAME"
+    key: node_modules-$CI_COMMIT_REF_SLUG
     paths:
       - node_modules/
-      - dist/
   script:
     - npm install
     - npm run build:dev
-    - ls
   artifacts:
     paths:
-      - dist
+      - dist/
     expire_in: 3 days
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
@@ -178,3 +175,43 @@ deploy:
     - if: '$CI_COMMIT_BRANCH == "develop"'
     - if: '$CI_COMMIT_BRANCH == "master"'
 ```
+
+<br/>
+
+<br/>
+
+
+## 坑 配置
+
+若 gitlab-runner 使用 docker 類型的，當使用 cache 時，依照官方文件，會把 cache 儲存在此路徑，供 container 掛載。
+
+> https://docs.gitlab.com/ee/ci/caching/#where-the-caches-are-stored
+
+<br/>
+
+而且 `/etc/gitlab-runner/config.toml` 配置需要如下
+
+<img src='../_image/Snipaste_2025-01-22_16-54-07.png'>
+
+
+<br/>
+
+```conf
+[runners]
+  cache_dir = "/cache" # 宿主主機中存放緩存的路徑
+
+  [runners.docker]
+    cache_dir = "" # runner容器中存放緩存的路徑(預設就是/cache)
+
+    # 容器中的掛載路徑，但不知為啥會掛載到宿主主機的 /var/lib/docker/volumes/xxx
+    # 用來將容器中的 cache 持久化到宿主機上。(以下都是容器中的目錄)
+    volumes = ["/cache", "/root/.m2/repository"]
+```
+
+
+
+<br/>
+
+<br/>
+
+<img src='../_image/Snipaste_2025-01-22_16-51-22.png'>
