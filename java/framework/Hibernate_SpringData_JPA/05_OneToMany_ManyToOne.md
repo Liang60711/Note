@@ -81,11 +81,13 @@ public class Course {
 
 ```java
 // group
+@ToString.Exclude
 @JsonManagedReference
 @OneToMany(mappedBy = "group")
 private List<Device> devices;
 
 // device
+@ToString.Exclude
 @JsonBackReference
 @ManyToOne(fetch = FetchType.LAZY)
 @JoinColumn(name = "group_id", referencedColumnName = "id", insertable = false, updatable = false)
