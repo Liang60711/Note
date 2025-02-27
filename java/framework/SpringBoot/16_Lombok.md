@@ -174,3 +174,33 @@ public class User {
 2. @ToString
 3. @EqualsAndHashCode
 4. @RequiredArgsConstructor
+
+<br/>
+
+<br/>
+
+## 範例 abstract class + 子類繼承
+
+兩個類都可以加上 @SuperBuilder，相當於把父類 + 當前類的屬性，建立構造函數。
+
+父抽象類
+```java
+@Data
+@NoArgsConstructor
+@SuperBuilder
+public abstract class Parent {
+
+}
+```
+
+繼承子類
+```java
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@SuperBuilder
+public class Child {
+
+}
+```
+
