@@ -283,7 +283,7 @@ docker cp e5bb7a82ffe3:/tmp/a.txt /tmp
 
 ## docker export
 
-將整個容器打包做備份，打包在當前目錄
+將整個容器打包做備份，打包成 tar 在當前目錄(宿主機中)
 
 ```sh
 # docker export 容器ID > 打包的檔名
@@ -303,7 +303,7 @@ docker export 43041a1cbdce | gzip > redis.tar.gz
 
 ## docker import
 
-將打包的容器，再重新 import 成 image。
+將打包成 tar 的檔案，再重新 import 成 image。
 
 ```sh
 # cat redis.tar | docker import - 鏡像用戶/鏡像名稱:版本號
