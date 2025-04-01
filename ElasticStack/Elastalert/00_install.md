@@ -1,6 +1,17 @@
+## 為何安裝
+
+1. Kibana 付費版，就有官方的功能，可以使用 mail, slack 的方式告警。
+
+2. 若使用 elk 的免費版本，告警功能就使用此 app 來監控日誌。
+
+
+<br/>
+
+<br/>
+
 ## Docker 安裝
 
-使用 Docker 安裝，因為普通安裝需要使用 python 3.12 舊版本，環境很混亂。
+使用 Docker 安裝，因為普通安裝需要使用 python 3.12 版本，環境很混亂。
 
 ```sh
 docker run -d --name elastalert -p 3000:3000 
@@ -21,7 +32,7 @@ ghcr.io/jertel/elastalert2/elastalert2 --verbose
 elastalert
 |─ elastalert.yaml
 └─ rules
-    └─ rule-1.yaml
+    |─ rule-1.yaml
     └─ rule-2.yaml
 ```
 

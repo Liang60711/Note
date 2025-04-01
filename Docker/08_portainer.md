@@ -50,6 +50,15 @@ Dashboard 中的 Stack，指的就是 docker-compose。
 
 被監控的主機上，需要安裝 `portainer agent`。
 
+```sh
+docker run -d -p 9001:9001 \
+  --name portainer_agent \
+  --restart=always \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /var/lib/docker/volumes:/var/lib/docker/volumes \
+  portainer/agent
+```
+
 <br/>
 
 <br/>
