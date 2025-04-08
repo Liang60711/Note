@@ -32,7 +32,7 @@
     * 目的: 新增功能時，不要影響舊有已經穩定的部分。
     * 例如: goole chrome, vscode 皆使用 `extension` 來擴充功能，不影響舊有功能。
 
-3. `Liskov Substitution Principle`，里氏替換原則  
+3. `Liskov Substitution Principle`，里氏替換原則
     > https://ithelp.ithome.com.tw/articles/10235629
     * 定義: 子型態必須遵從父型態的行為進行設計。
     * 簡單一句話就是，任何父類出現的地方，子類一定可以替換，且不會產生不良影響。
@@ -42,13 +42,11 @@
         List<String> list = new ArrayList()<>;
         ```
 
-
-4. `Interface Segregation Principle`，介面隔離原則  
+4. `Interface Segregation Principle`，介面隔離原則
     > https://medium.com/%E7%A8%8B%E5%BC%8F%E6%84%9B%E5%A5%BD%E8%80%85/%E4%BD%BF%E4%BA%BA%E7%98%8B%E7%8B%82%E7%9A%84-solid-%E5%8E%9F%E5%89%87-%E4%BB%8B%E9%9D%A2%E9%9A%94%E9%9B%A2%E5%8E%9F%E5%89%87-interface-segregation-principle-50f54473c79e
 
+    * 不應強迫一個類別去實作它不需要用到的功能。介面應該要小而精、不要太肥。
     * 模組與模組之間的依賴，不應有用不到的功能可以被對方呼叫，應簡化接口至最小。
-
-
 
 5. `Dependency Inversion Principle`，依賴反轉原則
     > https://ithelp.ithome.com.tw/articles/10236359
@@ -83,7 +81,6 @@
         interface IPayment{
             public void pay();
         }
-
 
         class CreditCard implements IPayment{
             public void pay(){

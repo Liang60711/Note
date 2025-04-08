@@ -146,7 +146,7 @@ String s = String.valueOf(3.14);
 <br/>
 
 ## 基本面試題
-Flyweight 輕量模式(享元模式): Interger在`-128~127`之間有常量池存在，API位置在`java.lang.Integer`的`IntegerCache`靜態類中。
+Flyweight 輕量模式(享元模式): Integer在`-128~127`之間有常量池存在，API位置在`java.lang.Integer`的`IntegerCache`靜態類中。
 ```java
 Integer x1 = new Integer(1);
 Integer x2 = new Integer(1);
