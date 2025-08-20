@@ -22,7 +22,7 @@
 
 `ctrl` + `tab` : 切換當前視窗
 
-`ctrl` + `F9` : 使用dev-tool後直接進行熱部屬刷新
+`ctrl` + `F9` : 使用dev-tool後直接進行熱佈署刷新
 
 `雙擊 shift`: 找文件、類、方法名稱
 
@@ -134,34 +134,34 @@
 
     4. 重開 IntelliJ，啟動 application，看到 `[restartedMain]` 表示成功。
 
-    5. 以上是自動熱部屬，觸發條件是失去 IDEA 編輯器視窗焦點 5 秒後 (所以可以去點瀏覽器)
+    5. 以上是自動熱佈署，觸發條件是失去 IDEA 編輯器視窗焦點 5 秒後 (所以可以去點瀏覽器)
 
-    6. 如需要手動熱部屬時，按下 ctrl + F9，Build Project。
+    6. 如需要手動熱佈署時，按下 ctrl + F9，Build Project。
 
-    7. 若要使用 resources 熱部屬，如 jsp 檔案，可參考
+    7. 若要使用 resources 熱佈署，如 jsp 檔案，可參考
 
-        [link text](../../java/framework/jsp/00_.md#idea-中jsp-若需要設置熱部屬)
+        [link text](../../java/framework/jsp/00_.md#idea-中jsp-若需要設置熱佈署)
         
 
 <br/>
 
 <br/>
 
-## 關於 熱部屬
+## 關於 熱佈署
 通常啟動 server 時，會做以下2個動作
 
 1. 重啟(Restart) : 自定義開發代碼，包含類、頁面、配置文件，載入 `restart類加載器`
 
 2. 重載(Reload) : Jar包，載入`base類加載器`
 
-重點: 熱部屬只會做 `重啟(Restart)` 的動作，不加載Jar資源。
+重點: 熱佈署只會做 `重啟(Restart)` 的動作，不加載Jar資源。
 
 <br/>
 
 <br/>
 
-## 熱部屬的配置
-可以修改那些檔案類型需要熱部屬，那些不用，以下是不觸發熱部屬的目錄
+## 熱佈署的配置
+可以修改那些檔案類型需要熱佈署，那些不用，以下是不觸發熱佈署的目錄
 * /META-INF/maven
 * /META-INF/resources
 * /resources
@@ -180,17 +180,17 @@ spring:
 
 <br/>
 
-## 使用系統屬性關閉熱部屬 (重要)
-一般使用 yml 屬性關閉熱部屬，生產環境絕對不可能會有使用熱部屬的情況(程式碼不會變動)
+## 使用系統屬性關閉熱佈署 (重要)
+一般使用 yml 屬性關閉熱佈署，生產環境絕對不可能會有使用熱佈署的情況(程式碼不會變動)
 ```yml
 spring: 
   devtools:
     restart:
       exclude: static/**,public/**,application.yml # 逗號後沒有空格
-      enabled: false # 關閉熱部屬
+      enabled: false # 關閉熱佈署
 ```
 
-但有一種情況是當在 yml 檔案中設置關閉，但在較高層級的 yml 檔案又開啟，會造成管理上的不方便(雖然熱部屬開啟對生產環境無效)。
+但有一種情況是當在 yml 檔案中設置關閉，但在較高層級的 yml 檔案又開啟，會造成管理上的不方便(雖然熱佈署開啟對生產環境無效)。
 
 因此使用系統屬性，權限高過任何四級 yml 檔案
 ```java

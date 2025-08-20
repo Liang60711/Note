@@ -73,7 +73,7 @@
 
 <br/>
 
-## 一次讀取 yml 全部屬性
+## 一次讀取 yml 全佈署性
 使用 `Environment` 類封裝所有屬性，並使用自動注入
 ```java
 @Autowired

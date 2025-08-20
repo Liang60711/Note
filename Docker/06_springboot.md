@@ -1,4 +1,4 @@
-# Springboot 應用程式使用 docker 部屬
+# Springboot 應用程式使用 docker 佈署
 
 ## Dockerfile
 `FROM`  
