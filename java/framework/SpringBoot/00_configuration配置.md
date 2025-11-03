@@ -1,3 +1,17 @@
+## Springboot 啟動原理
+
+主要是4個步驟
+
+1. 建立 SpringApplication 類。
+2. 建立環境變數並載入。
+3. 建立 Spring 容器 (ApplicationContext)。
+4. Bean 創建與註冊。
+
+
+<br/>
+
+<br/>
+
 ## Springboot 自動配置原理
 
 Springboot 預設會在底層配置好所有的component，但如果用戶自己配置了，則以用戶的優先 (底層用了大量的 `@ConditionOnMissingBean`，代表如果用戶沒有配置則底層會自動配置)。
