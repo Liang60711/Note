@@ -68,7 +68,26 @@
     <br/>
 
     如果要區別上述兩個屬性誰是`計算屬性`，可以看到 vm._data 中，存在的就是一般屬性，不存在的就是計算屬性。
-    
+
+* data() 和 computed() 屬性名稱相同情況
+
+    * 若 data() 中有個屬性名稱叫 name，computed() 中有個屬性名稱也叫 name；`computed 的名稱會 覆蓋掉 data 的同名 key`。
+
+    ```js
+    // 插值語法 { { name } } 會指向 computed。
+    data() {
+        return {
+            name: "Apple"
+        }
+    },
+    computed() {
+        name() {
+            return this.name + "!!!!!"
+        }
+    }
+    ```
+
+
 * methods 和 computed 比較
 
     * methods 沒有緩存機制，每次在模板中解析時都會被調用。

@@ -232,7 +232,7 @@ const vm = new Vue({
 
 * `deep: true` 開啟深度監視
 
-不使用以上配置，才能使用簡寫
+`不使用以上配置，才能使用簡寫`
 
 ```js
 const vm = new Vue({
