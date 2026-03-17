@@ -36,17 +36,25 @@
     > https://ithelp.ithome.com.tw/articles/10235629
     * 定義: 子型態必須遵從父型態的行為進行設計。
     * 簡單一句話就是，任何父類出現的地方，子類一定可以替換，且不會產生不良影響。
+    * 例如: 
 
         ```java
-        // List 可以替換成 ArrayList，且不會有問題
-        List<String> list = new ArrayList()<>;
+        // 如果程式預期所有 Bird 都能 fly()，企鵝會破壞程式邏輯。
+        class Bird {
+            void fly() { ... }
+        }
         ```
+
+        * 子類是 Sparrow（麻雀），會飛 → OK
+
+        * 子類是 Penguin（企鵝），不會飛 → `違反 LSP`
 
 4. `Interface Segregation Principle`，介面隔離原則
     > https://medium.com/%E7%A8%8B%E5%BC%8F%E6%84%9B%E5%A5%BD%E8%80%85/%E4%BD%BF%E4%BA%BA%E7%98%8B%E7%8B%82%E7%9A%84-solid-%E5%8E%9F%E5%89%87-%E4%BB%8B%E9%9D%A2%E9%9A%94%E9%9B%A2%E5%8E%9F%E5%89%87-interface-segregation-principle-50f54473c79e
 
     * 不應強迫一個類別去實作它不需要用到的功能。介面應該要小而精、不要太肥。
     * 模組與模組之間的依賴，不應有用不到的功能可以被對方呼叫，應簡化接口至最小。
+    * 例如: interface 在設計時，應該要小而精，不要加上不會實作的方法。
 
 5. `Dependency Inversion Principle`，依賴反轉原則
     > https://ithelp.ithome.com.tw/articles/10236359

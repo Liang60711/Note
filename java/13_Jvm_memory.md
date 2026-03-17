@@ -8,6 +8,13 @@
 
 `Java堆(heap)`和`方法區(Method Area)`是所有線程共享的記憶體區塊。其他三個區塊為線程隔離的數據區。
 
+
+以下這幾個是 JVM 規範的名稱，至於實作則是另外的名字
+
+
+---
+
+
 `Java堆(heap)`: 
 1. 大小不固定
 2. 各個執行緒(thread)都共享一個堆區，為JVM中最大塊的記憶體。
@@ -45,6 +52,19 @@
 2. 每個線程都有自己獨立的程序計數器。
 3. 功能是確保線程能夠恢復到正確的執行位置，當一個線程被創建時，程序計數器被初始化為0。當線程開始執行時，程序計數器會按照字節碼指令的順序進行增加，指向下一個要執行的指令。
 4. 程序計數器在任何時間只會存儲一個值，並且不會發生OutOfMemoryError。
+
+---
+
+
+Hotspot實作名稱 :
+- Heap
+- Metaspace
+- Thread Stack
+- PC Register (internal)
+- Native Stack (OS stack)
+- Code Cache
+- Direct Memory
+
 
 
 <br/>
