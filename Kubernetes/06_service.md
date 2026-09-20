@@ -42,30 +42,14 @@ Pod labels: app=nginx, version=v1
 
 ## Service 底層實作：iptables 與 IPVS
 
-### ClusterIP 的本質
-
-Service 的 ClusterIP 是一個虛擬 IP，不是某個 Pod 的實體網路介面，也通常不會配置在單一 Node 上。Kubernetes 會透過 kube-proxy 在各個 Node 上建立封包轉送規則，讓流量可以從 ClusterIP 到達後端 Pod。
-
-Service 的 Selector 不會直接負責轉送封包，控制流程如下：
-
-```text
-Service Selector
-			|
-			v
-EndpointSlice（記錄可用的 Pod IP 和 port）
-			|
-			v
-kube-proxy（在 Node 上同步網路規則）
-			|
-			v
-iptables / IPVS / eBPF
-```
 
 ### kube-proxy 的工作
 
 `kube-proxy` 會監聽 API Server 中的 Service 和 EndpointSlice。當 Service、Pod 或端點發生變更時，kube-proxy 會更新所在 Node 的流量轉送規則。
 
 在 iptables 模式下，kube-proxy 不會替每個連線啟動一個代理程序，而是讓 Linux kernel 直接依照 iptables 規則處理封包。因此 Service 的轉送主要發生在 kernel network stack 中。
+
+
 
 ### iptables 轉送流程
 
@@ -237,6 +221,18 @@ ports:
 
 ## Service 類型
 
+| Type             | 主要用途                 | IP                    | kube-proxy | 對外暴露 |
+| ---------------- | -------------------- | --------------------- | ---------- | ---- |
+| **ClusterIP**    | Cluster 內部服務         | ClusterIP             | ✅          | ❌    |
+| **NodePort**     | 從 Node IP 進入 Service | ClusterIP + NodePort  | ✅          | ✅    |
+| **LoadBalancer** | 透過外部 LB 進入 Service   | ClusterIP + NodePort* | ✅          | ✅    |
+| **ExternalName** | 連到 Cluster 外部服務      | ❌                     | ❌          | ❌    |
+
+<br/>
+
+<br/>
+
+
 ### ClusterIP
 
 `ClusterIP` 是預設類型，只能從 Kubernetes Cluster 內部存取。適合內部微服務，例如 API、資料庫或後端服務。
@@ -286,6 +282,29 @@ NodePort 通常適合測試或沒有 Cloud Load Balancer 的環境。正式環�
 
 `LoadBalancer` 會請求底層雲端平台建立外部 Load Balancer，並將流量導向 Service。實際行為取決於使用的雲端平台或 LoadBalancer Controller。
 
+雖然 LoadBalacer 和 NodePort 兩個都屬於 Service 資源，但兩者解決的問題不同。
+
+- NodePort: 讓 Kubernetes Service 能從叢集外部被存取。
+
+- LoadBalacer: 讓外部透過雲端 Load Balancer 進 Kubernetes，並處理對外流量分配，通常不能自行建置，需要雲開發商提供。
+
+
+--- 
+
+第一種，預設情況下，建立 LoadBalancer 時，會再產生一層 NodePort 轉發。
+
+```
+Client
+ ↓
+Load Balancer
+ ↓
+NodePort
+ ↓
+kube-proxy
+ ↓
+Pod
+```
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -300,11 +319,55 @@ spec:
 			targetPort: 80
 ```
 
+---
+
+第二種，當明確配置不建立 NodePort 時，轉發路徑直接轉發給 Pod。
+```
+Client
+ ↓
+Load Balancer
+ ↓
+Pod
+```
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  	name: nginx-loadbalancer
+spec:
+	type: LoadBalancer
+	allocateLoadBalancerNodePorts: false # 不要使用 NodePort
+	selector:
+		app: nginx
+	ports:
+		- port: 80
+			targetPort: 80
+			nodePort: 30080
+```
+
+
+
 在本機叢集或沒有雲端整合的環境中，`EXTERNAL-IP` 可能長時間顯示 `<pending>`。
 
 ### ExternalName
 
-`ExternalName` 不會建立 ClusterIP，也不會透過 Selector 找 Pod，而是使用 DNS CNAME 將 Service 名稱指向叢集外部的網域名稱。
+將集群外部的服務引入到集群內部來。
+
+`ExternalName` 是在 Kubernetes 內建立一個 Service DNS 名稱，讓 Pod 可以用這個內部名稱，透過 DNS CNAME 指向外部的 domain，最後再由 DNS 解析出外部 IP。
+
+```
+Pod
+ ↓
+my-db.default.svc.cluster.local
+ ↓
+CoreDNS
+ ↓
+CNAME database.example.com
+ ↓
+DNS 再解析出真正的 IP
+ ↓
+外部 Database
+```
 
 ```yaml
 apiVersion: v1
@@ -317,6 +380,24 @@ spec:
 ```
 
 它適合將叢集外部服務以 Kubernetes Service 名稱提供給叢集內的應用程式使用，但不會替外部服務提供健康檢查或負載平衡。
+
+
+以下是分工: 
+
+| 元件                         | 負責                                    |
+| -------------------------- | ------------------------------------- |
+| **Service / ExternalName** | 定義 `mydb → db.example.com` 這個 mapping |
+| **API Server / etcd**      | 保存這個 Service 設定                       |
+| **CoreDNS**                | 讀取 Kubernetes 的 Service 資訊，並回答 DNS 查詢 |
+| **外部 DNS**                 | 負責 `db.example.com → IP`              |
+
+
+
+<br/>
+
+<br/>
+
+
 
 ### Headless Service
 

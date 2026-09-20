@@ -92,12 +92,93 @@
 3. `Signature` : 用來定義前上述兩個資料的正確性，由於 `secret` 是在 server 端儲存，可以確保資料不會被竄改，HS256為雜湊演算法。
 
     ```
-    signature = HS256(base64(header) + base64(payload) + secret) 
+    signature = HMAC-SHA256(
+        key = secret,
+        message = base64url(header) + "." + base64url(payload)
+    )
     ```
     
 
 * 使用 JWT 的重點不在於把資料隱藏起來，畢竟 payload 資料是可以被轉換回來的
 但由於伺服器端才擁有密鑰，因此即使 payload 被修改，轉換成 Base64 重新置入 Token 中，透過與 Signature 比對之下，就能發現資料的不一致，產生驗證錯誤。
+
+
+<br/>
+
+<br/>
+
+## 加密演算法
+
+> JWT 常見的 HS256 和 RS256 都屬於「數位簽章」演算法，主要用途是驗證 Token 的來源與內容是否被竄改，並不會將 Header 或 Payload 加密。Payload 只使用 Base64URL 編碼，因此不要在其中放置密碼、信用卡號等機密資訊。
+
+### HS256：對稱式簽章
+
+* HS256 是 `HMAC + SHA-256`，簽發與驗證都使用同一組 `secret`，因此稱為對稱式演算法。
+
+    ```text
+    signature = HMAC-SHA256(
+        base64url(header) + "." + base64url(payload),
+        secret
+    )
+    ```
+
+* 流程:
+
+    1. Server 使用共享的 `secret` 對 Header 和 Payload 計算 HMAC，產生 Signature。
+    2. Client 後續帶著 JWT 發送請求。
+    3. 驗證方使用同一組 `secret` 重新計算 Signature，並與 Token 內的 Signature 比對。
+
+* 優點:
+
+    1. 計算速度快，實作簡單，適合由同一個服務負責簽發和驗證 Token 的情境。
+    2. 不需要管理公鑰與私鑰配對。
+
+* 缺點:
+
+    1. 任何能驗證 Token 的服務都必須知道 `secret`，而知道 `secret` 的服務也能自行簽發任意 Token。
+    2. 多個服務共用時，`secret` 的分發、保存與輪替較難管理；其中一個服務洩漏 `secret`，所有使用該密鑰的服務都會受影響。
+
+### RS256：非對稱式簽章
+
+* RS256 是 `RSA + SHA-256`，使用一對不同的金鑰，因此稱為非對稱式演算法:
+
+    * `private key`：只由簽發 Token 的 Authorization Server 保存，用來產生 Signature。
+    * `public key`：可以提供給其他服務，用來驗證 Signature，但不能用來簽發有效的 Token。
+
+    ```text
+    signature = RSA-SHA256(
+        base64url(header) + "." + base64url(payload),
+        private_key
+    )
+    ```
+
+* 流程:
+
+    1. Authorization Server 使用 `private key` 對 Header 和 Payload 簽章。
+    2. Client 後續帶著 JWT 發送請求。
+    3. API Server 取得可信任的 `public key`，驗證 Token 內的 Signature。
+
+* 優點:
+
+    1. 只有持有 `private key` 的服務能簽發 Token，其他服務只需要 `public key` 就能驗證。
+    2. 適合微服務或多個 API Server 共用登入結果的情境，也較容易透過公開金鑰輪替與管理。
+
+* 缺點:
+
+    1. RSA 簽章與驗證通常比 HS256 消耗更多資源，Token 和金鑰管理也較複雜。
+    2. `public key` 必須透過可信任的管道取得，否則攻擊者可能替換驗證用的公鑰。
+
+### HS256 與 RS256 比較
+
+| 項目 | HS256 | RS256 |
+| --- | --- | --- |
+| 類型 | 對稱式 | 非對稱式 |
+| 簽發金鑰 | `secret` | `private key` |
+| 驗證金鑰 | 同一組 `secret` | `public key` |
+| 誰能簽發 | 持有 `secret` 的服務 | 持有 `private key` 的服務 |
+| 適用情境 | 單一服務或可信任服務間共享 | Authorization Server 搭配多個 API Server |
+
+* 選擇 HS256 或 RS256 時，應在 Server 端明確限制允許的 `alg`，並依照演算法取得正確的驗證金鑰，不要直接信任 Token Header 宣告的演算法，以避免演算法混淆或 `alg: none` 類型的攻擊。
 
 
 <br/>
